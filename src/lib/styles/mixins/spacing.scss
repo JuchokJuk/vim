@@ -1,0 +1,5 @@
+@mixin spacing($property, $size) {
+	$value: map-get($spacing, $size);
+
+	#{$property}: $value;
+}
