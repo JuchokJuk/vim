@@ -72,7 +72,7 @@
 			transform: translateX(-50%);
 		}
 
-		.performance-controls{
+		.performance-controls {
 			position: absolute;
 			top: 16px;
 			right: 16px;

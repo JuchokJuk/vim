@@ -52,8 +52,8 @@
 
 <Sky />
 
-<!-- <SampleRoom /> -->
-<T.Mesh castShadow position.x={3} position.y={2.5}>
+<SampleRoom />
+<!-- <T.Mesh castShadow position.x={3} position.y={2.5}>
 	<T is={sphereGeo} />
 	<T.MeshPhysicalMaterial roughness={0.1} metalness={1} />
 </T.Mesh>
@@ -61,6 +61,6 @@
 <T.Mesh position.x={-3} castShadow position.y={2.5}>
 	<T is={sphereGeo} />
 	<T.MeshPhysicalMaterial />
-</T.Mesh>
+</T.Mesh> -->
 
 <Ground />
