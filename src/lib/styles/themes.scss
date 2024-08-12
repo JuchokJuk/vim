@@ -11,13 +11,14 @@
 	--text-0: hsl(0, 0%, 10%);
 	--text-1: hsl(0, 0%, 35%);
 	--outline-0: hsl(0, 0%, 74%);
-	--primary-0: hsl(250, 81%, 57%);
+	--primary-0: hsl(240, 81%, 57%);
+
 	--white-const: hsl(0, 0%, 87%);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--shadow-0: hsla(0, 0%, 0%, 2.5);
+		--shadow-0: hsla(0, 0%, 0%, 0.35);
 		--shadow-1: hsla(0, 0%, 0%, 0.25);
 		--surface-0: hsl(0, 0%, 8%);
 		--surface-1: hsl(0, 0%, 10%);
@@ -27,7 +28,6 @@
 		--text-0: hsl(0, 0%, 72%);
 		--text-1: hsl(0, 0%, 87%);
 		--outline-0: hsl(0, 0%, 21%);
-		--primary-0: hsl(250, 100%, 71%);
-		--white-const: hsl(0, 0%, 87%);
+		--primary-0: hsl(240, 100%, 71%);
 	}
 }
