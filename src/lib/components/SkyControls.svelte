@@ -2,6 +2,7 @@
 	import { SunMedium, House } from 'lucide-svelte';
 	import { sky } from '$lib/store/sky';
 	import { DEG2RAD, RAD2DEG } from 'three/src/math/MathUtils.js';
+	import { scale } from 'svelte/transition';
 
 	const RADIUS = 32;
 
@@ -57,7 +58,7 @@
 
 		// Вычисляем угол возвышения: 90 градусов в центре, уменьшается к 0 по краям
 		const distanceFromCenter = Math.sqrt(position.x ** 2 + position.y ** 2);
-		$sky.elevation = 90 - (distanceFromCenter / RADIUS) * 90;
+		$sky.elevation = 90 - (distanceFromCenter / RADIUS) * (90 - 10);
 	}
 
 	function release() {
@@ -67,7 +68,12 @@
 
 <svelte:window on:pointermove={move} on:pointerup={release} />
 
-<div class="container card" style="--size: {RADIUS * 2}px" bind:this={container}>
+<div
+	class="container card"
+	style="--size: {RADIUS * 2}px"
+	bind:this={container}
+	transition:scale|global
+>
 	<House class="house" />
 	<div
 		class="handle card"

@@ -3,47 +3,48 @@
 
 	import { scale, slide } from 'svelte/transition';
 
-	export let activeToolIndex = 0;
+	export let activeItemIndex = 0;
 
 	export let color: 'primary' | 'neutral' = 'neutral';
 
-	export let tools: { name: string; icon: any }[];
+	export let items: { name: string; icon: any; handler?: () => void }[];
 </script>
 
-<div class={cx('tools p-xs', $$props.class)} transition:slide|global={{ duration: 200, axis: 'x' }}>
+<div class={cx('toogle-group p-xs', $$props.class)} transition:slide|global={{ duration: 200, axis: 'x' }}>
 	<div class="layer">
-		{#each tools as tool, index (tool)}
+		{#each items as item, index (item)}
 			<button
 				class="button corners-md"
 				in:scale|global={{ duration: 200, delay: 40 * index }}
 				on:pointerdown={() => {
-					activeToolIndex = index;
+					activeItemIndex = index;
+					if (item.handler) item.handler();
 				}}
 			>
-				<svelte:component this={tool.icon} class="icon" />
+				<svelte:component this={item.icon} class="icon" />
 			</button>
 		{/each}
 	</div>
 	<div
 		class="layer active {color}"
-		style="--active-tool-index: {activeToolIndex}; --tools-count: {tools.length};"
+		style="--active-item-index: {activeItemIndex}; --items-count: {items.length};"
 	>
-		{#each tools as tool, index (tool)}
+		{#each items as item, index (item)}
 			<button
 				class="button corners-md"
 				in:scale|global={{ duration: 200, delay: 40 * index }}
 				on:pointerdown={() => {
-					activeToolIndex = index;
+					activeItemIndex = index;
 				}}
 			>
-				<svelte:component this={tool.icon} class="icon" />
+				<svelte:component this={item.icon} class="icon" />
 			</button>
 		{/each}
 	</div>
 </div>
 
 <style lang="scss">
-	.tools {
+	.toogle-group {
 		display: grid;
 		.layer {
 			grid-area: 1/1;
@@ -54,9 +55,9 @@
 				/* prettier-ignore */
 				clip-path: inset(
 					0
-                    calc((var(--tools-count) - 1 - var(--active-tool-index)) * (40px + 4px)) /* right side offset from right */
+                    calc((var(--items-count) - 1 - var(--active-item-index)) * (40px + 4px)) /* right side offset from right */
                     0
-                    calc(var(--active-tool-index) * (40px + 4px)) /* left side offset from left */
+                    calc(var(--active-item-index) * (40px + 4px)) /* left side offset from left */
                     round 8px
 				);
 				transition: clip-path 0.2s;

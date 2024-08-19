@@ -1,0 +1,31 @@
+<script lang="ts">
+	import { T } from '@threlte/core';
+	import { useTexture } from '@threlte/extras';
+	import { AutoColliders } from '@threlte/rapier';
+	import { RepeatWrapping, Texture } from 'three';
+
+	function transform(texture: Texture) {
+		texture.wrapS = RepeatWrapping;
+		texture.wrapT = RepeatWrapping;
+		texture.repeat.set(4, 4);
+		return texture;
+	}
+
+	const color = useTexture('/textures/ground/baseColor.webp', { transform });
+	const metallicRoughness = useTexture('/textures/ground/metallicRoughness.webp', { transform });
+	const normal = useTexture('/textures/ground/normal.webp', { transform });
+</script>
+
+<AutoColliders shape="trimesh" friction={0}>
+	<T.Mesh rotation.x={Math.PI * -0.5} position.x={-4} position.z={-4} receiveShadow>
+		<T.PlaneGeometry args={[8, 8]} />
+		{#await Promise.all( [$color, $metallicRoughness, $normal] ) then [color, metallicRoughness, normal]}
+			<T.MeshPhysicalMaterial
+				map={color}
+				metalnessMap={metallicRoughness}
+				roughnessMap={metallicRoughness}
+				normalMap={normal}
+			/>
+		{/await}
+	</T.Mesh>
+</AutoColliders>

@@ -2,28 +2,30 @@
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
 	import { performanceSettings } from '$lib/store/performanceSettings';
+	import { resolution } from '$lib/store/resolution';
+	import { World } from '@threlte/rapier';
 
-	const basicRendererParameters = {
-		powerPreference: 'high-performance',
-		antialias: true,
-		stencil: false,
-		depth: true
-	};
+	let devicePixelRatio = 1;
 
-	const postProcessingRendererParameters = {
-		powerPreference: 'high-performance',
-		antialias: false,
-		stencil: false,
-		depth: false
-	};
-
-	$: rendererParameters = $performanceSettings.postProcessing.enabled
-		? postProcessingRendererParameters
-		: basicRendererParameters;
+	$: dpr = devicePixelRatio * $resolution;
 
 	$: shadows = $performanceSettings.shadows.enabled;
 </script>
 
-<Canvas {rendererParameters} {shadows}>
-	<Scene />
+<svelte:window bind:devicePixelRatio />
+
+<Canvas
+	rendererParameters={{
+		powerPreference: 'high-performance',
+		antialias: true,
+		stencil: false,
+		depth: true,
+		logarithmicDepthBuffer: true
+	}}
+	{shadows}
+	{dpr}
+>
+	<World>
+		<Scene />
+	</World>
 </Canvas>

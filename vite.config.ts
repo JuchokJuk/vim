@@ -12,6 +12,7 @@ export default defineConfig({
 					@import "$lib/styles/variables/spacings.scss";
 					@import "$lib/styles/mixins/spacing.scss";
 					@import "$lib/styles/mixins/elipsis.scss";
+					@import "$lib/styles/mixins/hover.scss";
 					@import "$lib/styles/mixins/card.scss";
 				`
 			}

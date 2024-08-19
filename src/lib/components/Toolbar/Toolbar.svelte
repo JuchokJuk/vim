@@ -60,7 +60,7 @@
 	>
 		<div class="input-wrapper corners-md">
 			{#if !opened}
-				<ToggleGroup {tools} class="border-right" color="primary" />
+				<ToggleGroup items={tools} class="border-right" color="primary" />
 			{/if}
 			<div class="input-container">
 				{#if opened}

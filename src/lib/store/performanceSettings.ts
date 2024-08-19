@@ -4,10 +4,9 @@ export const performanceSettings = writable({
 	postProcessing: {
 		enabled: false,
 		settings: {
-			ambientOcclusion: { enabled: false },
-			godRays: { enabled: false },
+			ambientOcclusion: { enabled: true },
 			bloom: { enabled: false },
-			antiAliasing: { enabled: false }
+			antiAliasing: { enabled: true }
 		}
 	},
 	shadows: {
@@ -15,5 +14,6 @@ export const performanceSettings = writable({
 		settings: {
 			softShadows: { enabled: true }
 		}
-	}
+	},
+	lowResolutionOnCameraMove: { enabled: false }
 });

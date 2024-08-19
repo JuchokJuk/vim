@@ -5,6 +5,8 @@
 	import EditorModes from '$lib/components/EditorModes.svelte';
 	import SkyControls from '$lib/components/SkyControls.svelte';
 	import PerformanceControls from '$lib/components/PerformanceControls/PerformanceControls.svelte';
+	import PlayerUI from '$lib/components/PlayerUI/PlayerUI.svelte';
+	import { editorMode } from '$lib/store/editorMode';
 
 	let mounted = false;
 
@@ -21,17 +23,21 @@
 	</div>
 
 	{#if mounted}
+		{#if $editorMode === 'firstPerson'}
+			<PlayerUI />
+		{:else}
+			<div class="sky-controls">
+				<SkyControls />
+			</div>
+			<div class="toolbar">
+				<Toolbar />
+			</div>
+			<div class="performance-controls">
+				<PerformanceControls />
+			</div>
+		{/if}
 		<div class="editor-modes">
 			<EditorModes />
-		</div>
-		<div class="sky-controls">
-			<SkyControls />
-		</div>
-		<div class="toolbar">
-			<Toolbar />
-		</div>
-		<div class="performance-controls">
-			<PerformanceControls />
 		</div>
 	{/if}
 </div>

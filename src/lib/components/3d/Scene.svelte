@@ -1,16 +1,22 @@
 <script lang="ts">
-	import { T, useThrelte } from '@threlte/core';
-	import { SphereGeometry } from 'three';
+	import { useThrelte } from '@threlte/core';
 	import Camera from './Camera.svelte';
-	import Sky from './Sky/Sky.svelte';
+	import Sky from './Sky.svelte';
 	import Effects from './Effects.svelte';
-	import Ground from '../Ground/Ground.svelte';
 	import { performanceSettings } from '$lib/store/performanceSettings';
-	import { SoftShadows } from '@threlte/extras';
-	import SampleRoom from './SampleRoom/SampleRoom.svelte';
+	import { interactivity, SoftShadows } from '@threlte/extras';
 
-	const { scene, renderer, camera } = useThrelte();
-	const sphereGeo = new SphereGeometry(2.5, 32, 32);
+	import Walls from './Walls/Walls.svelte';
+	import Player from './Player.svelte';
+	import { canvas } from '$lib/store/canvas';
+	import { editorMode } from '$lib/store/editorMode';
+	import Furniture from './Furniture/Furniture.svelte';
+	import Ground from './Ground.svelte';
+
+	const { invalidate, scene, renderer, camera } = useThrelte();
+	$canvas = renderer.domElement;
+
+	interactivity();
 
 	function recompile() {
 		scene.traverse((o) => {
@@ -38,29 +44,31 @@
 			$performanceSettings.shadows.settings.softShadows.enabled &&
 			$performanceSettings.shadows.enabled;
 	}
+
+	performanceSettings.subscribe(() => {
+		invalidate();
+	});
 </script>
 
-<Camera />
+{#if $editorMode === 'thirdPerson'}
+	<Camera />
+{/if}
 
 {#if $performanceSettings.postProcessing.enabled}
 	<Effects />
 {/if}
 
 {#if softShadowsEnabled}
-	<SoftShadows focus={0.5} />
+	<SoftShadows focus={0.75} />
 {/if}
 
 <Sky />
 
-<SampleRoom />
-<!-- <T.Mesh castShadow position.x={3} position.y={2.5}>
-	<T is={sphereGeo} />
-	<T.MeshPhysicalMaterial roughness={0.1} metalness={1} />
-</T.Mesh>
-
-<T.Mesh position.x={-3} castShadow position.y={2.5}>
-	<T is={sphereGeo} />
-	<T.MeshPhysicalMaterial />
-</T.Mesh> -->
-
+<Walls />
 <Ground />
+
+<Furniture />
+
+{#if $editorMode === 'firstPerson'}
+	<Player position={[-4, 4, -4]} />
+{/if}
