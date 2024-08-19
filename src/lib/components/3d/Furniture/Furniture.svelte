@@ -6,6 +6,9 @@
 	import { cameraEnabled } from '$lib/store/cameraEnabled';
 	import Chair from './Objects/Chair.svelte';
 	import Desk from './Objects/Desk.svelte';
+	import Table from './Objects/Table.svelte';
+	import Plant from './Objects/Plant.svelte';
+	import Closet from './Objects/Closet.svelte';
 
 	type Furniture = {
 		component: any;
@@ -18,24 +21,45 @@
 	const furniture: Furniture[] = [
 		{
 			component: Bed,
-			position: [-2, 0.0, -6.5],
+			position: [-1.8, 0, -6.5],
 			rotation: 0,
 			dragging: false,
 			name: 'Кровать'
 		},
 		{
 			component: Chair,
-			position: [-2, 0.0, -2.4],
-			rotation: 0,
+			position: [-1, 0, -4.5],
+			rotation: 2.7,
 			dragging: false,
 			name: 'Стул'
 		},
 		{
 			component: Desk,
-			position: [-2, 0.0, -3],
-			rotation: 0,
+			position: [-1.2, 0, -4],
+			rotation: Math.PI,
 			dragging: false,
 			name: 'Стол'
+		},
+		{
+			component: Table,
+			position: [-0.5, 0, -7.5],
+			rotation: Math.PI/2,
+			dragging: false,
+			name: 'Стол'
+		},
+		{
+			component: Plant,
+			position: [-3.6, 0, -5.1],
+			rotation: 0,
+			dragging: false,
+			name: 'Цветок'
+		},
+		{
+			component: Closet,
+			position: [-3.6, 0, -7.24],
+			rotation: Math.PI*-1.5,
+			dragging: false,
+			name: 'Цветок'
 		}
 	];
 
@@ -43,6 +67,8 @@
 
 	$: $cameraEnabled = furniture.reduce((a, b) => a && !b.dragging, true);
 </script>
+
+<svelte:window on:contextmenu={() => console.log(furniture)} />
 
 {#each furniture as item}
 	<Draggable

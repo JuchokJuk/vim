@@ -4,7 +4,7 @@
 
 	export let openInfo: () => void;
 
-	const gltf = useGltf('/models/chair.glb');
+	const gltf = useGltf('/models/chair-transformed.glb', { useDraco: true });
 </script>
 
 {#await gltf then gltf}
