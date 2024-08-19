@@ -17,9 +17,9 @@
 </script>
 
 <T.PerspectiveCamera
-	position.x={0}
-	position.y={7}
-	position.z={18}
+	position.x={-8}
+	position.y={8}
+	position.z={0}
 	fov={60}
 	near={0.01}
 	far={SCENE_SIZE * 2}

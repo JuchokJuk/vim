@@ -14,8 +14,8 @@
 
 	import { CSG } from 'three-csg-ts';
 	import { AutoColliders } from '@threlte/rapier';
-	// @ts-ignore
-	import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils';
+
+	import { mergeVertices } from './mergeVertices';
 	import { useTexture } from '@threlte/extras';
 
 	// Функция, создающая 2D-контур для стены
@@ -125,7 +125,7 @@
 		metalness: 0,
 		roughness: 0.9
 	});
-	
+
 	// const wallHorizontalMaterial = new MeshPhysicalMaterial({
 	// 	color: '#141312',
 	// 	roughness: 0.9,
