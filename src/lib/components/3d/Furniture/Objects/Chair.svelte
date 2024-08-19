@@ -11,7 +11,6 @@
 	<T.Mesh
 		castShadow
 		receiveShadow
-		position={[0, 0, 0.6]}
 		on:contextmenu={openInfo}
 		geometry={gltf.nodes.Cube006.geometry}
 		material={gltf.materials.Chair}
@@ -19,7 +18,6 @@
 	<T.Mesh
 		castShadow
 		receiveShadow
-		position={[0, 0, 0.6]}
 		on:contextmenu={openInfo}
 		geometry={gltf.nodes.Cube006_1.geometry}
 		material={gltf.materials.Mat}

@@ -25,7 +25,7 @@
 		},
 		{
 			component: Chair,
-			position: [-2, 0.0, -3],
+			position: [-2, 0.0, -2.4],
 			rotation: 0,
 			dragging: false,
 			name: 'Стул'
