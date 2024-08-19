@@ -43,9 +43,9 @@
 		{
 			component: Table,
 			position: [-0.5, 0, -7.5],
-			rotation: Math.PI/2,
+			rotation: Math.PI / 2,
 			dragging: false,
-			name: 'Стол'
+			name: 'Столик'
 		},
 		{
 			component: Plant,
@@ -56,10 +56,10 @@
 		},
 		{
 			component: Closet,
-			position: [-3.6, 0, -7.24],
-			rotation: Math.PI*-1.5,
+			position: [-3.6, 0, -7.1],
+			rotation: Math.PI * -1.5,
 			dragging: false,
-			name: 'Цветок'
+			name: 'Шкаф'
 		}
 	];
 
@@ -67,8 +67,6 @@
 
 	$: $cameraEnabled = furniture.reduce((a, b) => a && !b.dragging, true);
 </script>
-
-<svelte:window on:contextmenu={() => console.log(furniture)} />
 
 {#each furniture as item}
 	<Draggable
