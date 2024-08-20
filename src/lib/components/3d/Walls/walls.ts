@@ -9,7 +9,7 @@ export type Entity = {
 		width: number;
 		height: number;
 	}; // вырез под объект в стене
-	model?: string; // урл модели объекта
+	model: string; // урл модели объекта
 };
 
 export type Wall = {
@@ -44,14 +44,14 @@ export const walls: Record<string, Wall> = {
 		entities: {
 			'0': {
 				offsetX: 1.75,
-				offsetY: 1.5,
+				offsetY: 1,
 				direction: 'left',
 				position: 'center',
 				cut: {
-					x: -1,
-					y: -0.75,
-					width: 2,
-					height: 1.5
+					x: -0.75,
+					y: 0,
+					width: 2.4,
+					height: 1.505
 				},
 				model: '/models/window.glb'
 			}
@@ -64,15 +64,15 @@ export const walls: Record<string, Wall> = {
 		thickness: 0.4,
 		entities: {
 			'0': {
-				offsetX: 2.25,
-				offsetY: 1.5,
+				offsetX: 1.75,
+				offsetY: 1,
 				direction: 'left',
 				position: 'center',
 				cut: {
-					x: -1,
-					y: -0.75,
-					width: 2,
-					height: 1.5
+					x: -0.75,
+					y: 0,
+					width: 2.4,
+					height: 1.505
 				},
 				model: '/models/window.glb'
 			}
@@ -88,28 +88,28 @@ export const walls: Record<string, Wall> = {
 		start: { x: -4, y: 8, connections: { '4': 'end', '12': 'start' } },
 		end: { x: -8, y: 8, connections: { '6': 'start' } },
 		height: 3,
-		thickness: 0.4
+		thickness: 0.4,
+		entities: {
+			'0': {
+				offsetX: 1.75,
+				offsetY: 1,
+				direction: 'left',
+				position: 'center',
+				cut: {
+					x: -0.75,
+					y: 0,
+					width: 2.4,
+					height: 1.505
+				},
+				model: '/models/window.glb'
+			}
+		}
 	},
 	'6': {
 		start: { x: -8, y: 8, connections: { '5': 'end' } },
 		end: { x: -8, y: 5, connections: { '7': 'start', '13': 'start' } },
 		height: 3,
-		thickness: 0.4,
-		entities: {
-			'0': {
-				offsetX: 1.75,
-				offsetY: 1.5,
-				direction: 'left',
-				position: 'center',
-				cut: {
-					x: -0.75,
-					y: -0.75,
-					width: 1.5,
-					height: 1.5
-				},
-				model: '/models/window.glb'
-			}
-		}
+		thickness: 0.4
 	},
 	'7': {
 		start: { x: -8, y: 5, connections: { '6': 'end', '13': 'start' } },
@@ -132,7 +132,7 @@ export const walls: Record<string, Wall> = {
 					x: -0.425,
 					y: 0,
 					width: 0.85,
-					height: 2.125
+					height: 2.06
 				},
 				model: '/models/door.glb'
 			}
@@ -155,7 +155,7 @@ export const walls: Record<string, Wall> = {
 					x: -0.425,
 					y: 0,
 					width: 0.85,
-					height: 2.125
+					height: 2.06
 				},
 				model: '/models/door.glb'
 			}
@@ -182,7 +182,7 @@ export const walls: Record<string, Wall> = {
 					x: -0.425,
 					y: 0,
 					width: 0.85,
-					height: 2.125
+					height: 2.06
 				},
 				model: '/models/door.glb'
 			}
@@ -215,7 +215,7 @@ export const walls: Record<string, Wall> = {
 					x: -0.425,
 					y: 0,
 					width: 0.85,
-					height: 2.125
+					height: 2.06
 				},
 				model: '/models/door.glb'
 			}
@@ -236,7 +236,7 @@ export const walls: Record<string, Wall> = {
 					x: -0.425,
 					y: 0,
 					width: 0.85,
-					height: 2.125
+					height: 2.06
 				},
 				model: '/models/door.glb'
 			}

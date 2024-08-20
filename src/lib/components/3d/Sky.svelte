@@ -41,8 +41,8 @@
 	intensity={4}
 	position={[x, y, z]}
 	castShadow
-	shadow.mapSize.width={2048}
-	shadow.mapSize.height={2048}
+	shadow.mapSize.width={4096}
+	shadow.mapSize.height={4096}
 	shadow.camera.near={0.01}
 	shadow.camera.far={SCENE_SIZE}
 	shadow.camera.left={32}
@@ -53,4 +53,4 @@
 	color="#FFFFFF"
 />
 
-<T.AmbientLight intensity={2} />
+<!-- <T.AmbientLight intensity={2} /> -->

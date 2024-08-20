@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { performanceSettings } from '$lib/store/performanceSettings';
 	import { T } from '@threlte/core';
 	import { PlaneGeometry } from 'three';
 	import { Reflector } from 'three/addons/objects/Reflector.js';
@@ -23,4 +24,17 @@
 	<T.BoxGeometry args={[1, 2, 0.1]} />
 	<T.MeshPhysicalMaterial color="gray" />
 </T.Mesh>
-<T is={mirror} position={[-0.06, 1, 0]} rotation.y={-Math.PI / 2} on:contextmenu={openInfo} />
+{#if $performanceSettings.realisticMirrors.enabled}
+	<T is={mirror} position={[-0.06, 1, 0]} rotation.y={-Math.PI / 2} on:contextmenu={openInfo} />
+{:else}
+	<T.Mesh
+		castShadow
+		receiveShadow
+		on:contextmenu={openInfo}
+		position={[-0.06, 1, 0]}
+		rotation.y={-Math.PI / 2}
+	>
+		<T.PlaneGeometry args={[1, 2]} />
+		<T.MeshPhysicalMaterial color={'white'} roughness={0.0} metalness={1} />
+	</T.Mesh>
+{/if}

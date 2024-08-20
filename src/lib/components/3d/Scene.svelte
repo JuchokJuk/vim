@@ -4,7 +4,7 @@
 	import Sky from './Sky.svelte';
 	import Effects from './Effects.svelte';
 	import { performanceSettings } from '$lib/store/performanceSettings';
-	import { interactivity, SoftShadows } from '@threlte/extras';
+	import { Environment, interactivity, SoftShadows } from '@threlte/extras';
 
 	import Walls from './Walls/Walls.svelte';
 	import Player from './Player.svelte';
@@ -12,6 +12,10 @@
 	import { editorMode } from '$lib/store/editorMode';
 	import Furniture from './Furniture/Furniture.svelte';
 	import Ground from './Ground.svelte';
+	// import Roof from './Roof.svelte';
+	import { EquirectangularReflectionMapping, HalfFloatType, SRGBColorSpace } from 'three';
+	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+	import Baseboard from './Walls/Baseboard.svelte';
 
 	const { invalidate, scene, renderer, camera } = useThrelte();
 	$canvas = renderer.domElement;
@@ -48,6 +52,17 @@
 	performanceSettings.subscribe(() => {
 		invalidate();
 	});
+
+	// Environment ios fix
+	const loader = new RGBELoader();
+	loader.setDataType(HalfFloatType);
+
+	loader.load('environment.hdr', (texture) => {
+		texture.mapping = EquirectangularReflectionMapping;
+		texture.colorSpace = SRGBColorSpace;
+		scene.environment = texture;
+		scene.environmentIntensity = 0.5;
+	});
 </script>
 
 {#if $editorMode === 'thirdPerson'}
@@ -59,13 +74,15 @@
 {/if}
 
 {#if softShadowsEnabled}
-	<SoftShadows focus={0.75} />
+	<SoftShadows focus={0.5} />
 {/if}
 
 <Sky />
 
 <Walls />
+<Baseboard />
 <Ground />
+<!-- <Roof /> -->
 
 <Furniture />
 

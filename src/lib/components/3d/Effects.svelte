@@ -57,7 +57,7 @@
 			n8aoPostPass.configuration.aoRadius = 0.25;
 			n8aoPostPass.configuration.denoiseRadius = 24;
 			n8aoPostPass.configuration.distanceFalloff = 1;
-			n8aoPostPass.configuration.intensity = 2;
+			n8aoPostPass.configuration.intensity = 4;
 			// n8aoPostPass.configuration.gammaCorrection = true;
 			composer.addPass(n8aoPostPass);
 		}

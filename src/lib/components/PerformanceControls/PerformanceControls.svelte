@@ -5,7 +5,7 @@
 
 <div class="container card py-xl pr-xl corners-lg">
 	{#each Object.keys($performanceSettings) as feature}
-		<Node node={$performanceSettings[feature]} path={[feature]} label={feature} />
+		<Node node={$performanceSettings[feature]} path={[feature]} label={$performanceSettings[feature].title} />
 	{/each}
 </div>
 

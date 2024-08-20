@@ -67,9 +67,9 @@
 	far={SCENE_SIZE * 2}
 	makeDefault
 >
+	<!-- enableDamping={!$touchScreen} -->
 	<OrbitControls
 		enabled={$cameraEnabled}
-		enableDamping={!$touchScreen}
 		zoomToCursor
 		minPolarAngle={0}
 		minDistance={1}

@@ -2,18 +2,27 @@ import { writable } from 'svelte/store';
 
 export const performanceSettings = writable({
 	postProcessing: {
+		title: 'Постобработка',
 		enabled: false,
 		settings: {
-			ambientOcclusion: { enabled: true },
-			bloom: { enabled: false },
-			antiAliasing: { enabled: true }
+			ambientOcclusion: { title: 'Глобальное затемнение', enabled: true },
+			bloom: { title: 'Свечение', enabled: false },
+			antiAliasing: { title: 'Сглаживание', enabled: true }
 		}
 	},
 	shadows: {
+		title: 'Тени',
 		enabled: true,
 		settings: {
-			softShadows: { enabled: true }
+			softShadows: { title: 'Мягкие тени', enabled: true }
 		}
 	},
-	lowResolutionOnCameraMove: { enabled: false }
+	lowResolutionOnCameraMove: {
+		title: 'Уменьшать разрешение при перемещении камеры',
+		enabled: true
+	},
+	realisticMirrors: {
+		title: 'Реалистичные зеркала',
+		enabled: false
+	}
 });

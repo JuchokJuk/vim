@@ -33,7 +33,11 @@
 	{#if node.settings}
 		<div class="features">
 			{#each Object.keys(node.settings) as key}
-				<svelte:self label={key} path={[...path, 'settings', key]} node={node.settings[key]} />
+				<svelte:self
+					label={node.settings[key].title}
+					path={[...path, 'settings', key]}
+					node={node.settings[key]}
+				/>
 			{/each}
 		</div>
 	{/if}

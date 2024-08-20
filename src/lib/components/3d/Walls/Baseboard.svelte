@@ -8,11 +8,7 @@
 		Mesh,
 		MeshPhysicalMaterial,
 		RepeatWrapping,
-		Texture,
-		Object3D,
-		Vector4,
-		Vector3,
-		Euler
+		Texture
 	} from 'three';
 	import { walls, type Wall } from './walls';
 
@@ -22,8 +18,6 @@
 	import { mergeVertices } from './mergeVertices';
 	import { useTexture } from '@threlte/extras';
 	import { walls as wallsStore } from '$lib/store/walls';
-	import Door from './Objects/Door.svelte';
-	import Window from './Objects/Window.svelte';
 
 	// Функция, создающая 2D-контур для стены
 	function createWallShape(vertices: { x: number; y: number }[]): Shape {
@@ -37,11 +31,15 @@
 	}
 
 	// Создание 3D-геометрии стены через экструзию
-	function createWall3D(vertices: { x: number; y: number }[], height: number) {
+	function createWall3D(vertices: { x: number; y: number }[]) {
 		const shape = createWallShape(vertices);
 		const extrudeSettings = {
-			depth: height,
-			bevelEnabled: false
+			depth: 0.2,
+			bevelEnabled: true,
+			bevelWidth: 0.5,
+			bevelSize: 0.05,
+			bevelThickness: 0.05,
+			bevelSegments: 1
 		};
 		return new ExtrudeGeometry(shape, extrudeSettings);
 	}
@@ -74,7 +72,7 @@
 	function createWall(wallId: string, walls: Record<string, Wall>) {
 		const wall = walls[wallId];
 		const vertices = calculatePolygon(wallId, walls);
-		let wallGeometry = createWall3D(vertices, wall.height);
+		let wallGeometry = createWall3D(vertices);
 
 		let base: Mesh = new Mesh(wallGeometry);
 		const entities: {
@@ -111,17 +109,6 @@
 					cut.rotation.y = -Math.atan2(wall.end.y - wall.start.y, wall.end.x - wall.start.x);
 					cut.updateMatrixWorld();
 
-					const model = {
-						'/models/window.glb': Window,
-						'/models/door.glb': Door
-					}[entity.model];
-
-					entities.push({
-						model,
-						position: { x:  wall.start.x + x, y: wall.start.y + y, z: entity.offsetY },
-						rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
-					});
-
 					base = CSG.subtract(base, cut);
 				}
 			}
@@ -140,41 +127,26 @@
 	}
 
 	const color = useTexture('/textures/wall/baseColor.webp', { transform });
-	// const roughness = useTexture('/textures/wall/roughness.webp', { transform });
 	const normal = useTexture('/textures/wall/normal.webp', { transform });
 
 	const wallVerticalMaterial = new MeshPhysicalMaterial({
-		color: '#F4EFE9',
+		color: 'lightgray',
 		metalness: 0,
 		roughness: 0.9,
 		opacity: 1,
 		transparent: true
 	});
 
-	// const wallHorizontalMaterial = new MeshPhysicalMaterial({
-	// 	color: '#141312',
-	// 	roughness: 0.9,
-	// 	metalness: 0.0
-	// });
-
 	$: {
 		if ($color) wallVerticalMaterial.map = $color;
-		// if ($roughness) wallVerticalMaterial.roughnessMap = $roughness;
 		if ($normal) wallVerticalMaterial.normalMap = $normal;
 		wallVerticalMaterial.needsUpdate = true;
 	}
 
-	// const wallMaterials = [
-	// 	wallHorizontalMaterial,
-	// 	wallVerticalMaterial,
-	// 	wallVerticalMaterial,
-	// 	wallVerticalMaterial
-	// ];
-
 	const wallMaterials = wallVerticalMaterial;
 </script>
 
-<T.Group rotation.x={Math.PI * -0.5} bind:ref={$wallsStore}>
+<T.Group rotation.x={Math.PI * -0.5} position.y={-0.1} bind:ref={$wallsStore}>
 	{#each Object.keys(walls) as wallId}
 		{@const wall = createWall(wallId, walls)}
 
@@ -189,14 +161,5 @@
 				/> -->
 			</T>
 		</AutoColliders>
-
-		{#each wall.entities as entity}
-			<T.Group
-				position={[entity.position.x, entity.position.y, entity.position.z]}
-				rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
-			>
-				<svelte:component this={entity.model} />
-			</T.Group>
-		{/each}
 	{/each}
 </T.Group>

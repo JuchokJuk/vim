@@ -10,8 +10,10 @@
 	import Plant from './Objects/Plant.svelte';
 	import Closet from './Objects/Closet.svelte';
 	import Mirror from './Objects/Mirror.svelte';
-	import Kitchen from './Objects/kitchen.svelte';
-	import KitchenTable from './Objects/kitchenTable.svelte';
+	import Kitchen from './Objects/Kitchen.svelte';
+	import KitchenTable from './Objects/KitchenTable.svelte';
+	import Lamp from './Objects/Lamp.svelte';
+	import Painting from './Objects/Painting.svelte';
 
 	type Furniture = {
 		component: any;
@@ -72,19 +74,33 @@
 			name: 'Зеркало'
 		},
 		{
-			component: Kitchen,
-			position: [-6.25, 0, -7.5],
-			rotation: 0,
+			component: Lamp,
+			position: [-2, 3, -6],
+			rotation: Math.PI,
 			dragging: false,
-			name: 'Кухня'
+			name: 'Люстра'
 		},
 		{
-			component: KitchenTable,
-			position: [-7, 0, -6],
-			rotation: 0,
+			component: Painting,
+			position: [-3, 1.75, -3.6],
+			rotation: Math.PI/2,
 			dragging: false,
-			name: 'Кухонный столик'
-		}
+			name: 'Картина'
+		},
+		// {
+		// 	component: Kitchen,
+		// 	position: [-6.25, 0, -7.5],
+		// 	rotation: 0,
+		// 	dragging: false,
+		// 	name: 'Кухня'
+		// },
+		// {
+		// 	component: KitchenTable,
+		// 	position: [-7, 0, -6],
+		// 	rotation: 0,
+		// 	dragging: false,
+		// 	name: 'Кухонный столик'
+		// }
 	];
 
 	const floorPlane = new Plane(new Vector3(0, 1, 0), 0);
