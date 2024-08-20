@@ -4,11 +4,19 @@
 	import { performanceSettings } from '$lib/store/performanceSettings';
 	import { resolution } from '$lib/store/resolution';
 	import { touchScreen } from '$lib/store/touchScreen';
+	import { walls } from '$lib/store/walls';
 
 	import { T, useTask, useThrelte } from '@threlte/core';
 	import { OrbitControls } from '@threlte/extras';
 	import { get } from 'svelte/store';
-	import { PerspectiveCamera, Raycaster, Vector2 } from 'three';
+	import {
+		Object3D,
+		PerspectiveCamera,
+		Raycaster,
+		Vector2,
+		type Intersection,
+		type Object3DEventMap
+	} from 'three';
 
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 
@@ -17,18 +25,40 @@
 
 	$: if (!$performanceSettings.lowResolutionOnCameraMove.enabled) $resolution = 1;
 
-	let camera: PerspectiveCamera;
+	// let camera: PerspectiveCamera;
 	// const raycaseter = new Raycaster();
 	// const pointer = new Vector2(0, 0);
-	// const intersections = [];
-	// useTask(() => {
+	// const intersections: Intersection<Object3D<Object3DEventMap>>[] = [];
+
+	// let lastWall: Object3D;
+
+	// function castRay() {
+	// 	intersections.length = 0;
 	// 	raycaseter.setFromCamera(pointer, camera);
-	// 	raycaseter.intersectObjects($walls, false, intersections);
-	// });
+	// 	raycaseter.intersectObject($walls, true, intersections);
+
+	// 	if (lastWall) {
+	// 		if (intersections.length) {
+	// 			if (intersections[0].object !== lastWall) {
+	// 				lastWall.material.opacity = 1;
+	// 				intersections[0].object.material.opacity = 0.1;
+	// 				lastWall = intersections[0].object;
+	// 			}
+	// 		} else {
+	// 			lastWall.material.opacity = 1;
+	// 			lastWall = undefined;
+	// 		}
+	// 	} else {
+	// 		if (intersections.length) {
+	// 			intersections[0].object.material.opacity = 0.1;
+	// 			lastWall = intersections[0].object;
+	// 		}
+	// 	}
+	// }
 </script>
 
+<!-- bind:ref={camera} -->
 <T.PerspectiveCamera
-	bind:ref={camera}
 	position.x={-8}
 	position.y={8}
 	position.z={0}
@@ -57,4 +87,5 @@
 			}
 		}}
 	/>
+	<!-- on:change={castRay} -->
 </T.PerspectiveCamera>

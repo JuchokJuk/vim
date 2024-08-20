@@ -8,7 +8,11 @@
 		Mesh,
 		MeshPhysicalMaterial,
 		RepeatWrapping,
-		Texture
+		Texture,
+		Object3D,
+		Vector4,
+		Vector3,
+		Euler
 	} from 'three';
 	import { walls, type Wall } from './walls';
 
@@ -17,6 +21,8 @@
 
 	import { mergeVertices } from './mergeVertices';
 	import { useTexture } from '@threlte/extras';
+	import { walls as wallsStore } from '$lib/store/walls';
+	import Door from './Objects/Door.svelte';
 
 	// Функция, создающая 2D-контур для стены
 	function createWallShape(vertices: { x: number; y: number }[]): Shape {
@@ -64,12 +70,17 @@
 		return { x: newX, y: newY };
 	}
 
-	function createWallMesh(wallId: string, walls: Record<string, Wall>) {
+	function createWall(wallId: string, walls: Record<string, Wall>) {
 		const wall = walls[wallId];
 		const vertices = calculatePolygon(wallId, walls);
 		let wallGeometry = createWall3D(vertices, wall.height);
 
 		let base: Mesh = new Mesh(wallGeometry);
+		const entities: {
+			model: any;
+			position: { x: number; y: number; z: number };
+			rotation: { x: number; y: number; z: number };
+		}[] = [];
 
 		// CSG
 		if (wall?.entities) {
@@ -99,6 +110,14 @@
 					cut.rotation.y = -Math.atan2(wall.end.y - wall.start.y, wall.end.x - wall.start.x);
 					cut.updateMatrixWorld();
 
+					if (entity.model === '/models/door.glb') {
+						entities.push({
+							model: Door,
+							position: { x: cut.position.x, y: cut.position.y, z: cut.position.z },
+							rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
+						});
+					}
+
 					base = CSG.subtract(base, cut);
 				}
 			}
@@ -106,7 +125,8 @@
 
 		base.geometry = mergeVertices(base.geometry);
 
-		return base;
+		console.log(entities);
+		return { object: base, entities };
 	}
 
 	function transform(texture: Texture) {
@@ -124,8 +144,8 @@
 		color: '#F4EFE9',
 		metalness: 0,
 		roughness: 0.9,
-		// opacity: 0.5,
-		// transparent: true
+		opacity: 1,
+		transparent: true
 	});
 
 	// const wallHorizontalMaterial = new MeshPhysicalMaterial({
@@ -151,11 +171,29 @@
 	const wallMaterials = wallVerticalMaterial;
 </script>
 
-<AutoColliders shape="trimesh" friction={0}>
-	<T.Group rotation.x={Math.PI * -0.5}>
-		{#each Object.keys(walls) as wallId}
-			{@const wallMesh = createWallMesh(wallId, walls)}
-			<T is={wallMesh} castShadow receiveShadow material={wallMaterials} />
+<T.Group rotation.x={Math.PI * -0.5} bind:ref={$wallsStore}>
+	{#each Object.keys(walls) as wallId}
+		{@const wall = createWall(wallId, walls)}
+
+		<AutoColliders shape="trimesh" friction={0}>
+			<T is={wall.object} castShadow receiveShadow>
+				<T.MeshPhysicalMaterial
+					color="#F4EFE9"
+					metalness={0}
+					roughness={0.9}
+					opacity={1}
+					transparent
+				/>
+			</T>
+		</AutoColliders>
+
+		{#each wall.entities as entity}
+			<T.Group
+				position={[entity.position.x, entity.position.y, entity.position.z - 1]}
+				rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
+			>
+				<svelte:component this={entity.model} />
+			</T.Group>
 		{/each}
-	</T.Group>
-</AutoColliders>
+	{/each}
+</T.Group>

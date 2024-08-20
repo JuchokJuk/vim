@@ -10,6 +10,8 @@
 	import Plant from './Objects/Plant.svelte';
 	import Closet from './Objects/Closet.svelte';
 	import Mirror from './Objects/Mirror.svelte';
+	import Kitchen from './Objects/kitchen.svelte';
+	import KitchenTable from './Objects/kitchenTable.svelte';
 
 	type Furniture = {
 		component: any;
@@ -68,6 +70,20 @@
 			rotation: Math.PI,
 			dragging: false,
 			name: 'Зеркало'
+		},
+		{
+			component: Kitchen,
+			position: [-6.25, 0, -7.5],
+			rotation: 0,
+			dragging: false,
+			name: 'Кухня'
+		},
+		{
+			component: KitchenTable,
+			position: [-7, 0, -6],
+			rotation: 0,
+			dragging: false,
+			name: 'Кухонный столик'
 		}
 	];
 
