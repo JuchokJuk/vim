@@ -123,7 +123,9 @@
 	const wallVerticalMaterial = new MeshPhysicalMaterial({
 		color: '#F4EFE9',
 		metalness: 0,
-		roughness: 0.9
+		roughness: 0.9,
+		// opacity: 0.5,
+		// transparent: true
 	});
 
 	// const wallHorizontalMaterial = new MeshPhysicalMaterial({

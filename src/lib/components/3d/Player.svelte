@@ -15,7 +15,7 @@
 	let extraFov = 0;
 	const extraFovAnimation = new SecondOrderDynamics(3, 1, 0);
 
-	const walkingSpeed = 5;
+	const walkingSpeed = 3;
 	const jumStrength = 2;
 
 	let grounded = false;

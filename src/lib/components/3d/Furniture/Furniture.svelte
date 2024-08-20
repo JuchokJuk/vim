@@ -9,6 +9,7 @@
 	import Table from './Objects/Table.svelte';
 	import Plant from './Objects/Plant.svelte';
 	import Closet from './Objects/Closet.svelte';
+	import Mirror from './Objects/Mirror.svelte';
 
 	type Furniture = {
 		component: any;
@@ -28,7 +29,7 @@
 		},
 		{
 			component: Chair,
-			position: [-1, 0, -4.5],
+			position: [-1.15, 0, -4.5],
 			rotation: 2.7,
 			dragging: false,
 			name: 'Стул'
@@ -60,6 +61,13 @@
 			rotation: Math.PI * -1.5,
 			dragging: false,
 			name: 'Шкаф'
+		},
+		{
+			component: Mirror,
+			position: [-3.85, 0, -5.8],
+			rotation: Math.PI,
+			dragging: false,
+			name: 'Зеркало'
 		}
 	];
 
