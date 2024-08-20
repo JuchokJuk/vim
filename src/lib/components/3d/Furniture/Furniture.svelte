@@ -10,8 +10,8 @@
 	import Plant from './Objects/Plant.svelte';
 	import Closet from './Objects/Closet.svelte';
 	import Mirror from './Objects/Mirror.svelte';
-	import Kitchen from './Objects/Kitchen.svelte';
-	import KitchenTable from './Objects/KitchenTable.svelte';
+	// import Kitchen from './Objects/Kitchen.svelte';
+	// import KitchenTable from './Objects/KitchenTable.svelte';
 	import Lamp from './Objects/Lamp.svelte';
 	import Painting from './Objects/Painting.svelte';
 
