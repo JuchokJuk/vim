@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useRender, useTask, useThrelte } from '@threlte/core';
+	import { useTask, useThrelte } from '@threlte/core';
 
 	import {
 		EffectComposer,
@@ -13,6 +13,7 @@
 	import { N8AOPostPass } from 'n8ao';
 	import { performanceSettings } from '$lib/store/performanceSettings';
 	import { onMount } from 'svelte';
+
 	const { renderStage, autoRender, scene, renderer, camera, size } = useThrelte();
 
 	const composer = new EffectComposer(renderer, {
@@ -65,7 +66,7 @@
 	onMount(() => {
 		let before = autoRender.current;
 		autoRender.set(false);
-
+		
 		return () => autoRender.set(before);
 	});
 
