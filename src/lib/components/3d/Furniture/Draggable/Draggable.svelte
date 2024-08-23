@@ -2,7 +2,11 @@
 	import { T, useThrelte } from '@threlte/core';
 	import { Vector3, Plane, Raycaster, Vector2, Group, Box3 } from 'three';
 	import type { Event } from './Event';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
+	import { performanceSettings } from '$lib/store/performanceSettings';
+	import { resolution } from '$lib/store/resolution';
+	import { get } from 'svelte/store';
+	import { postprocessingEnabled } from '$lib/store/postprocessingEnabled';
 
 	export let position: [number, number, number];
 	export let floorPlane: Plane;
@@ -57,6 +61,12 @@
 			} else {
 				setPosition(event);
 			}
+			if ($performanceSettings.degradeQualityOnRerender.settings!.resolution.enabled) {
+				$resolution = 0.125;
+			}
+			if ($performanceSettings.degradeQualityOnRerender.settings!.postProcessing.enabled) {
+				$postprocessingEnabled = false;
+			}
 		}
 	}
 
@@ -90,8 +100,11 @@
 			rotationOffset;
 	}
 
-	function release() {
+	async function release() {
 		dragging = false;
+		resolution.set(1);
+		await tick();
+		postprocessingEnabled.set(true);
 	}
 </script>
 

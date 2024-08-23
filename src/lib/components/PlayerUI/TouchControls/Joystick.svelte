@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { playerController } from '$lib/store/playerController';
 	import SecondOrderDynamics from '$lib/utils/SecondOrderDynamics';
 	import { joystick } from '$lib/store/joystick';
@@ -118,10 +118,10 @@
 
 		prevTime = performance.now();
 		requestId = requestAnimationFrame(loop);
-	});
 
-	onDestroy(() => {
-		if (requestId !== undefined) cancelAnimationFrame(requestId);
+		return () => {
+			cancelAnimationFrame(requestId!);
+		};
 	});
 </script>
 

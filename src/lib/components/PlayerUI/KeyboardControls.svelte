@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { playerController } from '$lib/store/playerController';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import SecondOrderDynamics from '$lib/utils/SecondOrderDynamics';
 
 	function length(x: number, y: number) {
@@ -74,10 +74,10 @@
 	onMount(() => {
 		prevTime = performance.now();
 		requestId = requestAnimationFrame(loop);
-	});
 
-	onDestroy(() => {
-		if (requestId !== undefined) cancelAnimationFrame(requestId);
+		return () => {
+			cancelAnimationFrame(requestId!);
+		};
 	});
 
 	// controls

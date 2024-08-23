@@ -4,7 +4,7 @@
 	import Sky from './Sky.svelte';
 	import Effects from './Effects.svelte';
 	import { performanceSettings } from '$lib/store/performanceSettings';
-	import { Environment, interactivity, SoftShadows } from '@threlte/extras';
+	import { interactivity, SoftShadows } from '@threlte/extras';
 
 	import Walls from './Walls/Walls.svelte';
 	import Player from './Player.svelte';
@@ -12,10 +12,10 @@
 	import { editorMode } from '$lib/store/editorMode';
 	import Furniture from './Furniture/Furniture.svelte';
 	import Ground from './Ground.svelte';
-	// import Roof from './Roof.svelte';
 	import { EquirectangularReflectionMapping, HalfFloatType, SRGBColorSpace } from 'three';
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-	import Baseboard from './Walls/Baseboard.svelte';
+	import { useRapier } from '@threlte/rapier';
+	import { postprocessingEnabled } from '$lib/store/postprocessingEnabled';
 
 	const { invalidate, scene, renderer, camera } = useThrelte();
 	$canvas = renderer.domElement;
@@ -39,13 +39,13 @@
 	}
 
 	let softShadowsEnabled =
-		$performanceSettings.shadows.settings.softShadows.enabled &&
+		$performanceSettings.shadows.settings!.softShadows.enabled &&
 		$performanceSettings.shadows.enabled;
 
 	$: {
 		recompile();
 		softShadowsEnabled =
-			$performanceSettings.shadows.settings.softShadows.enabled &&
+			$performanceSettings.shadows.settings!.softShadows.enabled &&
 			$performanceSettings.shadows.enabled;
 	}
 
@@ -61,15 +61,28 @@
 		texture.mapping = EquirectangularReflectionMapping;
 		texture.colorSpace = SRGBColorSpace;
 		scene.environment = texture;
-		scene.environmentIntensity = 0.5;
+		scene.environmentIntensity = 0.125;
 	});
+
+	const { pause, resume } = useRapier();
+
+	$: if ($editorMode === 'firstPerson') {
+		resume();
+	} else {
+		pause();
+	}
+
+	$: enablePostprocessing =
+		(!$performanceSettings.degradeQualityOnRerender.settings!.postProcessing.enabled ||
+			($performanceSettings.postProcessing.enabled && $postprocessingEnabled)) &&
+		$performanceSettings.postProcessing.enabled;
 </script>
 
 {#if $editorMode === 'thirdPerson'}
 	<Camera />
 {/if}
 
-{#if $performanceSettings.postProcessing.enabled}
+{#if enablePostprocessing}
 	<Effects />
 {/if}
 
@@ -80,9 +93,7 @@
 <Sky />
 
 <Walls />
-<Baseboard />
 <Ground />
-<!-- <Roof /> -->
 
 <Furniture />
 

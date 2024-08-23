@@ -1,12 +1,18 @@
 import { writable } from 'svelte/store';
 
-export const performanceSettings = writable({
+export type Parameter = {
+	title: string;
+	enabled: boolean;
+	settings?: Record<string, Parameter>;
+};
+
+export const performanceSettings = writable<Record<string, Parameter>>({
 	postProcessing: {
 		title: 'Постобработка',
-		enabled: false,
+		enabled: true,
 		settings: {
 			ambientOcclusion: { title: 'Глобальное затемнение', enabled: true },
-			bloom: { title: 'Свечение', enabled: false },
+			bloom: { title: 'Свечение', enabled: true },
 			antiAliasing: { title: 'Сглаживание', enabled: true }
 		}
 	},
@@ -17,9 +23,13 @@ export const performanceSettings = writable({
 			softShadows: { title: 'Мягкие тени', enabled: true }
 		}
 	},
-	lowResolutionOnCameraMove: {
-		title: 'Уменьшать разрешение при перемещении камеры',
-		enabled: true
+	degradeQualityOnRerender: {
+		title: 'Ухудшать качество при частой перерисовке',
+		enabled: true,
+		settings: {
+			postProcessing: { title: 'Выключать постобработку', enabled: true },
+			resolution: { title: 'Уменьшать разрешение', enabled: true }
+		}
 	},
 	realisticMirrors: {
 		title: 'Реалистичные зеркала',

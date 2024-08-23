@@ -30,6 +30,7 @@
 <div class="objects py-2xl">
 	{#each objects as object, index (object)}
 		<div
+			class="object"
 			in:scale|global={{
 				duration: 200,
 				delay: 40 * index
@@ -46,13 +47,18 @@
 <style lang="scss">
 	.objects {
 		display: grid;
-		overflow: auto;
-		user-select: none;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
 		@include spacing(row-gap, '2xl');
+		overflow: auto;
+		align-items: start;
 
 		&::-webkit-scrollbar {
 			display: none;
+		}
+
+		.object {
+			display: flex;
+			justify-content: center;
 		}
 	}
 </style>

@@ -6,13 +6,9 @@
 		ExtrudeGeometry,
 		BoxGeometry,
 		Mesh,
-		MeshPhysicalMaterial,
+		MeshStandardMaterial,
 		RepeatWrapping,
-		Texture,
-		Object3D,
-		Vector4,
-		Vector3,
-		Euler
+		Texture
 	} from 'three';
 	import { walls, type Wall } from './walls';
 
@@ -118,7 +114,7 @@
 
 					entities.push({
 						model,
-						position: { x:  wall.start.x + x, y: wall.start.y + y, z: entity.offsetY },
+						position: { x: wall.start.x + x, y: wall.start.y + y, z: entity.offsetY },
 						rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
 					});
 
@@ -143,7 +139,7 @@
 	// const roughness = useTexture('/textures/wall/roughness.webp', { transform });
 	const normal = useTexture('/textures/wall/normal.webp', { transform });
 
-	const wallVerticalMaterial = new MeshPhysicalMaterial({
+	const wallMaterial = new MeshStandardMaterial({
 		color: '#F4EFE9',
 		metalness: 0,
 		roughness: 0.9,
@@ -151,27 +147,11 @@
 		transparent: true
 	});
 
-	// const wallHorizontalMaterial = new MeshPhysicalMaterial({
-	// 	color: '#141312',
-	// 	roughness: 0.9,
-	// 	metalness: 0.0
-	// });
-
-	$: {
-		if ($color) wallVerticalMaterial.map = $color;
-		// if ($roughness) wallVerticalMaterial.roughnessMap = $roughness;
-		if ($normal) wallVerticalMaterial.normalMap = $normal;
-		wallVerticalMaterial.needsUpdate = true;
-	}
-
-	// const wallMaterials = [
-	// 	wallHorizontalMaterial,
-	// 	wallVerticalMaterial,
-	// 	wallVerticalMaterial,
-	// 	wallVerticalMaterial
-	// ];
-
-	const wallMaterials = wallVerticalMaterial;
+	Promise.all([color, normal]).then(([color, normal]) => {
+		wallMaterial.map = color;
+		wallMaterial.normalMap = normal;
+		wallMaterial.needsUpdate = true;
+	});
 </script>
 
 <T.Group rotation.x={Math.PI * -0.5} bind:ref={$wallsStore}>
@@ -179,15 +159,7 @@
 		{@const wall = createWall(wallId, walls)}
 
 		<AutoColliders shape="trimesh" friction={0}>
-			<T is={wall.object} castShadow receiveShadow material={wallMaterials}>
-				<!-- <T.MeshPhysicalMaterial
-					color="#F4EFE9"
-					metalness={0}
-					roughness={0.9}
-					opacity={1}
-					transparent
-				/> -->
-			</T>
+			<T is={wall.object} castShadow receiveShadow material={wallMaterial} />
 		</AutoColliders>
 
 		{#each wall.entities as entity}

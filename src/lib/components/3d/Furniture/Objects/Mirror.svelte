@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { performanceSettings } from '$lib/store/performanceSettings';
-	import { T } from '@threlte/core';
+	import { T, extend } from '@threlte/core';
 	import { PlaneGeometry } from 'three';
+
 	import { Reflector } from 'three/addons/objects/Reflector.js';
 
-	export let openInfo: () => void;
-
-	const mirror = new Reflector(new PlaneGeometry(1, 2), {
-		clipBias: 0.003,
-		textureWidth: window.innerWidth * window.devicePixelRatio,
-		textureHeight: window.innerHeight * window.devicePixelRatio,
-		color: 0xb5b5b5
+	extend({
+		Reflector
 	});
+
+	export let openInfo: () => void;
 </script>
 
 <T.Mesh
@@ -22,10 +20,23 @@
 	rotation.y={-Math.PI / 2}
 >
 	<T.BoxGeometry args={[1, 2, 0.1]} />
-	<T.MeshPhysicalMaterial color="gray" />
+	<T.MeshStandardMaterial color="gray" />
 </T.Mesh>
 {#if $performanceSettings.realisticMirrors.enabled}
-	<T is={mirror} position={[-0.06, 1, 0]} rotation.y={-Math.PI / 2} on:contextmenu={openInfo} />
+	<T.Reflector
+		args={[
+			new PlaneGeometry(1, 2),
+			{
+				clipBias: 0.003,
+				textureWidth: window.innerWidth * window.devicePixelRatio,
+				textureHeight: window.innerHeight * window.devicePixelRatio,
+				color: 0xb5b5b5
+			}
+		]}
+		position={[-0.06, 1, 0]}
+		rotation.y={-Math.PI / 2}
+		on:contextmenu={openInfo}
+	/>
 {:else}
 	<T.Mesh
 		castShadow
@@ -35,6 +46,6 @@
 		rotation.y={-Math.PI / 2}
 	>
 		<T.PlaneGeometry args={[1, 2]} />
-		<T.MeshPhysicalMaterial color={'white'} roughness={0.0} metalness={1} />
+		<T.MeshStandardMaterial color={'white'} roughness={0.0} metalness={1} />
 	</T.Mesh>
 {/if}

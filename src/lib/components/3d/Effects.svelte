@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useRender, useThrelte } from '@threlte/core';
+	import { useRender, useTask, useThrelte } from '@threlte/core';
 
 	import {
 		EffectComposer,
@@ -12,49 +12,46 @@
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
 	import { performanceSettings } from '$lib/store/performanceSettings';
-
-	const { scene, renderer, camera, size } = useThrelte();
+	import { onMount } from 'svelte';
+	const { renderStage, autoRender, scene, renderer, camera, size } = useThrelte();
 
 	const composer = new EffectComposer(renderer, {
 		depthBuffer: true
 	});
 
+	const smaaEffect = new SMAAEffect({
+		preset: SMAAPreset.LOW
+	});
+
+	const bloomEffect = new BloomEffect({
+		luminanceThreshold: 0.99,
+		luminanceSmoothing: 0.025,
+		mipmapBlur: true,
+		intensity: 4,
+		radius: 1,
+		levels: 4
+	});
+
 	$: {
-		// todo: merge effects
 		composer.removeAllPasses();
 		composer.addPass(new RenderPass(scene, $camera));
-		if ($performanceSettings.postProcessing.settings.antiAliasing.enabled) {
-			composer.addPass(
-				new EffectPass(
-					$camera,
-					new SMAAEffect({
-						preset: SMAAPreset.LOW
-					})
-				)
-			);
+
+		const effects = [];
+		if ($performanceSettings.postProcessing.settings!.antiAliasing.enabled) {
+			effects.push(smaaEffect);
 		}
-		if ($performanceSettings.postProcessing.settings.bloom.enabled) {
-			composer.addPass(
-				new EffectPass(
-					$camera,
-					new BloomEffect({
-						luminanceThreshold: 0.99,
-						luminanceSmoothing: 0.025,
-						mipmapBlur: true,
-						intensity: 4,
-						radius: 1,
-						levels: 4
-					})
-				)
-			);
+		if ($performanceSettings.postProcessing.settings!.bloom.enabled) {
+			effects.push(bloomEffect);
 		}
 
-		if ($performanceSettings.postProcessing.settings.ambientOcclusion.enabled) {
-			const n8aoPostPass = new N8AOPostPass(scene, $camera, $size.width, $size.height);
+		composer.addPass(new EffectPass($camera, ...effects));
+
+		if ($performanceSettings.postProcessing.settings!.ambientOcclusion.enabled) {
+			const n8aoPostPass = new N8AOPostPass(scene, $camera);
 			n8aoPostPass.configuration.halfRes = true;
 			n8aoPostPass.configuration.aoSamples = 8;
 			n8aoPostPass.configuration.denoiseSamples = 10;
-			n8aoPostPass.configuration.aoRadius = 0.25;
+			n8aoPostPass.configuration.aoRadius = 1;
 			n8aoPostPass.configuration.denoiseRadius = 24;
 			n8aoPostPass.configuration.distanceFalloff = 1;
 			n8aoPostPass.configuration.intensity = 4;
@@ -65,7 +62,17 @@
 
 	$: composer.setSize($size.width, $size.height);
 
-	useRender((_ctx, delta) => {
-		composer.render(delta);
+	onMount(() => {
+		let before = autoRender.current;
+		autoRender.set(false);
+
+		return () => autoRender.set(before);
 	});
+
+	useTask(
+		(delta) => {
+			composer.render(delta);
+		},
+		{ stage: renderStage, autoInvalidate: false }
+	);
 </script>

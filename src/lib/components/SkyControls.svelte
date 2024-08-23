@@ -72,7 +72,7 @@
 	class="container card"
 	style="--size: {RADIUS * 2}px"
 	bind:this={container}
-	transition:scale|global
+	transition:scale|global={{ duration: 200 }}
 >
 	<House class="house" />
 	<div

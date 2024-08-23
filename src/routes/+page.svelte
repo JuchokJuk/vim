@@ -29,7 +29,7 @@
 			<div class="sky-controls">
 				<SkyControls />
 			</div>
-			<div class="toolbar">
+			<div class="toolbar px-2xl">
 				<Toolbar />
 			</div>
 			<div class="performance-controls">
@@ -67,8 +67,8 @@
 
 		.sky-controls {
 			position: absolute;
-			bottom: 16px;
-			right: 16px;
+			top: 16px;
+			left: 16px;
 		}
 
 		.toolbar {
@@ -76,6 +76,8 @@
 			bottom: 16px;
 			left: 50%;
 			transform: translateX(-50%);
+			width: 100%;
+			max-width: 600px;
 		}
 
 		.performance-controls {

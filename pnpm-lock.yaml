@@ -28,6 +28,9 @@ devDependencies:
   '@types/three':
     specifier: ^0.167.1
     version: 0.167.1
+  copy-to-clipboard:
+    specifier: ^3.3.3
+    version: 3.3.3
   eslint:
     specifier: ^9.0.0
     version: 9.0.0
@@ -55,6 +58,9 @@ devDependencies:
   prettier-plugin-svelte:
     specifier: ^3.1.2
     version: 3.1.2(prettier@3.1.1)(svelte@4.2.7)
+  realism-effects:
+    specifier: ^1.1.2
+    version: 1.1.2(postprocessing@6.36.0)(three@0.167.1)
   sass:
     specifier: ^1.77.8
     version: 1.77.8
@@ -70,6 +76,9 @@ devDependencies:
   three-csg-ts:
     specifier: ^3.2.0
     version: 3.2.0(@types/three@0.167.1)(three@0.167.1)
+  tweakpane:
+    specifier: ^4.0.4
+    version: 4.0.4
   typescript:
     specifier: ^5.0.0
     version: 5.0.2
@@ -1000,6 +1009,12 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
+  /copy-to-clipboard@3.3.3:
+    resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
+    dependencies:
+      toggle-selection: 1.0.6
+    dev: true
+
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -1864,6 +1879,16 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /realism-effects@1.1.2(postprocessing@6.36.0)(three@0.167.1):
+    resolution: {integrity: sha512-dHI++mxZNYJ/k8UO+TUE/PHiNiZcUSkrNlSEwVT48c4d4PHjSz9sjdkH2QlzbmOaI4wYJEmcc9VzI6BZNgpx1A==}
+    peerDependencies:
+      postprocessing: '>=6.30.1'
+      three: '>=0.148.0'
+    dependencies:
+      postprocessing: 6.36.0(three@0.167.1)
+      three: 0.167.1
+    dev: true
+
   /require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
@@ -2202,6 +2227,10 @@ packages:
       is-number: 7.0.0
     dev: true
 
+  /toggle-selection@1.0.6:
+    resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
+    dev: true
+
   /totalist@3.0.1:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
@@ -2266,6 +2295,10 @@ packages:
 
   /tweakpane@3.1.10:
     resolution: {integrity: sha512-rqwnl/pUa7+inhI2E9ayGTqqP0EPOOn/wVvSWjZsRbZUItzNShny7pzwL3hVlaN4m9t/aZhsP0aFQ9U5VVR2VQ==}
+    dev: true
+
+  /tweakpane@4.0.4:
+    resolution: {integrity: sha512-RkWD54zDlEbnN01wQPk0ANHGbdCvlJx/E8A1QxhTfCbX+ROWos1Ws2MnhOm39aUGMOh+36TjUwpDmLfmwTr1Fg==}
     dev: true
 
   /type-check@0.4.0:

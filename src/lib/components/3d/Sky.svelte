@@ -9,7 +9,7 @@
 	import { performanceSettings } from '$lib/store/performanceSettings';
 
 	const { scene } = useThrelte();
-	scene.background = new Color('#FFFFFF');
+	scene.background = new Color('#FAFAFA');
 
 	const radius = SCENE_SIZE * 0.5;
 
@@ -35,10 +35,12 @@
 	$: x = radius * Math.cos($animatedElevation * DEG2RAD) * $animatedAzimuthSin;
 	$: y = radius * Math.sin($animatedElevation * DEG2RAD);
 	$: z = radius * Math.cos($animatedElevation * DEG2RAD) * $animatedAzimuthCos;
+
+	$: bias = $performanceSettings.shadows.settings!.softShadows.enabled ? -0.0001 : -0.0004;
 </script>
 
 <T.DirectionalLight
-	intensity={4}
+	intensity={1}
 	position={[x, y, z]}
 	castShadow
 	shadow.mapSize.width={4096}
@@ -49,8 +51,6 @@
 	shadow.camera.right={-32}
 	shadow.camera.top={32}
 	shadow.camera.bottom={-32}
-	shadow.bias={$performanceSettings.shadows.settings.softShadows.enabled ? -0.0001 : -0.0004}
+	shadow.bias={bias}
 	color="#FFFFFF"
 />
-
-<!-- <T.AmbientLight intensity={2} /> -->

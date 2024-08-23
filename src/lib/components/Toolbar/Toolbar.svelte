@@ -8,7 +8,6 @@
 	import ToggleGroup from '$lib/components/ToggleGroup.svelte';
 
 	const ITEM_SIZE = 48;
-	const ITEMS_PER_SCREEN = 7;
 
 	let opened = false;
 
@@ -48,7 +47,6 @@
 	transition:fly|global={{ duration: 200, y: 64 }}
 	style="
 		--item-size: {ITEM_SIZE}px;
-		--items-per-screen: {ITEMS_PER_SCREEN};
 	"
 >
 	<div
@@ -67,7 +65,7 @@
 					<input class="input pl-lg py-xs pr-xs" bind:this={input} />
 				{:else}
 					<div class="objects-scroller">
-						<ObjectsScroller itemSize={ITEM_SIZE} itemsPerScreen={ITEMS_PER_SCREEN} />
+						<ObjectsScroller itemSize={ITEM_SIZE} />
 					</div>
 				{/if}
 			</div>
@@ -145,13 +143,14 @@
 
 			.input-container {
 				display: grid;
-				width: calc(var(--item-size) * var(--items-per-screen));
+				width: 100%;
 
 				.objects-scroller {
 					grid-area: 1 / 1;
 				}
 
 				.input {
+					width: 100%;
 					font-size: 16px;
 					grid-area: 1 / 1;
 
@@ -203,7 +202,6 @@
 						flex-shrink: 0;
 						width: 20px;
 						height: 20px;
-						margin: 14px;
 						color: var(--text-0);
 						transition: color 0.2s;
 					}

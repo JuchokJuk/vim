@@ -7,7 +7,7 @@
 </script>
 
 {#await gltf then gltf}
-	<T.PointLight intensity={10} color="yellow" />
+	<T.PointLight intensity={10} color="white" />
 	<T.Group position={[0, 0.4, 0]} on:contextmenu={openInfo}>
 		<T.Mesh
 			geometry={gltf.nodes.Bolt004.geometry}

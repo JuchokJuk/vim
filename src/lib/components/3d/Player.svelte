@@ -6,6 +6,7 @@
 	import SecondOrderDynamics from '$lib/utils/SecondOrderDynamics';
 
 	import { playerController } from '$lib/store/playerController';
+	import { onDestroy } from 'svelte';
 
 	export let position: [number, number, number];
 
@@ -28,9 +29,12 @@
 	let qz = new Quaternion();
 	let q = new Quaternion();
 
+	const qxAxix = new Vector3(0, 1, 0);
+	const qzAxis = new Vector3(1, 0, 0);
+
 	$: {
-		qx.setFromAxisAngle(new Vector3(0, 1, 0), $playerController.phi);
-		qz.setFromAxisAngle(new Vector3(1, 0, 0), $playerController.theta);
+		qx.setFromAxisAngle(qxAxix, $playerController.phi);
+		qz.setFromAxisAngle(qzAxis, $playerController.theta);
 
 		q.set(0, 0, 0, 1);
 
@@ -53,7 +57,11 @@
 	let horizontalWalkLinvelLength;
 	let rigidBodyLinvel;
 
-	useTask((delta) => {
+	const walkLinvelEuler = new Euler(0, $playerController.phi, 0);
+
+	$: walkLinvelEuler.set(0, $playerController.phi, 0);
+
+	const { stop } = useTask((delta) => {
 		time += delta;
 
 		if (!rigidBody) return;
@@ -64,7 +72,7 @@
 		speedX = Math.cos($playerController.angle) * $playerController.speed * walkingSpeed;
 
 		walkLinvel.set(speedX, 0, speedZ);
-		walkLinvel.applyEuler(new Euler(0, $playerController.phi, 0));
+		walkLinvel.applyEuler(walkLinvelEuler);
 
 		horizontalWalkLinvel.set(walkLinvel.x, 0, walkLinvel.z);
 
@@ -85,6 +93,8 @@
 			rigidBody.applyImpulse(jumpImpulse, true);
 		}
 	});
+
+	onDestroy(stop);
 </script>
 
 <T.Group {position}>

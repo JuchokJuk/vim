@@ -29,15 +29,15 @@
 	];
 
 	export let itemSize: number;
-	export let itemsPerScreen: number;
-
-	const screenWidth = itemSize * itemsPerScreen;
-	const maxScroll = objects.length * itemSize - screenWidth;
 
 	let scrollProgress = spring(0, { stiffness: 0.1, damping: 0.5 });
 
 	function scroll(event: WheelEvent) {
-		$scrollProgress = clamp($scrollProgress - event.deltaY, -maxScroll, 0);
+		$scrollProgress = clamp(
+			$scrollProgress - event.deltaY,
+			-(objects.length * itemSize - objectsContainer.getBoundingClientRect().width),
+			0
+		);
 	}
 
 	let pointerX = spring(0, { stiffness: 0.1, damping: 0.9 });
@@ -81,7 +81,6 @@
 	on:pointerover={over}
 	style="
         --item-size: {itemSize}px;
-        --item-per-screen: {itemsPerScreen};
     "
 >
 	<div class="objects-wrapper" on:wheel|passive={scroll}>
@@ -111,19 +110,19 @@
 	.objects-container {
 		user-select: none;
 		position: relative;
-		width: calc(var(--item-size) * var(--item-per-screen));
+		width: 100%;
 		height: calc(var(--item-size));
 
 		display: flex;
 		align-items: center;
 
 		.objects-wrapper {
-			position: fixed;
+			position: absolute;
 
 			display: flex;
 			align-items: center;
 
-			width: calc(var(--item-size) * var(--item-per-screen));
+			width: 100%;
 			height: calc(var(--item-size) + 32px);
 			overflow: hidden;
 
