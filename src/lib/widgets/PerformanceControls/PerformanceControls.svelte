@@ -1,38 +1,39 @@
 <script lang="ts">
-	import { Sparkles, X } from 'lucide-svelte';
-	import Node from './Node.svelte';
+	import { Sparkles } from 'lucide-svelte';
+	import Settings from './Settings.svelte';
 	import { fade, scale } from 'svelte/transition';
-	import { performanceSettings } from '$lib/shared/store/performanceSettings/performanceSettings';
 
 	let opened = false;
+
+	function open() {
+		opened = true;
+	}
+
+	function close() {
+		opened = false;
+	}
 </script>
 
 <div class="container overflow-hidden card rounded-lg" transition:scale|global={{ duration: 200 }}>
-	<div class="scroll">
-		<div class="wrapper" class:opened>
-			{#if opened}
-				<ul
-					class="content py-xl pr-xl"
-					in:scale={{ duration: 200, delay: 100, start: 0.9 }}
-					out:fade={{ duration: 200 }}
-				>
-					<Node settings={performanceSettings} path={[]} />
-				</ul>
-			{/if}
-		</div>
+	<div class="wrapper" class:opened>
+		{#if opened}
+			<div
+				class="content"
+				in:scale={{ duration: 200, delay: 100, start: 0.9 }}
+				out:fade={{ duration: 200 }}
+			>
+				<Settings {close} />
+			</div>
+		{/if}
 	</div>
 
-	<button class="button" on:pointerdown={() => (opened = !opened)}>
-		{#key opened}
-			<div in:fade={{ delay: 200, duration: 200 }} out:fade={{ duration: 200 }}>
-				{#if opened}
-					<X class="icon" />
-				{:else}
-					<Sparkles class="icon" />
-				{/if}
-			</div>
-		{/key}
-	</button>
+	{#if !opened}
+		<div transition:fade={{ duration: 200 }}>
+			<button on:pointerdown={open}>
+				<Sparkles class="icon" />
+			</button>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -41,8 +42,9 @@
 		min-width: 20px + 14px * 2;
 		min-height: 20px + 14px * 2;
 		max-height: 100%;
+		max-width: 340px;
 
-		.button {
+		button {
 			position: absolute;
 			top: 4px;
 			right: 4px;
@@ -74,14 +76,6 @@
 			}
 		}
 
-		.scroll {
-			overflow: auto;
-			max-height: calc(100vh - map.get($spacing, xl) * 2);
-			&::-webkit-scrollbar {
-				display: none;
-			}
-		}
-
 		.wrapper {
 			display: grid;
 
@@ -97,12 +91,8 @@
 				grid-template-columns: 1fr;
 			}
 
-			ul {
-				list-style: none;
-			}
 			.content {
 				overflow: hidden;
-				white-space: nowrap;
 			}
 		}
 	}

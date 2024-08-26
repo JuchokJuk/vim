@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '$lib/shared/styles/reset.scss';
 	import '$lib/shared/styles/utils/spacings.scss';
 	import '$lib/shared/styles/utils/elipsis.scss';
 	import '$lib/shared/styles/utils/card.scss';
@@ -8,6 +9,7 @@
 	import '$lib/shared/styles/utils/dimensions.scss';
 	import '$lib/shared/styles/utils/positions.scss';
 	import '$lib/shared/styles/utils/overflow.scss';
+	import '$lib/shared/styles/utils/typography.scss';
 	import '$lib/shared/styles/global.scss';
 	import '$lib/shared/styles/themes.scss';
 	import '$lib/shared/styles/fonts.scss';

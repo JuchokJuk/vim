@@ -13,16 +13,16 @@
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
 	import { onMount } from 'svelte';
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
+	import {
+		ambientOcclusion,
+		antiAliasing,
+		bloom,
+		noise
+	} from '$lib/shared/store/performanceSettings/postProcessing';
 
 	const { renderStage, autoRender, scene, renderer, camera, size } = useThrelte();
 
 	const composer = new EffectComposer(renderer, { depthBuffer: true });
-
-	const antiAliasing = getSettings(['postProcessing', 'antiAliasing']);
-	const bloom = getSettings(['postProcessing', 'bloom']);
-	const noise = getSettings(['postProcessing', 'noise']);
-	const ambientOcclusion = getSettings(['postProcessing', 'ambientOcclusion']);
 
 	$: {
 		composer.removeAllPasses();

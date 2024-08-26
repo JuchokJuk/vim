@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { T, useThrelte } from '@threlte/core';
-	import { Vector3, Plane, Raycaster, Vector2, Group, Box3 } from 'three';
+	import { Vector3, Plane, Raycaster, Vector2, Group } from 'three';
 	import type { Event } from './Event';
-	import { tick } from 'svelte';
-	import { resolution } from '$lib/shared/store/resolution';
-	import { postprocessingEnabled } from '$lib/shared/store/postprocessingEnabled';
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
-	import { get } from 'svelte/store';
+
+	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 
 	export let position: [number, number, number];
 	export let floorPlane: Plane;
@@ -55,12 +52,7 @@
 				setPosition(event);
 			}
 
-			if (get(getSettings(['degradeQualityOnRerender', 'resolution']))) {
-				$resolution = 0.125;
-			}
-			if (get(getSettings(['degradeQualityOnRerender', 'postProcessing']))) {
-				$postprocessingEnabled = false;
-			}
+			$frequentRerender = true;
 		}
 	}
 
@@ -96,9 +88,8 @@
 
 	async function release() {
 		dragging = false;
-		resolution.set(1);
-		await tick();
-		postprocessingEnabled.set(true);
+
+		$frequentRerender = false;
 	}
 </script>
 

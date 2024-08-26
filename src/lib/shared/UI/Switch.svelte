@@ -1,10 +1,10 @@
 <script lang="ts">
 	export let value: boolean;
-	export let onChange: (value: boolean) => void;
+	export let onChange: ((value: boolean) => void) | undefined = undefined;
 
 	function toggle() {
 		value = !value;
-		onChange(value);
+		if (onChange) onChange(value);
 	}
 </script>
 
@@ -16,6 +16,7 @@
 	.switch {
 		$size: 18px;
 		$padding: map.get($spacing, '3xs');
+		flex-shrink: 0;
 
 		height: $size;
 		padding: $padding;
@@ -35,7 +36,7 @@
 			width: $size - 2 * $padding;
 			height: $size - 2 * $padding;
 			transition: transform 0.2s;
-			background: var(--text-2);
+			background: var(--white-const);
 
 			box-shadow: 0 1px 4px 0 var(--shadow-0);
 		}

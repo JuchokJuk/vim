@@ -5,6 +5,8 @@
 
 	export let activeItemIndex = 0;
 
+	export let fullWidth: boolean | undefined = false;
+
 	export let color: 'primary' | 'neutral' = 'neutral';
 
 	export let items: { value: any; label?: string; icon?: any; handler?: () => void }[];
@@ -12,12 +14,13 @@
 
 <div
 	class={cx('toogle-group', $$props.class)}
+	class:fullWidth
 	transition:slide|global={{ duration: 200, axis: 'x' }}
 >
 	<div class="layer">
 		{#each items as item, index (item)}
 			<button
-				class="button rounded-md"
+				class="button rounded-md paragraph-lg"
 				in:scale|global={{ duration: 200, delay: 40 * index }}
 				on:pointerdown={() => {
 					activeItemIndex = index;
@@ -40,7 +43,7 @@
 	>
 		{#each items as item, index (item)}
 			<button
-				class="button rounded-md"
+				class="button rounded-md paragraph-lg"
 				in:scale|global={{ duration: 200, delay: 40 * index }}
 				on:pointerdown={() => {
 					activeItemIndex = index;
@@ -62,6 +65,7 @@
 	.toogle-group {
 		display: grid;
 		width: fit-content;
+
 		.layer {
 			grid-area: 1/1;
 			display: flex;
@@ -71,9 +75,9 @@
 				/* prettier-ignore */
 				clip-path: inset(
 					0
-                    calc((var(--items-count) - 1 - var(--active-item-index)) * (40px + 4px)) /* right side offset from right */
+                    calc((var(--items-count) - 1 - var(--active-item-index)) * ((100% - 4px * (var(--items-count) - 1)) / var(--items-count) + 4px)) /* right side offset from right */
                     0
-                    calc(var(--active-item-index) * (40px + 4px)) /* left side offset from left */
+                    calc(var(--active-item-index) * ((100% - 4px * (var(--items-count) - 1)) / var(--items-count) + 4px)) /* left side offset from left */
                     round 8px
 				);
 				transition: clip-path 0.2s;
@@ -124,6 +128,14 @@
 					height: 20px;
 					margin: 14px;
 				}
+			}
+		}
+
+		&.fullWidth {
+			width: 100%;
+
+			.button {
+				width: 100%;
 			}
 		}
 	}

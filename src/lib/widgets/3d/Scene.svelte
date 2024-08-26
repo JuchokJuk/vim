@@ -14,10 +14,21 @@
 	import { EquirectangularReflectionMapping, HalfFloatType, SRGBColorSpace } from 'three';
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import { useRapier } from '@threlte/rapier';
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
-	import { postprocessingEnabled } from '$lib/shared/store/postprocessingEnabled';
+	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
+	import {
+		ambientOcclusion,
+		antiAliasing,
+		bloom,
+		noise,
+		postProcessing
+	} from '$lib/shared/store/performanceSettings/postProcessing';
+	import {
+		postProcessingDegraded,
+		degradePostProcessing
+	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 
-	const { scene, renderer, camera } = useThrelte();
+	const { invalidate, scene, renderer, camera, dpr } = useThrelte();
+
 	$canvas = renderer.domElement;
 
 	// todo: fix MASSIVE lags
@@ -39,19 +50,19 @@
 		renderer?.compile(scene, camera.current);
 	}
 
-	const shadows = getSettings(['shadows']);
-	const softShadows = getSettings(['shadows', 'softShadows']);
+	softShadows.subscribe(recompile);
 
-	let softShadowsEnabled = $softShadows && $shadows;
-
-	$: {
+	shadows.subscribe(() => {
 		recompile();
-		softShadowsEnabled = $softShadows && $shadows;
-	}
+		invalidate();
+	});
 
-	// performanceSettings.subscribe(() => {
-	// 	invalidate();
-	// });
+	dpr.subscribe(invalidate);
+
+	noise.subscribe(invalidate);
+	bloom.subscribe(invalidate);
+	ambientOcclusion.subscribe(invalidate);
+	antiAliasing.subscribe(invalidate);
 
 	// Environment ios fix
 	const loader = new RGBELoader();
@@ -72,11 +83,9 @@
 		pause();
 	}
 
-	const postProcessing = getSettings(['postProcessing']);
-	const degradePostProcessing = getSettings(['degradeQualityOnRerender', 'postProcessing']);
-
 	$: enablePostprocessing =
-		(!$degradePostProcessing || ($postProcessing && $postprocessingEnabled)) && $postProcessing;
+		$postProcessing &&
+		(($degradePostProcessing && !$postProcessingDegraded) || !$degradePostProcessing);
 </script>
 
 {#if $editorMode === 'thirdPerson'}
@@ -84,10 +93,12 @@
 {/if}
 
 {#if enablePostprocessing}
-	<Effects />
+	{#key $dpr}
+		<Effects />
+	{/key}
 {/if}
 
-{#if softShadowsEnabled}
+{#if $softShadows}
 	<SoftShadows focus={0.5} />
 {/if}
 

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
-	import { postprocessingEnabled } from '$lib/shared/store/postprocessingEnabled';
-	import { resolution } from '$lib/shared/store/resolution';
+	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+
 	import { touchScreen } from '$lib/shared/store/touchScreen';
 	import { walls } from '$lib/shared/store/walls';
 
@@ -24,14 +23,6 @@
 
 	const { invalidate } = useThrelte();
 	// todo: fix on-demand with damping https://github.com/mrdoob/three.js/issues/23090
-
-	$: if (!get(getSettings(['degradeQualityOnRerender', 'resolution']))) {
-		$resolution = 1;
-	}
-
-	$: if (!get(getSettings(['degradeQualityOnRerender', 'postProcessing']))) {
-		$postprocessingEnabled = true;
-	}
 
 	// let camera: PerspectiveCamera;
 	// const raycaseter = new Raycaster();
@@ -65,18 +56,11 @@
 	// }
 
 	function onChange() {
-		if (get(getSettings(['degradeQualityOnRerender', 'resolution']))) {
-			resolution.set(0.125);
-		}
-		if (get(getSettings(['degradeQualityOnRerender', 'postProcessing']))) {
-			postprocessingEnabled.set(false);
-		}
+		$frequentRerender = true;
 	}
 
 	async function onEnd() {
-		resolution.set(1);
-		await tick();
-		postprocessingEnabled.set(true);
+		$frequentRerender = false;
 		invalidate();
 	}
 </script>

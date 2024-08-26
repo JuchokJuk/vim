@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
+	import { realisticMirrors } from '$lib/shared/store/performanceSettings/realisticMirrors';
 	import { T, extend } from '@threlte/core';
 	import { PlaneGeometry } from 'three';
 
@@ -10,8 +10,6 @@
 	});
 
 	export let openInfo: () => void;
-
-	const realisticMirrors = getSettings(['realisticMirrors']);
 </script>
 
 <T.Mesh

@@ -6,7 +6,7 @@
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
 	import { Color } from 'three';
-	import { getSettings } from '$lib/shared/store/performanceSettings/getSettings';
+	import { softShadows } from '$lib/shared/store/performanceSettings/shadows';
 
 	const { scene } = useThrelte();
 	scene.background = new Color('#FAFAFA');
@@ -35,8 +35,6 @@
 	$: x = radius * Math.cos($animatedElevation * DEG2RAD) * $animatedAzimuthSin;
 	$: y = radius * Math.sin($animatedElevation * DEG2RAD);
 	$: z = radius * Math.cos($animatedElevation * DEG2RAD) * $animatedAzimuthCos;
-
-	const softShadows = getSettings(['shadows', 'softShadows']);
 
 	$: bias = $softShadows ? -0.0001 : -0.0004;
 </script>
