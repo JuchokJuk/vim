@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Toolbar from '$lib/components/Toolbar/Toolbar.svelte';
+	import Toolbar from '$lib/widgets/Toolbar/Toolbar.svelte';
 	import { onMount } from 'svelte';
-	import Editor from '$lib/components/3d/Editor.svelte';
-	import EditorModes from '$lib/components/EditorModes.svelte';
-	import SkyControls from '$lib/components/SkyControls.svelte';
-	import PerformanceControls from '$lib/components/PerformanceControls/PerformanceControls.svelte';
-	import PlayerUI from '$lib/components/PlayerUI/PlayerUI.svelte';
-	import { editorMode } from '$lib/store/editorMode';
+	import Editor from '$lib/widgets/3d/Editor.svelte';
+	import EditorModes from '$lib/widgets/EditorModes.svelte';
+	import SkyControls from '$lib/widgets/SkyControls.svelte';
+	import PerformanceControls from '$lib/widgets/PerformanceControls/PerformanceControls.svelte';
+	import PlayerUI from '$lib/widgets/PlayerUI/PlayerUI.svelte';
+	import { editorMode } from '$lib/shared/store/editorMode';
 
 	let mounted = false;
 
@@ -17,73 +17,55 @@
 	});
 </script>
 
-<div class="container">
-	<div class="editor">
+<div class="container overflow-hidden relative h-full">
+	<div class="editor absolute top-0 left-0 w-full h-full">
 		<Editor />
 	</div>
 
 	{#if mounted}
+		<div class="editor-modes top-xl">
+			<EditorModes />
+		</div>
 		{#if $editorMode === 'firstPerson'}
 			<PlayerUI />
 		{:else}
-			<div class="sky-controls">
+			<div class="sky-controls top-xl left-xl">
 				<SkyControls />
 			</div>
-			<div class="toolbar px-2xl">
+			<div class="toolbar bottom-xl px-2xl">
 				<Toolbar />
 			</div>
-			<div class="performance-controls">
+			<div class="absolute top-0 right-0 p-xl">
 				<PerformanceControls />
 			</div>
 		{/if}
-		<div class="editor-modes">
-			<EditorModes />
-		</div>
 	{/if}
 </div>
 
 <style lang="scss">
 	.container {
-		height: 100%;
-		overflow: hidden;
 		background: var(--surface-0);
-		position: relative;
 
 		.editor {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			z-index: 0;
+			// z-index: 0;
 		}
 
 		.editor-modes {
 			position: absolute;
-			top: 16px;
 			left: 50%;
 			transform: translateX(-50%);
 		}
 
 		.sky-controls {
 			position: absolute;
-			top: 16px;
-			left: 16px;
 		}
 
 		.toolbar {
 			position: absolute;
-			bottom: 16px;
 			left: 50%;
 			transform: translateX(-50%);
 			width: 100%;
 			max-width: 600px;
-		}
-
-		.performance-controls {
-			position: absolute;
-			top: 16px;
-			right: 16px;
 		}
 	}
 </style>

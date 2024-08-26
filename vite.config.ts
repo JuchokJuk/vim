@@ -8,12 +8,12 @@ export default defineConfig({
 			scss: {
 				additionalData: `
 					@use "sass:map";
-					@import "$lib/styles/variables/roundings.scss";
-					@import "$lib/styles/variables/spacings.scss";
-					@import "$lib/styles/mixins/spacing.scss";
-					@import "$lib/styles/mixins/elipsis.scss";
-					@import "$lib/styles/mixins/hover.scss";
-					@import "$lib/styles/mixins/card.scss";
+					@import "$lib/shared/styles/variables/roundings.scss";
+					@import "$lib/shared/styles/variables/spacings.scss";
+					@import "$lib/shared/styles/mixins/spacing.scss";
+					@import "$lib/shared/styles/mixins/elipsis.scss";
+					@import "$lib/shared/styles/mixins/hover.scss";
+					@import "$lib/shared/styles/mixins/card.scss";
 				`
 			}
 		}

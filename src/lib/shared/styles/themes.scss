@@ -1,0 +1,47 @@
+:root {
+	color-scheme: light dark;
+
+	--shadow-0: hsla(0, 0%, 0%, 0.1);
+	--shadow-1: hsla(0, 0%, 0%, 0.025);
+
+	--surface-0: hsl(0, 0%, 98%);
+	--surface-1: hsl(0, 0%, 99%);
+	--surface-2: hsl(0, 0%, 94%);
+	--surface-3: hsl(0, 0%, 90%);
+
+	--light-0: hsl(0, 0%, 100%);
+	--light-1: hsl(0, 0%, 85%);
+
+	--text-0: hsl(0, 0%, 10%);
+	--text-1: hsl(0, 0%, 35%);
+	--text-2: hsl(0, 0%, 45%);
+
+	--outline-0: hsl(0, 0%, 74%);
+
+	--primary-0: hsl(207, 81%, 56%);
+
+	--white-const: hsl(0, 0%, 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--shadow-0: hsla(0, 0%, 0%, 0.35);
+		--shadow-1: hsla(0, 0%, 0%, 0.25);
+
+		--surface-0: hsl(0, 0%, 8%);
+		--surface-1: hsl(0, 0%, 10%);
+		--surface-2: hsl(0, 0%, 14%);
+		--surface-3: hsl(0, 0%, 20%);
+
+		--light-0: hsl(0, 0%, 22%);
+		--light-1: hsl(0, 0%, 15%);
+
+		--text-0: hsl(0, 0%, 72%);
+		--text-1: hsl(0, 0%, 87%);
+		--text-2: hsl(0, 0%, 95%);
+
+		--outline-0: hsl(0, 0%, 21%);
+
+		--primary-0: hsl(207, 100%, 56%);
+	}
+}

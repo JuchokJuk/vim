@@ -1,0 +1,96 @@
+// Padding utilities
+@each $size, $value in $spacing {
+	.p-#{$size} {
+		padding: $value;
+	}
+	.pt-#{$size} {
+		padding-top: $value;
+	}
+	.pr-#{$size} {
+		padding-right: $value;
+	}
+	.pb-#{$size} {
+		padding-bottom: $value;
+	}
+	.pl-#{$size} {
+		padding-left: $value;
+	}
+	.px-#{$size} {
+		padding-left: $value;
+		padding-right: $value;
+	}
+	.py-#{$size} {
+		padding-top: $value;
+		padding-bottom: $value;
+	}
+}
+
+// Margin utilities
+@each $size, $value in $spacing {
+	.m-#{$size} {
+		margin: $value;
+	}
+	.mt-#{$size} {
+		margin-top: $value;
+	}
+	.mr-#{$size} {
+		margin-right: $value;
+	}
+	.mb-#{$size} {
+		margin-bottom: $value;
+	}
+	.ml-#{$size} {
+		margin-left: $value;
+	}
+	.mx-#{$size} {
+		margin-left: $value;
+		margin-right: $value;
+	}
+	.my-#{$size} {
+		margin-top: $value;
+		margin-bottom: $value;
+	}
+}
+
+// Gap utilities
+@each $size, $value in $spacing {
+	.gap-#{$size} {
+		gap: $value;
+	}
+
+	.gap-x-#{$size} {
+		column-gap: $value;
+	}
+
+	.gap-y-#{$size} {
+		row-gap: $value;
+	}
+}
+
+@each $size, $value in $spacing {
+	.top-#{$size} {
+		top: $value;
+	}
+
+	.bottom-#{$size} {
+		bottom: $value;
+	}
+
+	.left-#{$size} {
+		left: $value;
+	}
+
+	.right-#{$size} {
+		right: $value;
+	}
+
+	.x-#{$size} {
+		left: $value;
+		right: $value;
+	}
+
+	.y-#{$size} {
+		top: $value;
+		bottom: $value;
+	}
+}

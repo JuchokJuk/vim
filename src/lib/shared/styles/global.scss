@@ -1,0 +1,26 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	font-feature-settings: 'tnum';
+}
+
+@supports (font-variation-settings: normal) {
+	body {
+		font-family: 'InterVariable', sans-serif;
+		font-optical-sizing: auto;
+	}
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	color: var(--text-0);
+}
