@@ -84,17 +84,29 @@
 
 				&.primary {
 					background: var(--primary-0);
-					.button:hover,
+
 					.button {
 						color: var(--white-const);
+					}
+
+					@include hover {
+						.button {
+							color: var(--white-const);
+						}
 					}
 				}
 
 				&.neutral {
 					background: var(--surface-2);
-					.button:hover,
+
 					.button {
 						color: var(--text-1);
+					}
+
+					@include hover {
+						.button {
+							color: var(--text-1);
+						}
 					}
 				}
 			}
@@ -118,7 +130,7 @@
 					outline: none;
 				}
 
-				&:hover {
+				@include hover {
 					color: var(--text-1);
 				}
 

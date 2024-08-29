@@ -1,5 +1,5 @@
 // Padding utilities
-@each $size, $value in $spacing {
+@each $size, $value in $spacings {
 	.p-#{$size} {
 		padding: $value;
 	}
@@ -26,7 +26,7 @@
 }
 
 // Margin utilities
-@each $size, $value in $spacing {
+@each $size, $value in $spacings {
 	.m-#{$size} {
 		margin: $value;
 	}
@@ -53,7 +53,7 @@
 }
 
 // Gap utilities
-@each $size, $value in $spacing {
+@each $size, $value in $spacings {
 	.gap-#{$size} {
 		gap: $value;
 	}
@@ -67,7 +67,7 @@
 	}
 }
 
-@each $size, $value in $spacing {
+@each $size, $value in $spacings {
 	.top-#{$size} {
 		top: $value;
 	}

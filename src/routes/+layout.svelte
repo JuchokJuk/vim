@@ -13,6 +13,21 @@
 	import '$lib/shared/styles/global.scss';
 	import '$lib/shared/styles/themes.scss';
 	import '$lib/shared/styles/fonts.scss';
+	import { fade } from 'svelte/transition';
+
+	export let data;
 </script>
 
-<slot />
+<div class="container h-full grid">
+	{#key data.url}
+		<div class="h-full area-1" in:fade={{ duration: 200, delay: 400 }} out:fade={{ duration: 200 }}>
+			<slot />
+		</div>
+	{/key}
+</div>
+
+<style lang="scss">
+	.container {
+		background: var(--surface-0);
+	}
+</style>

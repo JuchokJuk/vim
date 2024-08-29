@@ -25,6 +25,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"ky": "^1.7.1",
 		"lucide-svelte": "^0.424.0",
 		"n8ao": "^1.8.3",
 		"postprocessing": "^6.36.0",

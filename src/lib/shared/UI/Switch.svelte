@@ -15,7 +15,7 @@
 <style lang="scss">
 	.switch {
 		$size: 18px;
-		$padding: map.get($spacing, '3xs');
+		$padding: map.get($spacings, '3xs');
 		flex-shrink: 0;
 
 		height: $size;
