@@ -1,7 +1,7 @@
-import { writable } from 'svelte/store';
+import { persisted } from 'svelte-persisted-store';
 
-export const shadows = writable(true);
-export const softShadows = writable(true);
+export const shadows = persisted('shadows', true);
+export const softShadows = persisted('softShadows', true);
 
 shadows.subscribe((value: boolean) => {
 	if (!value) softShadows.set(false);
@@ -9,4 +9,4 @@ shadows.subscribe((value: boolean) => {
 
 softShadows.subscribe((value: boolean) => {
 	if (value) shadows.set(true);
-})
+});

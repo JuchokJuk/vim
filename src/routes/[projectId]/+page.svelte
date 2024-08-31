@@ -7,12 +7,11 @@
 	import PlayerUI from '$lib/pages/editor/PlayerUI/PlayerUI.svelte';
 	import { editorMode } from '$lib/shared/store/editorMode';
 	import DelayedMount from '$lib/shared/UI/DelayedMount.svelte';
+	import { layout } from '$lib/shared/store/layout.js';
 
 	export let data;
 
-	console.log('areas:', data.layout.data.areas);
-	console.log('lines:', data.layout.data.lines);
-	console.log('vertices:', data.layout.data.vertices);
+	$layout = data.layout;
 </script>
 
 <svelte:head>
@@ -24,13 +23,13 @@
 </div>
 
 <DelayedMount delay={400}>
-	<div class="editor-modes top-xl">
+	<div class="editor-modes absolute top-xl">
 		<EditorModes />
 	</div>
 	{#if $editorMode === 'firstPerson'}
 		<PlayerUI />
 	{:else}
-		<div class="sky-controls top-xl left-xl">
+		<div class="absolute top-xl left-xl">
 			<SkyControls />
 		</div>
 		<Toolbar />
@@ -42,12 +41,7 @@
 
 <style lang="scss">
 	.editor-modes {
-		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
-	}
-
-	.sky-controls {
-		position: absolute;
 	}
 </style>

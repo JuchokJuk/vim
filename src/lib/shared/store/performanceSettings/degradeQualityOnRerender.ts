@@ -1,9 +1,13 @@
 import { get, writable } from 'svelte/store';
+import { persisted } from 'svelte-persisted-store';
 
-export const degradeQualityOnFrequentRerender = writable(false);
+export const degradeQualityOnFrequentRerender = persisted(
+	'degradeQualityOnFrequentRerender',
+	false
+);
 
-export const degradePostProcessing = writable(false);
-export const degradeResolution = writable(false);
+export const degradePostProcessing = persisted('degradePostProcessing', false);
+export const degradeResolution = persisted('degradeResolution', false);
 
 export const LOW_RESOLUTION = 0.5;
 export const NORMAL_RESOLUTION = 1;

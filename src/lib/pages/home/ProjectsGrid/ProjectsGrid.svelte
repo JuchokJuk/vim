@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Project as ProjectType } from '$lib/shared/API/projects';
+	import type { Project as ProjectType } from '$lib/shared/API/projects/projects';
 	import Project from './Project.svelte';
 	import { scale, fade } from 'svelte/transition';
 

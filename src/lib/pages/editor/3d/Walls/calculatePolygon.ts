@@ -1,9 +1,9 @@
+import type { LayoutData, Line } from '$lib/shared/API/projects/layouts';
 import { getNormalVector } from '$lib/shared/utils/math/getNormalVector';
 import { lineIntersect } from '$lib/shared/utils/math/lineIntersect';
-import type { Wall } from './walls';
 
-type Ending = 'start' | 'end';
-const endings: Ending[] = ['start', 'end'];
+type Ending = 0 | 1;
+const endings: Ending[] = [0, 1];
 
 type Direction = 'CCW' | 'CW';
 const directions: Direction[] = ['CW', 'CCW'];
@@ -54,64 +54,99 @@ function fingNeighborsConnections(
 }
 
 function intersectWalls(
-	wallA: Wall,
+	wallA: Line,
 	wallANormalVector: { x: number; y: number },
-	wallB: Wall,
-	wallBNormalVector: { x: number; y: number }
+	wallB: Line,
+	wallBNormalVector: { x: number; y: number },
+	layoutData: LayoutData
 ) {
 	return lineIntersect(
 		{
 			start: {
-				x: wallA.start.x + (wallANormalVector.x * wallA.thickness) / 2,
-				y: wallA.start.y + (wallANormalVector.y * wallA.thickness) / 2
+				x:
+					getLineEnding(wallA.id, 0, layoutData).x +
+					(wallANormalVector.x * wallA.properties.thickness.length) / 2,
+				y:
+					getLineEnding(wallA.id, 0, layoutData).y +
+					(wallANormalVector.y * wallA.properties.thickness.length) / 2
 			},
 			end: {
-				x: wallA.end.x + (wallANormalVector.x * wallA.thickness) / 2,
-				y: wallA.end.y + (wallANormalVector.y * wallA.thickness) / 2
+				x:
+					getLineEnding(wallA.id, 1, layoutData).x +
+					(wallANormalVector.x * wallA.properties.thickness.length) / 2,
+				y:
+					getLineEnding(wallA.id, 1, layoutData).y +
+					(wallANormalVector.y * wallA.properties.thickness.length) / 2
 			}
 		},
 		{
 			start: {
-				x: wallB.start.x + (wallBNormalVector.x * wallB.thickness) / 2,
-				y: wallB.start.y + (wallBNormalVector.y * wallB.thickness) / 2
+				x:
+					getLineEnding(wallB.id, 0, layoutData).x +
+					(wallBNormalVector.x * wallB.properties.thickness.length) / 2,
+				y:
+					getLineEnding(wallB.id, 0, layoutData).y +
+					(wallBNormalVector.y * wallB.properties.thickness.length) / 2
 			},
 			end: {
-				x: wallB.end.x + (wallBNormalVector.x * wallB.thickness) / 2,
-				y: wallB.end.y + (wallBNormalVector.y * wallB.thickness) / 2
+				x:
+					getLineEnding(wallB.id, 1, layoutData).x +
+					(wallBNormalVector.x * wallB.properties.thickness.length) / 2,
+				y:
+					getLineEnding(wallB.id, 1, layoutData).y +
+					(wallBNormalVector.y * wallB.properties.thickness.length) / 2
 			}
 		}
 	);
 }
 
+function getLineEnding(lineId: string, ending: Ending, layoutData: LayoutData) {
+	return layoutData.vertices[layoutData.lines[lineId].vertices[ending]];
+}
+
 function addRectangularWallEnding(
 	polygon: { x: number; y: number }[],
-	wall: Wall,
+	line: Line,
 	ending: Ending,
-	direction: Direction
+	direction: Direction,
+	layoutData: LayoutData
 ) {
-	const baseWallNormalVector = getNormalVector(wall);
+	const baseWallNormalVector = getNormalVector({
+		start: getLineEnding(line.id, 0, layoutData),
+		end: getLineEnding(line.id, 1, layoutData)
+	});
 	const wallTopPoint = {
-		x: wall[ending].x + (baseWallNormalVector.x * wall.thickness) / 2,
-		y: wall[ending].y + (baseWallNormalVector.y * wall.thickness) / 2
+		x:
+			getLineEnding(line.id, ending, layoutData).x +
+			(baseWallNormalVector.x * line.properties.thickness.length) / 2,
+		y:
+			getLineEnding(line.id, ending, layoutData).y +
+			(baseWallNormalVector.y * line.properties.thickness.length) / 2
 	};
 	const wallBottomPoint = {
-		x: wall[ending].x - (baseWallNormalVector.x * wall.thickness) / 2,
-		y: wall[ending].y - (baseWallNormalVector.y * wall.thickness) / 2
+		x:
+			getLineEnding(line.id, ending, layoutData).x -
+			(baseWallNormalVector.x * line.properties.thickness.length) / 2,
+		y:
+			getLineEnding(line.id, ending, layoutData).y -
+			(baseWallNormalVector.y * line.properties.thickness.length) / 2
 	};
 
-	if (ending == 'start') {
+	if (ending == 0) {
 		if (direction === 'CW') polygon.push(wallBottomPoint);
 		if (direction === 'CCW') polygon.push(wallTopPoint);
 	}
 
-	if (ending == 'end') {
+	if (ending == 1) {
 		if (direction === 'CW') polygon.push(wallTopPoint);
 		if (direction === 'CCW') polygon.push(wallBottomPoint);
 	}
 }
 
-export function calculatePolygon(wallId: string, walls: Record<string, Wall>) {
-	const wall = walls[wallId];
+// todo: починить конекшены, попробовать свапнуть концы, провалидировать данные с бекенда
+
+export function calculatePolygon(lineId: string, layoutData: LayoutData) {
+	const line = layoutData.lines[lineId];
 
 	// find all connections with start and end point and move them to 0, 0
 
@@ -119,47 +154,64 @@ export function calculatePolygon(wallId: string, walls: Record<string, Wall>) {
 		Ending,
 		{ all: Connection[]; CCW?: Connection; CW?: Connection }
 	> = {
-		start: { all: [], CCW: undefined, CW: undefined },
-		end: { all: [], CCW: undefined, CW: undefined }
+		0: { all: [], CCW: undefined, CW: undefined },
+		1: { all: [], CCW: undefined, CW: undefined }
 	};
 
-	Object.keys(wallConnectionsScheme).forEach((ending) => {
-		Object.keys(wall[ending as Ending].connections).forEach((connectionId) => {
-			const endings: Ending[] = ['start', 'end'];
+	for (const ending of endings) {
+		for (const connectedLineId of layoutData.vertices[line.vertices[ending]].lines) {
+			if (connectedLineId === lineId) continue; // пропускаем связь с самой линией
 
-			if (wall[ending as Ending].connections[connectionId] === 'end') {
-				[endings[0], endings[1]] = [endings[1], endings[0]];
+			const endings: Ending[] = [0, 1];
+
+			// если одна из точек соеденённой линии совпадает с концом рассчитываемой линии, то меняем местами точки соеденённой линии
+
+			for (const vertexId of layoutData.lines[connectedLineId].vertices) {
+				if (vertexId === line.vertices[1]) {
+					[endings[0], endings[1]] = [endings[1], endings[0]];
+					break;
+				}
 			}
 
-			wallConnectionsScheme[ending as Ending].all.push({
-				id: connectionId,
+			wallConnectionsScheme[ending].all.push({
+				id: connectedLineId,
 				start: {
-					x: walls[connectionId][endings[0]].x - wall[ending as Ending].x,
-					y: walls[connectionId][endings[0]].y - wall[ending as Ending].y
+					x:
+						getLineEnding(connectedLineId, endings[0], layoutData).x -
+						getLineEnding(lineId, ending, layoutData).x,
+					y:
+						getLineEnding(connectedLineId, endings[0], layoutData).y -
+						getLineEnding(lineId, ending, layoutData).y
 				},
 				end: {
-					x: walls[connectionId][endings[1]].x - wall[ending as Ending].x,
-					y: walls[connectionId][endings[1]].y - wall[ending as Ending].y
+					x:
+						getLineEnding(connectedLineId, endings[1], layoutData).x -
+						getLineEnding(lineId, ending, layoutData).x,
+					y:
+						getLineEnding(connectedLineId, endings[1], layoutData).y -
+						getLineEnding(lineId, ending, layoutData).y
 				}
 			});
-		});
-	});
+		}
+	}
 
 	// find neugbor connections (nearest in CW and CCW directions)
 
-	const startConnections = fingNeighborsConnections(wallConnectionsScheme.start.all, {
-		x: wall.end.x - wall.start.x,
-		y: wall.end.y - wall.start.y
+	const startConnections = fingNeighborsConnections(wallConnectionsScheme[0].all, {
+		x: getLineEnding(lineId, 1, layoutData).x - getLineEnding(lineId, 0, layoutData).x,
+		y: getLineEnding(lineId, 1, layoutData).y - getLineEnding(lineId, 0, layoutData).y
 	});
-	wallConnectionsScheme.start.CCW = startConnections.CCW as Connection;
-	wallConnectionsScheme.start.CW = startConnections.CW as Connection;
+	wallConnectionsScheme[0].CCW = startConnections.CCW as Connection;
+	wallConnectionsScheme[0].CW = startConnections.CW as Connection;
 
-	const endConnections = fingNeighborsConnections(wallConnectionsScheme.end.all, {
-		x: wall.start.x - wall.end.x,
-		y: wall.start.y - wall.end.y
+	const endConnections = fingNeighborsConnections(wallConnectionsScheme[1].all, {
+		x: getLineEnding(lineId, 0, layoutData).x - getLineEnding(lineId, 1, layoutData).x,
+		y: getLineEnding(lineId, 0, layoutData).y - getLineEnding(lineId, 1, layoutData).y
 	});
-	wallConnectionsScheme.end.CCW = endConnections.CCW as Connection;
-	wallConnectionsScheme.end.CW = endConnections.CW as Connection;
+	wallConnectionsScheme[1].CCW = endConnections.CCW as Connection;
+	wallConnectionsScheme[1].CW = endConnections.CW as Connection;
+
+	console.log(lineId, wallConnectionsScheme);
 
 	// create polygon of intersections
 
@@ -171,43 +223,69 @@ export function calculatePolygon(wallId: string, walls: Record<string, Wall>) {
 		for (const direction of directions) {
 			// if there are no connections, add rectangular wall ending
 			if (!currentConnections[direction]) {
-				addRectangularWallEnding(polygon, wall, ending, direction);
+				addRectangularWallEnding(polygon, line, ending, direction, layoutData);
 				continue;
 			}
 
 			// if there are connections, create nice joint
-			const baseWallNormalVector = getNormalVector(wall);
-			const connectedWallNormalVector = getNormalVector(walls[currentConnections[direction]!.id]);
+			const baseWallNormalVector = getNormalVector({
+				start: getLineEnding(lineId, 0, layoutData),
+				end: getLineEnding(lineId, 1, layoutData)
+			});
+			const connectedWallNormalVector = getNormalVector({
+				start: getLineEnding(currentConnections[direction]!.id, 0, layoutData),
+				end: getLineEnding(currentConnections[direction]!.id, 1, layoutData)
+			});
 
-			const connectedWallEnding = wall[ending].connections[currentConnections[direction]!.id];
-			const invertNormals = direction === (ending === 'start' ? 'CCW' : 'CW');
+			// с каким концом стены соеденина рассчитываемая стена (0 или 1 - start или end)
+
+			let connectedWallEnding;
+
+			const connectedLineVertices = layoutData.lines[currentConnections[direction]!.id].vertices;
+
+			for (const vertexId of connectedLineVertices) {
+				if (vertexId === line.vertices[0]) {
+					connectedWallEnding = 0;
+				} else {
+					connectedWallEnding = 1;
+				}
+			}
+
+			const invertNormals = direction === (ending === 0 ? 'CCW' : 'CW');
 
 			// todo: можно скипнуть расчёт пересечения, если стены паралельны
 			const intersection = intersectWalls(
-				wall,
+				line,
 				transformNormalVector(baseWallNormalVector, !invertNormals),
-				walls[currentConnections[direction]!.id],
+				layoutData.lines[currentConnections[direction]!.id],
 				transformNormalVector(
 					connectedWallNormalVector,
 					ending !== connectedWallEnding ? !invertNormals : invertNormals
-				)
+				),
+				layoutData
 			);
 
 			if (intersection !== undefined) {
 				polygon.push(intersection);
 			} else {
-				addRectangularWallEnding(polygon, wall, ending, direction);
+				addRectangularWallEnding(polygon, line, ending, direction, layoutData);
 			}
 
 			// push additional points
-			if (ending === 'start' && direction === 'CW') {
-				polygon.push({ x: wall.start.x, y: wall.start.y });
+			if (ending === 0 && direction === 'CW') {
+				polygon.push({
+					x: getLineEnding(lineId, 0, layoutData).x,
+					y: getLineEnding(lineId, 0, layoutData).y
+				});
 			}
-			if (ending === 'end' && direction === 'CW') {
-				polygon.push({ x: wall.end.x, y: wall.end.y });
+			if (ending === 1 && direction === 'CW') {
+				polygon.push({
+					x: getLineEnding(lineId, 1, layoutData).x,
+					y: getLineEnding(lineId, 1, layoutData).y
+				});
 			}
 		}
 	}
 
-	return polygon.length ? polygon : [{ x: 0, y: 0 }];
+	return polygon;
 }

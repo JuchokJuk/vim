@@ -1,11 +1,12 @@
 import { get, writable } from 'svelte/store';
+import { persisted } from 'svelte-persisted-store';
 
-export const postProcessing = writable(true);
+export const postProcessing = persisted('postProcessing', true);
 
-export const ambientOcclusion = writable(true);
-export const antiAliasing = writable(true);
-export const bloom = writable(true);
-export const noise = writable(true);
+export const ambientOcclusion = persisted('ambientOcclusion', true);
+export const antiAliasing = persisted('antiAliasing', true);
+export const bloom = persisted('bloom', true);
+export const noise = persisted('noise', true);
 
 export const postProcessingEnabled = writable(get(postProcessing));
 

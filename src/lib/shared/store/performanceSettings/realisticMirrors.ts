@@ -1,3 +1,3 @@
-import { writable } from "svelte/store";
+import { persisted } from 'svelte-persisted-store';
 
-export const realisticMirrors = writable(false)
+export const realisticMirrors = persisted('realisticMirrors', false);
