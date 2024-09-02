@@ -6,6 +6,7 @@
 	import '$lib/shared/styles/utils/roundings.scss';
 	import '$lib/shared/styles/utils/flex.scss';
 	import '$lib/shared/styles/utils/grid.scss';
+	import '$lib/shared/styles/utils/display.scss';
 	import '$lib/shared/styles/utils/dimensions.scss';
 	import '$lib/shared/styles/utils/positions.scss';
 	import '$lib/shared/styles/utils/overflow.scss';
