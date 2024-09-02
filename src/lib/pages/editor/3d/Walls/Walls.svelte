@@ -2,7 +2,6 @@
 	import { T } from '@threlte/core';
 	import { calculatePolygon } from './calculatePolygon';
 	import { BoxGeometry, Mesh, MeshStandardMaterial, RepeatWrapping, Texture } from 'three';
-	import { walls, type Wall } from './walls';
 	import { CSG } from 'three-csg-ts';
 	import { AutoColliders } from '@threlte/rapier';
 	import { mergeVertices } from './mergeVertices';

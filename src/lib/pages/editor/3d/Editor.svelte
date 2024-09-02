@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas } from '@threlte/core';
-	import { Debug, World } from '@threlte/rapier';
+	import { World } from '@threlte/rapier';
 
 	import { shadows } from '$lib/shared/store/performanceSettings/shadows';
 	import { resolution } from '$lib/shared/store/performanceSettings/resolution';
@@ -27,7 +27,6 @@
 	{dpr}
 >
 	<World>
-		<Debug />
 		<Scene />
 	</World>
 </Canvas>

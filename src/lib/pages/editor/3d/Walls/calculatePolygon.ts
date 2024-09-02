@@ -164,13 +164,10 @@ export function calculatePolygon(lineId: string, layoutData: LayoutData) {
 
 			const endings: Ending[] = [0, 1];
 
-			// если одна из точек соеденённой линии совпадает с концом рассчитываемой линии, то меняем местами точки соеденённой линии
+			// если присоединенная линия подсоединена своим концом - переворачиваем её для правильного расчёта улга между стенами
 
-			for (const vertexId of layoutData.lines[connectedLineId].vertices) {
-				if (vertexId === line.vertices[1]) {
-					[endings[0], endings[1]] = [endings[1], endings[0]];
-					break;
-				}
+			if (layoutData.lines[connectedLineId].vertices[1] === line.vertices[ending]) {
+				[endings[0], endings[1]] = [endings[1], endings[0]];
 			}
 
 			wallConnectionsScheme[ending].all.push({
@@ -211,8 +208,6 @@ export function calculatePolygon(lineId: string, layoutData: LayoutData) {
 	wallConnectionsScheme[1].CCW = endConnections.CCW as Connection;
 	wallConnectionsScheme[1].CW = endConnections.CW as Connection;
 
-	console.log(lineId, wallConnectionsScheme);
-
 	// create polygon of intersections
 
 	const polygon: { x: number; y: number }[] = [];
@@ -223,6 +218,18 @@ export function calculatePolygon(lineId: string, layoutData: LayoutData) {
 		for (const direction of directions) {
 			// if there are no connections, add rectangular wall ending
 			if (!currentConnections[direction]) {
+				addRectangularWallEnding(polygon, line, ending, direction, layoutData);
+				continue;
+			}
+
+			// if lines are parallel, add rectangular wall ending
+			const connectedLineSlope =
+				currentConnections[direction].end.y / currentConnections[direction].end.x;
+			const lineSlope =
+				(getLineEnding(lineId, 0, layoutData).y - getLineEnding(lineId, 1, layoutData).y) /
+				(getLineEnding(lineId, 0, layoutData).x - getLineEnding(lineId, 1, layoutData).x);
+
+			if (Math.abs(connectedLineSlope / lineSlope - 1) < 0.001) {
 				addRectangularWallEnding(polygon, line, ending, direction, layoutData);
 				continue;
 			}
@@ -240,15 +247,14 @@ export function calculatePolygon(lineId: string, layoutData: LayoutData) {
 			// с каким концом стены соеденина рассчитываемая стена (0 или 1 - start или end)
 
 			let connectedWallEnding;
+			const lineEndingVertex = line.vertices[ending];
+			const connectedLineVertices = layoutData.lines[currentConnections[direction].id].vertices;
 
-			const connectedLineVertices = layoutData.lines[currentConnections[direction]!.id].vertices;
-
-			for (const vertexId of connectedLineVertices) {
-				if (vertexId === line.vertices[0]) {
-					connectedWallEnding = 0;
-				} else {
-					connectedWallEnding = 1;
-				}
+			if (connectedLineVertices[0] === lineEndingVertex) {
+				connectedWallEnding = 0;
+			}
+			if (connectedLineVertices[1] === lineEndingVertex) {
+				connectedWallEnding = 1;
 			}
 
 			const invertNormals = direction === (ending === 0 ? 'CCW' : 'CW');
