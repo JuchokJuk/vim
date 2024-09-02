@@ -10,7 +10,7 @@
 	import { canvas } from '$lib/shared/store/canvas';
 	import { editorMode } from '$lib/shared/store/editorMode';
 	import Furniture from './Furniture/Furniture.svelte';
-	import Ground from './Ground.svelte';
+	import Floor from './Floor/Floor.svelte';
 	import { EquirectangularReflectionMapping, HalfFloatType, SRGBColorSpace } from 'three';
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import { useRapier } from '@threlte/rapier';
@@ -107,7 +107,7 @@
 <Sky />
 
 <Walls />
-<!-- <Ground /> -->
+<Floor />
 
 <!-- <Furniture /> -->
 

@@ -1,13 +1,19 @@
 <script lang="ts">
+	import { layout } from '$lib/shared/store/layout';
 	import { T } from '@threlte/core';
 	import { useTexture } from '@threlte/extras';
 	import { AutoColliders } from '@threlte/rapier';
 	import { MeshStandardMaterial, RepeatWrapping, Texture } from 'three';
+	import { calculatePolygon } from './calculatePolygon';
+	import { createShape } from '$lib/shared/utils/shape/createShape';
+	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
+
+	import GridMaterial from './GridMaterial/GridMaterial.svelte';
 
 	function transform(texture: Texture) {
 		texture.wrapS = RepeatWrapping;
 		texture.wrapT = RepeatWrapping;
-		texture.repeat.set(4, 4);
+		texture.repeat.set(1, 1);
 		return texture;
 	}
 
@@ -26,11 +32,35 @@
 		groundMaterial.normalMap = normal;
 		groundMaterial.needsUpdate = true;
 	});
+
+	function createAreaShape(areaId: string) {
+		const vertices = calculatePolygon(areaId, layoutData);
+
+		if (vertices.length < 3) return;
+
+		vertices.map((vertex) => {
+			vertex.x *= 0.01;
+			vertex.y *= 0.01;
+		});
+
+		return createShape(vertices);
+	}
+
+	$: layoutData = $layout.data;
 </script>
 
 <AutoColliders shape="trimesh" friction={0}>
-	<T.Mesh rotation.x={Math.PI * -0.5} position.x={-4} position.z={-4} receiveShadow>
-		<T.PlaneGeometry args={[8, 8]} />
-		<T is={groundMaterial} />
+	<T.Mesh rotation.x={Math.PI * -0.5} position.y={-0.01} receiveShadow>
+		<!-- <T.ShadowMaterial opacity={0.25} /> -->
+		<GridMaterial />
+		<T.PlaneGeometry args={[SCENE_SIZE * 16, SCENE_SIZE * 16]} />
 	</T.Mesh>
 </AutoColliders>
+{#each Object.keys(layoutData.areas) as areaId}
+	{@const areaShape = createAreaShape(areaId)}
+
+	<T.Mesh rotation.x={Math.PI * -0.5} receiveShadow>
+		<T is={groundMaterial} />
+		<T.ShapeGeometry args={[areaShape]} />
+	</T.Mesh>
+{/each}

@@ -8,6 +8,7 @@ export default defineConfig({
 			scss: {
 				additionalData: `
 					@use "sass:map";
+					@import "$lib/shared/styles/variables/colors/colors.scss";
 					@import "$lib/shared/styles/variables/roundings.scss";
 					@import "$lib/shared/styles/variables/spacings.scss";
 					@import "$lib/shared/styles/mixins/spacing.scss";
@@ -16,6 +17,6 @@ export default defineConfig({
 					@import "$lib/shared/styles/mixins/card.scss";
 				`
 			}
-		}
+		},
 	}
 });

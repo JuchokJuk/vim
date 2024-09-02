@@ -4,13 +4,13 @@
 	import { BoxGeometry, Mesh, MeshStandardMaterial, RepeatWrapping, Texture } from 'three';
 	import { CSG } from 'three-csg-ts';
 	import { AutoColliders } from '@threlte/rapier';
-	import { mergeVertices } from './mergeVertices';
+	import { mergeVertices } from '$lib/shared/utils/shape/mergeVertices';
 	import { useTexture } from '@threlte/extras';
 	import { walls as wallsStore } from '$lib/shared/store/walls';
 	import Door from './Objects/Door.svelte';
 	import Window from './Objects/Window.svelte';
-	import { extrudeShape } from './extrudeShape';
-	import { createShape } from './createShape';
+	import { extrudeShape } from '$lib/shared/utils/shape/extrudeShape';
+	import { createShape } from '$lib/shared/utils/shape/createShape';
 	import { shiftPoint } from '$lib/shared/utils/math/shiftPoint';
 	import { layout } from '$lib/shared/store/layout';
 	import type { LayoutData } from '$lib/shared/API/projects/layouts';
@@ -90,8 +90,8 @@
 		return texture;
 	}
 
-	// const color = useTexture('/textures/wall/baseColor.webp', { transform });
-	// const normal = useTexture('/textures/wall/normal.webp', { transform });
+	const color = useTexture('/textures/wall/baseColor.webp', { transform });
+	const normal = useTexture('/textures/wall/normal.webp', { transform });
 
 	const wallMaterial = new MeshStandardMaterial({
 		color: '#F4EFE9',
@@ -99,11 +99,12 @@
 		roughness: 0.9
 	});
 
-	// Promise.all([color, normal]).then(([color, normal]) => {
-	// 	wallMaterial.map = color;
-	// 	wallMaterial.normalMap = normal;
-	// 	wallMaterial.needsUpdate = true;
-	// });
+	// todo: починить ререндер и пересчёт геометрии стены
+	Promise.all([color, normal]).then(([color, normal]) => {
+		wallMaterial.map = color;
+		wallMaterial.normalMap = normal;
+		wallMaterial.needsUpdate = true;
+	});
 
 	$: layoutData = $layout.data;
 
