@@ -6,12 +6,20 @@
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
 	import { softShadows } from '$lib/shared/store/performanceSettings/shadows';
-	import { HalfFloatType, EquirectangularReflectionMapping, SRGBColorSpace } from 'three';
+	import { HalfFloatType, EquirectangularReflectionMapping, SRGBColorSpace, Color } from 'three';
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import skyEnvironment from './sky.hdr?url';
 	import { SoftShadows } from '@threlte/extras';
+	import { theme } from '$lib/shared/store/theme';
+
+	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 
 	const { scene } = useThrelte();
+
+	$: {
+		scene.background = new Color(colors[`${$theme}-surface-0`]);
+	}
+
 	// Environment ios fix
 	const loader = new RGBELoader();
 	loader.setDataType(HalfFloatType);
