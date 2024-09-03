@@ -9,6 +9,7 @@
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
 	import GridMaterial from './GridMaterial/GridMaterial.svelte';
+	import { floor } from '$lib/shared/store/dollhouse';
 
 	function transform(texture: Texture) {
 		texture.wrapS = RepeatWrapping;
@@ -51,16 +52,17 @@
 
 <AutoColliders shape="trimesh" friction={0}>
 	<T.Mesh rotation.x={Math.PI * -0.5} position.y={-0.01} receiveShadow>
-		<!-- <T.ShadowMaterial opacity={0.25} /> -->
 		<GridMaterial />
 		<T.PlaneGeometry args={[SCENE_SIZE * 16, SCENE_SIZE * 16]} />
 	</T.Mesh>
 </AutoColliders>
-{#each Object.keys(layoutData.areas) as areaId}
-	{@const areaShape = createAreaShape(areaId)}
+<T.Group bind:ref={$floor}>
+	{#each Object.keys(layoutData.areas) as areaId}
+		{@const areaShape = createAreaShape(areaId)}
 
-	<T.Mesh rotation.x={Math.PI * -0.5} receiveShadow>
-		<T is={groundMaterial} />
-		<T.ShapeGeometry args={[areaShape]} />
-	</T.Mesh>
-{/each}
+		<T.Mesh rotation.x={Math.PI * -0.5} receiveShadow>
+			<T is={groundMaterial} />
+			<T.ShapeGeometry args={[areaShape]} />
+		</T.Mesh>
+	{/each}
+</T.Group>

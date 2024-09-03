@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>Варианты</title>
+	<title>Варианты – VIM</title>
 </svelte:head>
 
 {#await layouts}

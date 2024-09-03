@@ -1,18 +1,14 @@
 <script lang="ts">
 	import { useThrelte } from '@threlte/core';
 	import Camera from './Camera.svelte';
-	import Sky from './Sky.svelte';
 	import Effects from './Effects.svelte';
-	import { interactivity, SoftShadows } from '@threlte/extras';
-
+	import { interactivity } from '@threlte/extras';
 	import Walls from './Walls/Walls.svelte';
 	import Player from './Player.svelte';
 	import { canvas } from '$lib/shared/store/canvas';
 	import { editorMode } from '$lib/shared/store/editorMode';
 	import Furniture from './Furniture/Furniture.svelte';
 	import Floor from './Floor/Floor.svelte';
-	import { EquirectangularReflectionMapping, HalfFloatType, SRGBColorSpace } from 'three';
-	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import { useRapier } from '@threlte/rapier';
 	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
 	import {
@@ -26,8 +22,7 @@
 		postProcessingDegraded,
 		degradePostProcessing
 	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
-
-	import sky from './sky.hdr?url';
+	import Sky from './Sky/Sky.svelte';
 
 	const { invalidate, scene, renderer, camera, dpr } = useThrelte();
 
@@ -66,17 +61,6 @@
 	ambientOcclusion.subscribe(invalidate);
 	antiAliasing.subscribe(invalidate);
 
-	// Environment ios fix
-	const loader = new RGBELoader();
-	loader.setDataType(HalfFloatType);
-
-	loader.load(sky, (texture) => {
-		texture.mapping = EquirectangularReflectionMapping;
-		texture.colorSpace = SRGBColorSpace;
-		scene.environment = texture;
-		scene.environmentIntensity = 0.125;
-	});
-
 	const { pause, resume } = useRapier();
 
 	$: if ($editorMode === 'firstPerson') {
@@ -100,16 +84,12 @@
 	{/key}
 {/if}
 
-{#if $softShadows}
-	<SoftShadows focus={0.5} />
-{/if}
-
 <Sky />
 
 <Walls />
 <Floor />
 
-<!-- <Furniture /> -->
+<Furniture />
 
 {#if $editorMode === 'firstPerson'}
 	<Player position={[-4, 4, -4]} />

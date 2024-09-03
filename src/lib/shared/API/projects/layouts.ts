@@ -60,7 +60,32 @@ export type Line = {
 	holes: string[];
 };
 
-export type Hole = unknown;
+export type Hole = {
+	id: string;
+	type: string;
+	prototype: string;
+	name: string;
+	misc: Record<string, unknown>;
+	properties: {
+		altitude:
+			| {
+					length: number;
+			  }
+			| undefined;
+		width: {
+			length: number;
+		};
+		height: {
+			length: number;
+		};
+		thickness: {
+			length: number;
+		};
+	};
+	visible: boolean;
+	offset: number;
+	line: string;
+};
 
 export type Area = {
 	id: string;

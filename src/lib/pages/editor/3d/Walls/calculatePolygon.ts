@@ -100,7 +100,7 @@ function intersectWalls(
 	);
 }
 
-function getLineEnding(lineId: string, ending: Ending, layoutData: LayoutData) {
+export function getLineEnding(lineId: string, ending: Ending, layoutData: LayoutData) {
 	return layoutData.vertices[layoutData.lines[lineId].vertices[ending]];
 }
 

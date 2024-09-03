@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
-	import { calculatePolygon } from './calculatePolygon';
+	import { calculatePolygon, getLineEnding } from './calculatePolygon';
 	import { BoxGeometry, Mesh, MeshStandardMaterial, RepeatWrapping, Texture } from 'three';
 	import { CSG } from 'three-csg-ts';
 	import { AutoColliders } from '@threlte/rapier';
 	import { mergeVertices } from '$lib/shared/utils/shape/mergeVertices';
 	import { useTexture } from '@threlte/extras';
-	import { walls as wallsStore } from '$lib/shared/store/walls';
+	import { walls as wallsStore } from '$lib/shared/store/dollhouse';
 	import Door from './Objects/Door.svelte';
 	import Window from './Objects/Window.svelte';
 	import { extrudeShape } from '$lib/shared/utils/shape/extrudeShape';
@@ -14,6 +14,7 @@
 	import { shiftPoint } from '$lib/shared/utils/math/shiftPoint';
 	import { layout } from '$lib/shared/store/layout';
 	import type { LayoutData } from '$lib/shared/API/projects/layouts';
+	import WallMaterial from './WallMaterial.svelte';
 
 	function createWall(lineId: string, layoutData: LayoutData) {
 		const line = layoutData.lines[lineId];
@@ -36,47 +37,66 @@
 			rotation: { x: number; y: number; z: number };
 		}[] = [];
 
-		// // CSG
-		// if (wall?.entities) {
-		// 	for (const entityKey in wall.entities) {
-		// 		const entity = wall.entities[entityKey];
+		// CSG
+		if (line?.holes) {
+			for (const holeId of line.holes) {
+				const hole = layoutData.holes[holeId];
+				console.log(hole);
 
-		// 		if (entity.cut) {
-		// 			const cut = new Mesh(
-		// 				new BoxGeometry(entity.cut.height, entity.cut.width, wall.thickness * 1.5)
-		// 			);
+				const cut = new Mesh(
+					new BoxGeometry(
+						hole.properties.height.length * 0.01,
+						hole.properties.width.length * 0.01,
+						line.properties.thickness.length * 0.01
+					)
+				);
 
-		// 			const { x, y } = shiftPoint(
-		// 				{ x: 0, y: 0 },
-		// 				{ x: wall.end.x - wall.start.x, y: wall.end.y - wall.start.y },
-		// 				entity.offsetX
-		// 			);
+				const wallStartX = getLineEnding(lineId, 0, layoutData).x * 0.01;
+				const wallEndX = getLineEnding(lineId, 1, layoutData).x * 0.01;
+				const wallStartY = getLineEnding(lineId, 0, layoutData).y * 0.01;
+				const wallEndY = getLineEnding(lineId, 1, layoutData).y * 0.01;
 
-		// 			cut.position.x = wall.start.x + x;
-		// 			cut.position.y = wall.start.y + y;
-		// 			cut.position.z = entity.cut.height / 2 + entity.offsetY + entity.cut.y;
+				const dx = wallEndX - wallStartX;
+				const dy = wallEndY - wallStartY;
 
-		// 			cut.rotation.x = Math.PI * -0.5;
-		// 			cut.rotation.z = Math.PI * -0.5;
+				const offset = Math.sqrt(dx ** 2 + dy ** 2);
 
-		// 			cut.rotation.y = -Math.atan2(wall.end.y - wall.start.y, wall.end.x - wall.start.x);
-		// 			cut.updateMatrixWorld();
+				const { x, y } = shiftPoint(
+					{ x: 0, y: 0 },
+					{
+						x: dx,
+						y: dy
+					},
+					offset / 2
+				);
 
-		// 			const model = {
-		// 				'/models/window.glb': Window,
-		// 				'/models/door.glb': Door
-		// 			}[entity.model];
+				let offsetY = 0;
+				if (hole.properties.altitude?.length) offsetY = hole.properties.altitude.length * 0.01;
 
-		// 			entities.push({
-		// 				model,
-		// 				position: { x: wall.start.x + x, y: wall.start.y + y, z: entity.offsetY },
-		// 				rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
-		// 			});
+				cut.position.x = wallStartX + x;
+				cut.position.y = wallStartY + y;
+				cut.position.z = (hole.properties.height.length * 0.01) / 2 + offsetY;
 
-		// 			base = CSG.subtract(base, cut);
-		// 		}
-		// 	}
-		// }
+				cut.rotation.x = Math.PI * -0.5;
+				cut.rotation.z = Math.PI * -0.5;
+
+				cut.rotation.y = -Math.atan2(dy, dx);
+				cut.updateMatrixWorld();
+
+				let model;
+
+				if (hole.type.includes('door')) model = Door;
+				if (hole.type.includes('window')) model = Window;
+
+				entities.push({
+					model,
+					position: { x: wallStartX + x, y: wallStartY + y, z: offsetY },
+					rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
+				});
+
+				base = CSG.subtract(base, cut);
+			}
+		}
 
 		base.geometry = mergeVertices(base.geometry);
 
@@ -107,7 +127,6 @@
 	});
 
 	$: layoutData = $layout.data;
-
 	$: console.log(layoutData);
 </script>
 
@@ -117,17 +136,19 @@
 
 		{#if wall}
 			<AutoColliders shape="trimesh" friction={0}>
-				<T is={wall.object} castShadow receiveShadow material={wallMaterial} />
+				<T is={wall.object} castShadow receiveShadow>
+					<WallMaterial />
+				</T>
 			</AutoColliders>
-		{/if}
 
-		<!-- {#each wall.entities as entity}
-			<T.Group
-				position={[entity.position.x, entity.position.y, entity.position.z]}
-				rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
-			>
-				<svelte:component this={entity.model} />
-			</T.Group>
-		{/each} -->
+			{#each wall.entities as entity}
+				<T.Group
+					position={[entity.position.x, entity.position.y, entity.position.z]}
+					rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
+				>
+					<svelte:component this={entity.model} />
+				</T.Group>
+			{/each}
+		{/if}
 	{/each}
 </T.Group>

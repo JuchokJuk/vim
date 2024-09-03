@@ -1,11 +1,27 @@
 <script lang="ts">
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
-	import { T } from '@threlte/core';
+	import { T, useThrelte } from '@threlte/core';
 	import { sky } from '$lib/shared/store/sky';
 	import { spring } from '$lib/shared/utils/spring';
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
 	import { softShadows } from '$lib/shared/store/performanceSettings/shadows';
+	import { HalfFloatType, EquirectangularReflectionMapping, SRGBColorSpace } from 'three';
+	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+	import skyEnvironment from './sky.hdr?url';
+	import { SoftShadows } from '@threlte/extras';
+
+	const { scene } = useThrelte();
+	// Environment ios fix
+	const loader = new RGBELoader();
+	loader.setDataType(HalfFloatType);
+
+	loader.load(skyEnvironment, (texture) => {
+		texture.mapping = EquirectangularReflectionMapping;
+		texture.colorSpace = SRGBColorSpace;
+		scene.environment = texture;
+		scene.environmentIntensity = 0.25;
+	});
 
 	const radius = SCENE_SIZE * 0.5;
 
@@ -50,3 +66,7 @@
 	shadow.bias={bias}
 	color="#FFFFFF"
 />
+
+{#if $softShadows}
+	<SoftShadows focus={0.5} />
+{/if}

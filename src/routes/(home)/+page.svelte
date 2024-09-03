@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>Проекты</title>
+	<title>Проекты – VIM</title>
 </svelte:head>
 
 {#await projects}
