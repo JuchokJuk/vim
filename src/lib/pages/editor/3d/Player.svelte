@@ -7,6 +7,7 @@
 
 	import { playerController } from '$lib/shared/store/playerController';
 	import { onDestroy } from 'svelte';
+	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
 	export let position: [number, number, number];
 
@@ -100,6 +101,8 @@
 <T.Group {position}>
 	<RigidBody bind:rigidBody enabledRotations={[false, false, false]} gravityScale={2}>
 		<T.PerspectiveCamera
+			near={0.01}
+			far={SCENE_SIZE * 2}
 			makeDefault
 			fov={startFov + extraFov}
 			quaternion={[rotation.x, rotation.y, rotation.z, rotation.w]}

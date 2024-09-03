@@ -27,63 +27,63 @@
 	const furniture: Furniture[] = [
 		{
 			component: Bed,
-			position: [-1.8, 0, -6.5],
+			position: [-1.8+17, 0, -6.5-4.6],
 			rotation: 0,
 			dragging: false,
 			name: 'Кровать'
 		},
 		{
 			component: Chair,
-			position: [-1.15, 0, -4.5],
+			position: [-1.15+17, 0, -4.5-4.6],
 			rotation: 2.7,
 			dragging: false,
 			name: 'Стул'
 		},
 		{
 			component: Desk,
-			position: [-1.2, 0, -4],
+			position: [-1.2+17, 0, -4-4.6],
 			rotation: Math.PI,
 			dragging: false,
 			name: 'Стол'
 		},
 		{
 			component: Table,
-			position: [-0.5, 0, -7.5],
+			position: [-0.5+17, 0, -7.5-4.6],
 			rotation: Math.PI / 2,
 			dragging: false,
 			name: 'Столик'
 		},
 		{
 			component: Plant,
-			position: [-3.6, 0, -5.1],
+			position: [-3.6+17, 0, -5.1-4.6],
 			rotation: 0,
 			dragging: false,
 			name: 'Цветок'
 		},
 		{
 			component: Closet,
-			position: [-3.6, 0, -7.1],
+			position: [-3.6+17, 0, -7.1-4.6],
 			rotation: Math.PI * -1.5,
 			dragging: false,
 			name: 'Шкаф'
 		},
 		{
 			component: Mirror,
-			position: [-3.85, 0, -5.8],
+			position: [-3.85+17, 0, -5.8-4.6],
 			rotation: Math.PI,
 			dragging: false,
 			name: 'Зеркало'
 		},
 		{
 			component: Lamp,
-			position: [-2, 3, -6],
+			position: [-2+17, 3, -6-4.6],
 			rotation: Math.PI,
 			dragging: false,
 			name: 'Люстра'
 		},
 		{
 			component: Painting,
-			position: [-3, 1.75, -3.6],
+			position: [-3+17, 1.75, -3.6-4.6],
 			rotation: Math.PI / 2,
 			dragging: false,
 			name: 'Картина'
