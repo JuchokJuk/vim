@@ -44,16 +44,22 @@
 				wallsIntersections.length > 1
 			) {
 				if (wallsIntersections[0].object !== lastWall) {
+					//@ts-expect-error poor typings
 					if (lastWall.material.userData.setOpacity) {
+						//@ts-expect-error poor typings
 						lastWall.material.userData.setOpacity(visible);
 					}
+					//@ts-expect-error poor typings
 					if (wallsIntersections[0].object.material.userData.setOpacity) {
+						//@ts-expect-error poor typings
 						wallsIntersections[0].object.material.userData.setOpacity(transparent);
 					}
 					lastWall = wallsIntersections[0].object;
 				}
 			} else {
+				//@ts-expect-error poor typings
 				if (lastWall.material.userData.setOpacity) {
+					//@ts-expect-error poor typings
 					lastWall.material.userData.setOpacity(visible);
 				}
 				lastWall = undefined;
@@ -63,7 +69,9 @@
 				(wallsIntersections.length && floorIntersections.length) ||
 				wallsIntersections.length > 1
 			) {
+				//@ts-expect-error poor typings
 				if (wallsIntersections[0].object.material.userData.setOpacity) {
+					//@ts-expect-error poor typings
 					wallsIntersections[0].object.material.userData.setOpacity(transparent);
 				}
 				lastWall = wallsIntersections[0].object;

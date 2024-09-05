@@ -1,4 +1,4 @@
-import type { LayoutData } from '$lib/shared/API/fetch/projects/layouts';
+import type { LayoutData } from '$lib/shared/API/projects/layouts';
 
 export function calculatePolygon(areaId: string, layoutData: LayoutData) {
 	const area = layoutData.areas[areaId];

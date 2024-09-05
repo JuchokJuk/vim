@@ -13,7 +13,7 @@
 	import { createShape } from '$lib/shared/utils/shape/createShape';
 	import { shiftPoint } from '$lib/shared/utils/math/shiftPoint';
 	import { layout } from '$lib/shared/store/layout';
-	import type { LayoutData } from '$lib/shared/API/fetch/projects/layouts';
+	import type { LayoutData } from '$lib/shared/API/projects/layouts';
 	import WallMaterial from './WallMaterial.svelte';
 
 	function createWall(lineId: string, layoutData: LayoutData) {
@@ -127,7 +127,6 @@
 	});
 
 	$: layoutData = $layout.data;
-	$: console.log(layoutData);
 </script>
 
 <T.Group rotation.x={Math.PI * -0.5} bind:ref={$wallsStore}>

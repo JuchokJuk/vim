@@ -10,7 +10,7 @@
 	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
 
 	function onPointerMove(event: PointerEvent) {
-		if(!$cameraEnabled) return;
+		if(!$cameraEnabled && $touchScreen) return;
 		if (event.target === $joystick) return;
 
 		const xh = event.movementX * 0.003;

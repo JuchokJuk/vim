@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { useThrelte } from '@threlte/core';
-	import Camera from './Camera.svelte';
+	import PerspectiveCamera from './PerspectiveCamera.svelte';
+	import OrtographicCamera from './OrtographicCamera.svelte';
 	import Effects from './Effects.svelte';
 	import { interactivity } from '@threlte/extras';
 	import Walls from './Walls/Walls.svelte';
@@ -75,13 +76,15 @@
 </script>
 
 {#if $editorMode === 'thirdPerson'}
-	<Camera />
+	<PerspectiveCamera />
 {/if}
 
-{#if enablePostprocessing}
-	{#key $dpr}
-		<Effects />
-	{/key}
+{#if $editorMode === 'firstPerson'}
+	<Player position={[-4, 4, -4]} />
+{/if}
+
+{#if $editorMode === '2d'}
+	<OrtographicCamera />
 {/if}
 
 <Sky />
@@ -89,8 +92,10 @@
 <Walls />
 <Floor />
 
-<!-- <Furniture /> -->
+<Furniture />
 
-{#if $editorMode === 'firstPerson'}
-	<Player position={[-4, 4, -4]} />
+{#if enablePostprocessing}
+	{#key $dpr}
+		<Effects />
+	{/key}
 {/if}

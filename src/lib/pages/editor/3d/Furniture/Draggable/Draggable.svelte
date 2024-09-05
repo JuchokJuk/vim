@@ -11,8 +11,6 @@
 	export let dragging = false;
 	export let rotation = 0;
 
-	let group: Group;
-
 	const { camera } = useThrelte();
 
 	const planeIntersectPoint = new Vector3();
@@ -25,8 +23,6 @@
 
 	function grab(event: Event) {
 		if (event.nativeEvent.button === 2) return;
-
-		if (event.object.parent?.uuid !== group.uuid) return;
 
 		dragging = true;
 
@@ -95,6 +91,6 @@
 
 <svelte:window on:pointermove={move} on:pointerup={release} />
 
-<T.Group {position} on:pointerdown={grab} bind:ref={group} rotation.y={rotation}>
+<T.Group {position} on:pointerdown={grab} rotation.y={rotation}>
 	<slot />
 </T.Group>

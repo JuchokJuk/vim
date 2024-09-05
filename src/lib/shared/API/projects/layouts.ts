@@ -1,4 +1,5 @@
 import { API, user_id_hardcode } from '../API';
+import type { Catalog } from '../furniture';
 
 export type Texture = 'bricks' | 'none';
 
@@ -100,6 +101,7 @@ export type Area = {
 };
 
 export type Item = {
+	catalog: Catalog;
 	id: string;
 	type: string;
 	prototype: 'items';

@@ -19,7 +19,7 @@ export async function getProjects(): Promise<Project[]> {
 	return await API.get('projects', { searchParams: { user_id_hardcode } }).json();
 }
 export async function getProject({ projectId }: { projectId: number }): Promise<Project> {
-	return await API.get(`projects/${projectId}`, { searchParams: { user_id_hardcode: 1 } }).json();
+	return await API.get(`projects/${projectId}`, { searchParams: { user_id_hardcode } }).json();
 }
 
 // update

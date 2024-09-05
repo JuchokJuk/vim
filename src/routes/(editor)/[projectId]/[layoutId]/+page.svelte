@@ -8,10 +8,12 @@
 	import { editorMode } from '$lib/shared/store/editorMode';
 	import DelayedMount from '$lib/shared/UI/DelayedMount.svelte';
 	import { layout } from '$lib/shared/store/layout.js';
+	import { furniture } from '$lib/shared/store/furniture.js';
 
 	export let data;
 
 	$layout = data.layout;
+	$furniture = data.furniture;
 </script>
 
 <svelte:head>

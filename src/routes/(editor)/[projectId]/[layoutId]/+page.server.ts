@@ -1,13 +1,15 @@
-import { getProject } from '$lib/shared/API/fetch/projects/projects';
-import { getProjectLayouts } from '$lib/shared/API/fetch/projects/layouts';
+import { getProject } from '$lib/shared/API/projects/projects';
+import { getProjectLayouts } from '$lib/shared/API/projects/layouts';
 import { error } from '@sveltejs/kit';
 import type { HTTPError } from 'ky';
+import { getFurniture } from '$lib/shared/API/furniture.js';
 
 export async function load({ params }) {
 	try {
-		const [project, layouts] = await Promise.all([
+		const [project, layouts, furniture] = await Promise.all([
 			getProject({ projectId: Number(params.projectId) }),
-			getProjectLayouts({ projectId: Number(params.projectId) })
+			getProjectLayouts({ projectId: Number(params.projectId) }),
+			getFurniture({ skip: 0, limit: 99999 })
 		]);
 
 		const layout = layouts.find((layout) => layout.id === Number(params.layoutId));
@@ -16,7 +18,7 @@ export async function load({ params }) {
 			error(404, 'Layout not found');
 		}
 
-		return { project, layout };
+		return { project, layout, furniture };
 	} catch (e) {
 		error(500, (e as HTTPError).message);
 	}
