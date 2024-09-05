@@ -1,5 +1,5 @@
-import { getProject } from '$lib/shared/API/projects/projects';
-import { getProjectLayouts } from '$lib/shared/API/projects/layouts';
+import { getProject } from '$lib/shared/API/fetch/projects/projects';
+import { getProjectLayouts } from '$lib/shared/API/fetch/projects/layouts';
 import { error } from '@sveltejs/kit';
 import type { HTTPError } from 'ky';
 

@@ -13,7 +13,7 @@
 	import { createShape } from '$lib/shared/utils/shape/createShape';
 	import { shiftPoint } from '$lib/shared/utils/math/shiftPoint';
 	import { layout } from '$lib/shared/store/layout';
-	import type { LayoutData } from '$lib/shared/API/projects/layouts';
+	import type { LayoutData } from '$lib/shared/API/fetch/projects/layouts';
 	import WallMaterial from './WallMaterial.svelte';
 
 	function createWall(lineId: string, layoutData: LayoutData) {
@@ -41,7 +41,6 @@
 		if (line?.holes) {
 			for (const holeId of line.holes) {
 				const hole = layoutData.holes[holeId];
-				console.log(hole);
 
 				const cut = new Mesh(
 					new BoxGeometry(
@@ -70,7 +69,13 @@
 					offset / 2
 				);
 
+				let model;
+				
+				if (hole.type.includes('door')) model = Door;
+				if (hole.type.includes('window')) model = Window;
+				
 				let offsetY = 0;
+				
 				if (hole.properties.altitude?.length) offsetY = hole.properties.altitude.length * 0.01;
 
 				cut.position.x = wallStartX + x;
@@ -82,11 +87,6 @@
 
 				cut.rotation.y = -Math.atan2(dy, dx);
 				cut.updateMatrixWorld();
-
-				let model;
-
-				if (hole.type.includes('door')) model = Door;
-				if (hole.type.includes('window')) model = Window;
 
 				entities.push({
 					model,

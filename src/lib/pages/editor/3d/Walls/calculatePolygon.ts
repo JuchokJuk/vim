@@ -1,4 +1,4 @@
-import type { LayoutData, Line } from '$lib/shared/API/projects/layouts';
+import type { LayoutData, Line } from '$lib/shared/API/fetch/projects/layouts';
 import { getNormalVector } from '$lib/shared/utils/math/getNormalVector';
 import { lineIntersect } from '$lib/shared/utils/math/lineIntersect';
 

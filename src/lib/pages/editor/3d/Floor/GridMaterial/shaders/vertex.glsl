@@ -9,9 +9,7 @@ void main() {
 	#include <defaultnormal_vertex>
 	#include <begin_vertex>
 
-    vec3 pos = position.xzy;
-
-    worldPosition = pos;
+    worldPosition = position.xzy;
     
 	#include <project_vertex>
 	#include <worldpos_vertex>

@@ -1,3 +1,16 @@
+// type FurnitureCategory =
+// 	| 'CHAIR'
+// 	| 'TV_STAND'
+// 	| 'CLOSET'
+// 	| 'STAND'
+// 	| 'COUCH'
+// 	| 'ARMCHAIR'
+// 	| 'BED'
+// 	| 'TABLE'
+// 	| 'SHELF'
+// 	| 'COFFEE_TABLE'
+// 	| 'TV';
+
 export const models = {
 	wall: {
 		windows: [

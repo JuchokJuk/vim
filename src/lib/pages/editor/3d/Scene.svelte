@@ -89,7 +89,7 @@
 <Walls />
 <Floor />
 
-<!-- <Furniture /> -->
+<Furniture />
 
 {#if $editorMode === 'firstPerson'}
 	<Player position={[-4, 4, -4]} />

@@ -56,6 +56,7 @@
 		<T.PlaneGeometry args={[SCENE_SIZE * 16, SCENE_SIZE * 16]} />
 	</T.Mesh>
 </AutoColliders>
+
 <T.Group bind:ref={$floor}>
 	{#each Object.keys(layoutData.areas) as areaId}
 		{@const areaShape = createAreaShape(areaId)}

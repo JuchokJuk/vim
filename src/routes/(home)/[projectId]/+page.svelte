@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getProjectLayouts, type Layout } from '$lib/shared/API/projects/layouts';
+	import { getProjectLayouts, type Layout } from '$lib/shared/API/fetch/projects/layouts.js';
 
 	import { onMount } from 'svelte';
 
