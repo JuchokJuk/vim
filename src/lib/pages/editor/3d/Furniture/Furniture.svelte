@@ -26,7 +26,7 @@
 		const item = $layout.data.items[itemId];
 		furniture.push({
 			position: [item.x * 0.01, 0, -item.y * 0.01],
-			rotation: item.rotation * DEG2RAD,
+			rotation: item.rotation * DEG2RAD - 90 * DEG2RAD,
 			dragging: false,
 			name: item.name,
 			url: models[item.catalog.type_sub.main_type as FurnitureType]
