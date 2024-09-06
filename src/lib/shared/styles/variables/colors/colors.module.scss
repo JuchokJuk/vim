@@ -12,6 +12,7 @@
         text-1: map.get($light, text-1);
         outline-0: map.get($light, outline-0);
         primary-0: map.get($light, primary-0);
+        primary-1: map.get($light, primary-1);
 	}
     dark: {
         shadow-0: map.get($dark, shadow-0);
@@ -27,6 +28,7 @@
         text-2: map.get($dark, text-2);
         outline-0: map.get($dark, outline-0);
         primary-0: map.get($dark, primary-0);
+        primary-1: map.get($light, primary-1);
     }
     const: {
         white-const: map.get($const, white-const);

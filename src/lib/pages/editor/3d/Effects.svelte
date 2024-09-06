@@ -8,7 +8,12 @@
 		SMAAEffect,
 		SMAAPreset,
 		NoiseEffect,
-		BlendFunction
+		OutlineEffect,
+		BlendFunction,
+		Effect,
+
+		KernelSize
+
 	} from 'postprocessing';
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
@@ -17,20 +22,46 @@
 		ambientOcclusion,
 		antiAliasing,
 		bloom,
-		noise
+		noise,
+		postProcessing
 	} from '$lib/shared/store/performanceSettings/postProcessing';
+	import { selectedObjects } from '$lib/shared/store/selectedObjects';
+	import {
+		degradePostProcessing,
+		postProcessingDegraded
+	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
+	import { Color } from 'three';
+	import { theme } from '$lib/shared/store/theme';
 
 	const { renderStage, autoRender, scene, renderer, camera, size } = useThrelte();
 
 	const composer = new EffectComposer(renderer, { depthBuffer: true });
 
+	$: enablePostprocessing =
+		$postProcessing &&
+		(($degradePostProcessing && !$postProcessingDegraded) || !$degradePostProcessing);
+
+	$: outlineEffect = new OutlineEffect(scene, $camera, {
+		blendFunction: BlendFunction.ALPHA,
+		edgeStrength: 10,
+		pulseSpeed: 0.0,
+		visibleEdgeColor: new Color(colors[`${$theme}-primary-0`]).getHex(),
+		hiddenEdgeColor: new Color(colors[`${$theme}-primary-1`]).getHex(),
+		xRay: true,
+		blur: true,
+		kernelSize: KernelSize.SMALL
+	});
+
+	$: outlineEffect.selection.set($selectedObjects);
+
 	$: {
 		composer.removeAllPasses();
 		composer.addPass(new RenderPass(scene, $camera));
 
-		const effects = [];
+		const effects: Effect[] = [outlineEffect];
 
-		if ($antiAliasing) {
+		if ($antiAliasing && enablePostprocessing) {
 			const smaaEffect = new SMAAEffect({
 				preset: SMAAPreset.LOW
 			});
@@ -38,7 +69,7 @@
 			effects.push(smaaEffect);
 		}
 
-		if ($bloom) {
+		if ($bloom && enablePostprocessing) {
 			const bloomEffect = new BloomEffect({
 				luminanceThreshold: 0.99,
 				luminanceSmoothing: 0.025,
@@ -51,7 +82,7 @@
 			effects.push(bloomEffect);
 		}
 
-		if ($noise) {
+		if ($noise && enablePostprocessing) {
 			const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.MULTIPLY });
 			noiseEffect.blendMode.opacity.value = 0.0625;
 
@@ -60,7 +91,7 @@
 
 		composer.addPass(new EffectPass($camera, ...effects));
 
-		if ($ambientOcclusion) {
+		if ($ambientOcclusion && enablePostprocessing) {
 			const n8aoPostPass = new N8AOPostPass(scene, $camera);
 			// n8aoPostPass.setDisplayMode("AO");
 			// n8aoPostPass.configuration.halfRes = true;

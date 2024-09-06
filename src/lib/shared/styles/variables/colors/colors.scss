@@ -10,7 +10,8 @@ $light: (
 	text-0: hsl(0, 0%, 10%),
 	text-1: hsl(0, 0%, 35%),
 	outline-0: hsl(0, 0%, 74%),
-	primary-0: hsl(207, 81%, 56%)
+	primary-0: hsl(207, 81%, 56%),
+	primary-1: hsl(207, 81%, 80%)
 );
 
 $dark: (
@@ -26,7 +27,8 @@ $dark: (
 	text-1: hsl(0, 0%, 87%),
 	text-2: hsl(0, 0%, 99%),
 	outline-0: hsl(0, 0%, 21%),
-	primary-0: hsl(207, 100%, 56%)
+	primary-0: hsl(207, 100%, 56%),
+	primary-1: hsl(207, 100%, 80%)
 );
 
 $const: (

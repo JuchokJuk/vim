@@ -3,11 +3,12 @@ import { persisted } from 'svelte-persisted-store';
 
 export const degradeQualityOnFrequentRerender = persisted(
 	'degradeQualityOnFrequentRerender',
-	false
+	false,
+	{ syncTabs: false }
 );
 
-export const degradePostProcessing = persisted('degradePostProcessing', false);
-export const degradeResolution = persisted('degradeResolution', false);
+export const degradePostProcessing = persisted('degradePostProcessing', false, { syncTabs: false });
+export const degradeResolution = persisted('degradeResolution', false, { syncTabs: false });
 
 export const LOW_RESOLUTION = 0.5;
 export const NORMAL_RESOLUTION = 1;

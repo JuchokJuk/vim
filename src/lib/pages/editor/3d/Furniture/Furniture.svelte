@@ -9,6 +9,8 @@
 	import Object from './Object.svelte';
 	import { models } from '$lib/shared/mocks/models';
 	import type { FurnitureType } from '$lib/shared/API/furniture';
+	import { selectedObjects } from '$lib/shared/store/selectedObjects';
+	import { T } from '@threlte/core';
 
 	interface Furniture {
 		position: [number, number, number];
@@ -34,18 +36,24 @@
 	}
 
 	$: $cameraEnabled = furniture.reduce((a, b) => a && !b.dragging, true);
+
+	function deselect() {
+		$selectedObjects.clear();
+	}
 </script>
 
-{#each furniture as item (item)}
-	<Draggable
-		{floorPlane}
-		bind:position={item.position}
-		bind:rotation={item.rotation}
-		bind:dragging={item.dragging}
-	>
-		<!-- <Info content={item.name} let:open> -->
-		<!-- openInfo={open} -->
-		<Object url={item.url} />
-		<!-- </Info> -->
-	</Draggable>
-{/each}
+<T.Group on:pointermissed={deselect}>
+	{#each furniture as item (item)}
+		<Draggable
+			{floorPlane}
+			bind:position={item.position}
+			bind:rotation={item.rotation}
+			bind:dragging={item.dragging}
+		>
+			<!-- <Info content={item.name} let:open> -->
+			<!-- openInfo={open} -->
+			<Object url={item.url} />
+			<!-- </Info> -->
+		</Draggable>
+	{/each}
+</T.Group>

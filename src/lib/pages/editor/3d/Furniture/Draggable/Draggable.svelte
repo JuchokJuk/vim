@@ -4,6 +4,8 @@
 	import type { Event } from './Event';
 
 	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	import { selectedObjects } from '$lib/shared/store/selectedObjects';
+	import { tick } from 'svelte';
 
 	export let position: [number, number, number];
 	export let floorPlane: Plane;
@@ -11,7 +13,10 @@
 	export let dragging = false;
 	export let rotation = 0;
 
-	const { camera } = useThrelte();
+	const { camera, invalidate } = useThrelte();
+
+	let selected = false;
+	let group: Group;
 
 	const planeIntersectPoint = new Vector3();
 	const pointer = new Vector2();
@@ -21,8 +26,27 @@
 	let startRotation = 0;
 	let rotationOffset = 0;
 
+	async function select() {
+		$selectedObjects.clear();
+
+		group.traverse((node) => {
+			// @ts-expect-error poor typings
+			if (node.isMesh) {
+				$selectedObjects.add(node);
+			}
+		});
+
+		$selectedObjects = $selectedObjects;
+
+		selected = true;
+	}
+
+	function deselect() {
+		selected = false;
+	}
+
 	function grab(event: Event) {
-		if (event.nativeEvent.button === 2) return;
+		if (event.nativeEvent.button === 2 || !selected) return;
 
 		dragging = true;
 
@@ -91,6 +115,13 @@
 
 <svelte:window on:pointermove={move} on:pointerup={release} />
 
-<T.Group {position} on:pointerdown={grab} rotation.y={rotation}>
+<T.Group
+	{position}
+	on:pointerdown={grab}
+	on:click={select}
+	on:pointermissed={deselect}
+	rotation.y={rotation}
+	bind:ref={group}
+>
 	<slot />
 </T.Group>

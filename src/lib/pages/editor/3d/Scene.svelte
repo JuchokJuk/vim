@@ -69,10 +69,6 @@
 	} else {
 		pause();
 	}
-
-	$: enablePostprocessing =
-		$postProcessing &&
-		(($degradePostProcessing && !$postProcessingDegraded) || !$degradePostProcessing);
 </script>
 
 {#if $editorMode === 'thirdPerson'}
@@ -94,8 +90,6 @@
 
 <Furniture />
 
-{#if enablePostprocessing}
-	{#key $dpr}
-		<Effects />
-	{/key}
-{/if}
+{#key $dpr}
+	<Effects />
+{/key}
