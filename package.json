@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@dimforge/rapier3d-compat": "^0.14.0",
 		"@sveltejs/adapter-auto": "^3.2.4",
-		"@sveltejs/kit": "^2.5.25",
+		"@sveltejs/kit": "^2.4.3",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@threlte/core": "^7.3.1",
 		"@threlte/extras": "^8.11.5",
