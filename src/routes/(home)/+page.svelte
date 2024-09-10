@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProjectsGrid from '$lib/pages/home/ProjectsGrid/ProjectsGrid.svelte';
-	import { getProjects, type Project } from '$lib/shared/API/projects/projects';
+	import { getProjects, type Project } from '$lib/shared/SDK/API/queries/projects/projects';
 	import { onMount } from 'svelte';
 
 	let projects: Promise<Project[]> | [] = [];

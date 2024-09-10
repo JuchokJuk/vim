@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { touchScreen } from '$lib/shared/store/touchScreen';
+	import { touchScreen } from '$lib/shared/store/UI/touchScreen';
 	import KeyboardControls from './KeyboardControls.svelte';
 	import TouchControls from './TouchControls/TouchControls.svelte';
 

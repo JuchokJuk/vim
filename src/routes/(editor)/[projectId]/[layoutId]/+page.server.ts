@@ -1,8 +1,8 @@
-import { getProject } from '$lib/shared/API/projects/projects';
-import { getProjectLayouts } from '$lib/shared/API/projects/layouts';
+import { getProject } from '$lib/shared/SDK/API/queries/projects/projects';
+import { getProjectLayouts } from '$lib/shared/SDK/API/queries/projects/layouts';
 import { error } from '@sveltejs/kit';
 import type { HTTPError } from 'ky';
-import { getFurniture } from '$lib/shared/API/furniture.js';
+import { getFurniture } from '$lib/shared/SDK/API/queries/furniture.js';
 
 export async function load({ params }) {
 	try {

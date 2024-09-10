@@ -11,7 +11,7 @@
 		<div class="avatar grid place-content-center rounded-md">И</div>
 		<span>Иван Иванов</span>
 	</div>
-	<button class="button flex items-center pl-xl pr-lg py-lg gap-md rounded-md paragraph-md">
+	<button class="button flex items-center pl-2xl pr-xl py-lg gap-md rounded-md paragraph-md">
 		Новый проект
 		<Plus class="icon" />
 	</button>
@@ -35,6 +35,8 @@
 		height: 42px;
 		background: var(--primary-0);
 		color: var(--white-const);
+		box-shadow: 0px 1px 0px 0px var(--light-const) inset;
+
 
 		:global(.icon) {
 			width: 20px;

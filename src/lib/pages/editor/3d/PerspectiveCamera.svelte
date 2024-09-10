@@ -5,6 +5,7 @@
 	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import { T, useThrelte } from '@threlte/core';
 	import { OrbitControls } from '@threlte/extras';
+	import { onDestroy } from 'svelte';
 	import {
 		Object3D,
 		PerspectiveCamera,
@@ -87,6 +88,14 @@
 		$frequentRerender = false;
 		invalidate();
 	}
+
+	onDestroy(() => {
+		if (lastWall) {
+			//@ts-expect-error poor typings
+			lastWall.material.userData.setOpacity(visible);
+			lastWall = undefined;
+		}
+	});
 </script>
 
 <!-- bind:ref={camera} -->

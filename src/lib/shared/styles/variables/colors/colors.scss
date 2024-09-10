@@ -32,5 +32,6 @@ $dark: (
 );
 
 $const: (
-	white-const: hsl(0, 0%, 100%)
+	white-const: hsl(0, 0%, 100%),
+	light-const: hsla(0, 0%, 100%, 0.25)
 );

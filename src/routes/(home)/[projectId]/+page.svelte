@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getProjectLayouts, type Layout } from '$lib/shared/API/projects/layouts.js';
+	import { getProjectLayouts, type Layout } from '$lib/shared/SDK/API/queries/projects/layouts.js';
 
 	import { onMount } from 'svelte';
 
@@ -8,6 +8,7 @@
 	export let data;
 
 	onMount(() => {
+		// USE ONLY FOR METADATA, NEEDS TRANSFORM TO LOCAL DATA STRUCTURE
 		layouts = getProjectLayouts({ projectId: Number(data.projectId) });
 	});
 </script>

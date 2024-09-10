@@ -32,5 +32,6 @@
     }
     const: {
         white-const: map.get($const, white-const);
+        light-const: map.get($const, light-const);
     }
 }

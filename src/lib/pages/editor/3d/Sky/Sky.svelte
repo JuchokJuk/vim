@@ -10,7 +10,7 @@
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import skyEnvironment from './sky.hdr?url';
 	import { SoftShadows } from '@threlte/extras';
-	import { theme } from '$lib/shared/store/theme';
+	import { theme } from '$lib/shared/store/UI/theme';
 
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 

@@ -23,7 +23,7 @@
 	<title>VIM</title>
 </svelte:head>
 
-<div class="container h-full grid">
+<div class="container grid">
 	{#key data.url}
 		<div class="h-full area-1" in:fade={{ duration: 200, delay: 400 }} out:fade={{ duration: 200 }}>
 			<slot />
@@ -34,5 +34,6 @@
 <style lang="scss">
 	.container {
 		background: var(--surface-0);
+		min-height: 100%;
 	}
 </style>

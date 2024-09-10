@@ -25,14 +25,14 @@
 		noise,
 		postProcessing
 	} from '$lib/shared/store/performanceSettings/postProcessing';
-	import { selectedObjects } from '$lib/shared/store/selectedObjects';
+	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
 	import {
 		degradePostProcessing,
 		postProcessingDegraded
 	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 	import { Color } from 'three';
-	import { theme } from '$lib/shared/store/theme';
+	import { theme } from '$lib/shared/store/UI/theme';
 
 	const { renderStage, autoRender, scene, renderer, camera, size } = useThrelte();
 

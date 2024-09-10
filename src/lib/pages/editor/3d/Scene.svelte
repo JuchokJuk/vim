@@ -4,12 +4,12 @@
 	import OrtographicCamera from './OrtographicCamera.svelte';
 	import Effects from './Effects.svelte';
 	import { interactivity } from '@threlte/extras';
-	import Walls from './Walls/Walls.svelte';
+	import Walls from './project/Walls/Walls.svelte';
 	import Player from './Player.svelte';
 	import { canvas } from '$lib/shared/store/canvas';
 	import { editorMode } from '$lib/shared/store/editorMode';
-	import Furniture from './Furniture/Furniture.svelte';
-	import Floor from './Floor/Floor.svelte';
+	import Furniture from './project/Furniture/Furniture.svelte';
+	import Floor from './project/Floor/Floor.svelte';
 	import { useRapier } from '@threlte/rapier';
 	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
 	import {
@@ -24,6 +24,8 @@
 		degradePostProcessing
 	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import Sky from './Sky/Sky.svelte';
+	import Project from './project/Project.svelte';
+	import Grid from './Grid/Grid.svelte';
 
 	const { invalidate, scene, renderer, camera, dpr } = useThrelte();
 
@@ -83,12 +85,11 @@
 	<OrtographicCamera />
 {/if}
 
+<Grid />
+
 <Sky />
 
-<Walls />
-<Floor />
-
-<Furniture />
+<Project />
 
 {#key $dpr}
 	<Effects />
