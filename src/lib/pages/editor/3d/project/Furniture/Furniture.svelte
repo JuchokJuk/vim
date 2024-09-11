@@ -14,6 +14,7 @@
 
 	function unselect() {
 		$selectedObjects.clear();
+		$selectedObjects = $selectedObjects;
 	}
 </script>
 

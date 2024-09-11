@@ -21,7 +21,7 @@
 	<p class="paragraph-xl">Загрузка вариантов...</p>
 {:then layouts}
 	{#each layouts as layout}
-		<a class="block" href="/{data.projectId}/{layout.id}">{layout.id}</a>
+		<a class="block" href="/{data.projectId}/{layout.id}">{layout.name}</a>
 	{/each}
 {:catch error}
 	<p class="paragraph-xl">Ошибка загрузки вариантов: <code>{error.message}</code></p>

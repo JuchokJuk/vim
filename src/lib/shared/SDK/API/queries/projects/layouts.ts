@@ -9,6 +9,7 @@ export type Layout = {
 	created_at: string;
 	updated_at: string;
 	data: LayoutData;
+	name: string;
 };
 
 export type LayoutData = {
