@@ -5,7 +5,10 @@
 	import { calculatePolygon } from './calculatePolygon';
 	import { createShape } from '$lib/shared/utils/shape/createShape';
 	import { floor } from '$lib/shared/store/dollhouse';
-	import { serverLayout } from '$lib/shared/SDK/state/serverProject';
+	import {
+		localRooms,
+		type LocalRooms
+	} from '$lib/shared/editorEngine/state/localProject/localRooms';
 
 	function transform(texture: Texture) {
 		texture.wrapS = RepeatWrapping;
@@ -14,9 +17,9 @@
 		return texture;
 	}
 
-	const color = useTexture('/textures/ground/baseColor.webp', { transform });
-	const metallicRoughness = useTexture('/textures/ground/metallicRoughness.webp', { transform });
-	const normal = useTexture('/textures/ground/normal.webp', { transform });
+	const color = useTexture('/textures/floor/baseColor.webp', { transform });
+	const metallicRoughness = useTexture('/textures/floor/metallicRoughness.webp', { transform });
+	const normal = useTexture('/textures/floor/normal.webp', { transform });
 
 	const groundMaterial = new MeshStandardMaterial({
 		color: '#F4EFE9'
@@ -30,25 +33,18 @@
 		groundMaterial.needsUpdate = true;
 	});
 
-	function createAreaShape(areaId: string) {
-		const vertices = calculatePolygon(areaId, layoutData);
+	function createAreaShape(areaId: string, localRooms: LocalRooms) {
+		const vertices = calculatePolygon(areaId, localRooms);
 
 		if (vertices.length < 3) return;
 
-		vertices.map((vertex) => {
-			vertex.x *= 0.01;
-			vertex.y *= 0.01;
-		});
-
 		return createShape(vertices);
 	}
-
-	$: layoutData = $serverLayout.data;
 </script>
 
 <T.Group bind:ref={$floor}>
-	{#each Object.keys(layoutData.areas) as areaId}
-		{@const areaShape = createAreaShape(areaId)}
+	{#each Object.keys($localRooms.areas) as areaId}
+		{@const areaShape = createAreaShape(areaId, $localRooms)}
 
 		<T.Mesh rotation.x={Math.PI * -0.5} receiveShadow>
 			<T is={groundMaterial} />

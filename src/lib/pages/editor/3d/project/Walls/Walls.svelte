@@ -12,27 +12,25 @@
 	import { extrudeShape } from '$lib/shared/utils/shape/extrudeShape';
 	import { createShape } from '$lib/shared/utils/shape/createShape';
 	import { shiftPoint } from '$lib/shared/utils/math/shiftPoint';
-	import type { LayoutData } from '$lib/shared/SDK/API/queries/projects/layouts';
 	import WallMaterial from './WallMaterial.svelte';
-	import { serverLayout } from '$lib/shared/SDK/state/serverProject';
+	import {
+		localRooms,
+		type LocalRooms
+	} from '$lib/shared/editorEngine/state/localProject/localRooms';
 
-	function createWall(lineId: string, layoutData: LayoutData) {
-		const line = layoutData.lines[lineId];
-		const vertices = calculatePolygon(lineId, layoutData);
+	function createWall(lineId: string, localRooms: LocalRooms) {
+		const line = localRooms.lines[lineId];
+		const vertices = calculatePolygon(lineId, localRooms);
 
 		if (vertices.length < 3) return;
 
-		vertices.map((vertex) => {
-			vertex.x *= 0.01;
-			vertex.y *= 0.01;
-		});
-
 		const wallShape = createShape(vertices);
-		const wallGeometry = extrudeShape(wallShape, line.properties.height.length * 0.01);
+		const wallGeometry = extrudeShape(wallShape, line.properties.height.length);
 
 		let base: Mesh = new Mesh(wallGeometry);
 		const entities: {
 			model: any;
+			size: { x: number; y: number; z: number };
 			position: { x: number; y: number; z: number };
 			rotation: { x: number; y: number; z: number };
 		}[] = [];
@@ -40,20 +38,20 @@
 		// CSG
 		if (line?.holes) {
 			for (const holeId of line.holes) {
-				const hole = layoutData.holes[holeId];
+				const hole = localRooms.holes[holeId];
 
 				const cut = new Mesh(
 					new BoxGeometry(
-						hole.properties.height.length * 0.01,
-						hole.properties.width.length * 0.01,
-						line.properties.thickness.length * 0.01
+						hole.properties.height.length,
+						hole.properties.width.length,
+						line.properties.thickness.length
 					)
 				);
 
-				const wallStartX = getLineEnding(lineId, 0, layoutData).x * 0.01;
-				const wallEndX = getLineEnding(lineId, 1, layoutData).x * 0.01;
-				const wallStartY = getLineEnding(lineId, 0, layoutData).y * 0.01;
-				const wallEndY = getLineEnding(lineId, 1, layoutData).y * 0.01;
+				const wallStartX = getLineEnding(lineId, 0, localRooms).x;
+				const wallEndX = getLineEnding(lineId, 1, localRooms).x;
+				const wallStartY = getLineEnding(lineId, 0, localRooms).y;
+				const wallEndY = getLineEnding(lineId, 1, localRooms).y;
 
 				const dx = wallEndX - wallStartX;
 				const dy = wallEndY - wallStartY;
@@ -66,21 +64,25 @@
 						x: dx,
 						y: dy
 					},
-					offset / 2
+					offset * hole.offset
 				);
 
 				let model;
-				
+
 				if (hole.type.includes('door')) model = Door;
 				if (hole.type.includes('window')) model = Window;
-				
+
 				let offsetY = 0;
-				
-				if (hole.properties.altitude?.length) offsetY = hole.properties.altitude.length * 0.01;
+
+				if (hole.properties.altitude?.length) offsetY = hole.properties.altitude.length;
+
+				cut.scale.x = 1.01;
+				cut.scale.y = 1.01;
+				cut.scale.z = 1.01;
 
 				cut.position.x = wallStartX + x;
 				cut.position.y = wallStartY + y;
-				cut.position.z = (hole.properties.height.length * 0.01) / 2 + offsetY;
+				cut.position.z = (hole.properties.height.length) / 2 + offsetY;
 
 				cut.rotation.x = Math.PI * -0.5;
 				cut.rotation.z = Math.PI * -0.5;
@@ -90,6 +92,11 @@
 
 				entities.push({
 					model,
+					size: {
+						x: hole.properties.width.length,
+						y: hole.properties.height.length,
+						z: line.properties.thickness.length
+					},
 					position: { x: wallStartX + x, y: wallStartY + y, z: offsetY },
 					rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
 				});
@@ -125,13 +132,11 @@
 		wallMaterial.normalMap = normal;
 		wallMaterial.needsUpdate = true;
 	});
-
-	$: layoutData = $serverLayout.data;
 </script>
 
 <T.Group rotation.x={Math.PI * -0.5} bind:ref={$wallsStore}>
-	{#each Object.keys(layoutData.lines) as lineId}
-		{@const wall = createWall(lineId, layoutData)}
+	{#each Object.keys($localRooms.lines) as lineId}
+		{@const wall = createWall(lineId, $localRooms)}
 
 		{#if wall}
 			<AutoColliders shape="trimesh" friction={0}>
@@ -145,7 +150,7 @@
 					position={[entity.position.x, entity.position.y, entity.position.z]}
 					rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
 				>
-					<svelte:component this={entity.model} />
+					<svelte:component this={entity.model} size={entity.size} />
 				</T.Group>
 			{/each}
 		{/if}

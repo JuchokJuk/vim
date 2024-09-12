@@ -4,12 +4,9 @@
 	import OrtographicCamera from './OrtographicCamera.svelte';
 	import Effects from './Effects.svelte';
 	import { interactivity } from '@threlte/extras';
-	import Walls from './project/Walls/Walls.svelte';
 	import Player from './Player.svelte';
 	import { canvas } from '$lib/shared/store/canvas';
 	import { editorMode } from '$lib/shared/store/editorMode';
-	import Furniture from './project/Furniture/Furniture.svelte';
-	import Floor from './project/Floor/Floor.svelte';
 	import { useRapier } from '@threlte/rapier';
 	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
 	import {
@@ -17,12 +14,7 @@
 		antiAliasing,
 		bloom,
 		noise,
-		postProcessing
 	} from '$lib/shared/store/performanceSettings/postProcessing';
-	import {
-		postProcessingDegraded,
-		degradePostProcessing
-	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import Sky from './Sky/Sky.svelte';
 	import Project from './project/Project.svelte';
 	import Grid from './Grid/Grid.svelte';

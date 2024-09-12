@@ -123,35 +123,26 @@ export type Item = {
 };
 
 // create
-export async function addProjectLayout({
-	projectId,
-	layout
-}: {
-	projectId: number;
-	layout: unknown;
-}) {
-	return await API.post(`projects/${projectId}/layouts`, {
-		searchParams: { user_id_hardcode },
+export async function addLayout({ projectId, layout }: { projectId: number; layout: unknown }) {
+	return await API.post('layouts', {
+		searchParams: { user_id_hardcode, project_id: projectId },
 		json: layout
 	}).json();
 }
 // read
-export async function getProjectLayouts({ projectId }: { projectId: number }): Promise<Layout[]> {
-	return await API.get(`projects/${projectId}/layouts`, {
+export async function getLayouts({ projectId }: { projectId: number }): Promise<Layout[]> {
+	return await API.get('layouts', {
+		searchParams: { user_id_hardcode, project_id: projectId }
+	}).json();
+}
+export async function getLayout({ layoutId }: { layoutId: number }): Promise<Layout> {
+	return await API.get(`layouts/${layoutId}`, {
 		searchParams: { user_id_hardcode }
 	}).json();
 }
 // update
-export async function updateProjectLayout({
-	projectId,
-	layoutId,
-	layout
-}: {
-	projectId: number;
-	layoutId: number;
-	layout: unknown;
-}) {
-	return await API.put(`projects/${projectId}/layouts/${layoutId}`, {
+export async function updateLayout({ layoutId, layout }: { layoutId: number; layout: unknown }) {
+	return await API.patch(`layouts/${layoutId}`, {
 		searchParams: { user_id_hardcode },
 		json: layout
 	}).json();

@@ -1,11 +1,19 @@
 import { DEG2RAD } from 'three/src/math/MathUtils.js';
 import type { Layout } from '../../queries/projects/layouts';
-import type { LocalItems } from '$lib/shared/SDK/state/localProject/localItems';
+import type { LocalItems } from '$lib/shared/editorEngine/state/localProject/localItems';
 import { models } from '$lib/shared/constants/mocks/models';
 import type { FurnitureType } from '../../queries/furniture';
 
 export function serverToLocalLayout(serverLayout: Layout) {
 	const layout = structuredClone(serverLayout);
+
+	if (layout.data.vertices === undefined) layout.data.vertices = {};
+	if (layout.data.lines === undefined) layout.data.lines = {};
+	if (layout.data.holes === undefined) layout.data.holes = {};
+	if (layout.data.areas === undefined) layout.data.areas = {};
+	if (layout.data.items === undefined) layout.data.items = {};
+
+	// todo: create real local data structures
 
 	for (const key in layout.data.vertices) {
 		layout.data.vertices[key].x *= 0.01;
@@ -18,7 +26,6 @@ export function serverToLocalLayout(serverLayout: Layout) {
 	}
 
 	for (const key in layout.data.holes) {
-		layout.data.holes[key].offset *= 0.01;
 		if (layout.data.holes[key].properties.altitude !== undefined) {
 			layout.data.holes[key].properties.altitude.length *= 0.01;
 		}
@@ -27,7 +34,12 @@ export function serverToLocalLayout(serverLayout: Layout) {
 		layout.data.holes[key].properties.thickness.length *= 0.01;
 	}
 
-	const walls = {};
+	const rooms = {
+		holes: layout.data.holes,
+		lines: layout.data.lines,
+		vertices: layout.data.vertices,
+		areas: layout.data.areas
+	};
 
 	const items: LocalItems = {};
 
@@ -44,5 +56,5 @@ export function serverToLocalLayout(serverLayout: Layout) {
 		};
 	}
 
-	return { walls, items };
+	return { rooms, items };
 }

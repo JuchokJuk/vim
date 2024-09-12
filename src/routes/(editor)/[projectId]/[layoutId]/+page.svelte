@@ -7,25 +7,25 @@
 	import PlayerUI from '$lib/pages/editor/PlayerUI/PlayerUI.svelte';
 	import { editorMode } from '$lib/shared/store/editorMode';
 	import DelayedMount from '$lib/shared/UI/DelayedMount.svelte';
-	import { furniture } from '$lib/shared/store/project/furniture.js';
-	import { serverLayout, serverProject } from '$lib/shared/SDK/state/serverProject.js';
-	import { localItems } from '$lib/shared/SDK/state/localProject/localItems.js';
-	import { serverToLocalLayout } from '$lib/shared/SDK/API/transform/global/serverToLocalLayout.js';
-	import { localWalls } from '$lib/shared/SDK/state/localProject/localWalls.js';
+	// import { furniture } from '$lib/shared/store/project/furniture.js';
+	import { serverLayout } from '$lib/shared/editorEngine/state/serverProject.js';
+	import { localItems } from '$lib/shared/editorEngine/state/localProject/localItems.js';
+	import { serverToLocalLayout } from '$lib/shared/editorEngine/API/transform/global/serverToLocalLayout.js';
+	import { localRooms } from '$lib/shared/editorEngine/state/localProject/localRooms.js';
 
 	export let data;
 
-	$serverProject = data.project;
 	$serverLayout = data.layout;
-	$furniture = data.furniture;
+	// $furniture = data.furniture;
 
-	const { walls, items } = serverToLocalLayout($serverLayout);
-	$localWalls = walls;
+	const { rooms, items } = serverToLocalLayout(data.layout);
+	
+	$localRooms = rooms;
 	$localItems = items;
 </script>
 
 <svelte:head>
-	<title>{$serverProject.name} – VIM</title>
+	<title>{data.project.name} – VIM</title>
 </svelte:head>
 
 <div class="absolute top-0 left-0 w-full h-full">

@@ -6,7 +6,7 @@
 	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
 	import { theme } from '$lib/shared/store/UI/theme';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
-	import { updateItem } from '$lib/shared/SDK/actions/updateItem';
+	import { updateItem } from '$lib/shared/editorEngine/actions/updateItem';
 
 	export let itemId: string;
 

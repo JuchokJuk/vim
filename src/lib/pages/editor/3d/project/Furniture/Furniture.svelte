@@ -6,7 +6,7 @@
 	import ObjectComponent from './Object.svelte';
 	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
 	import { T } from '@threlte/core';
-	import { localItems } from '$lib/shared/SDK/state/localProject/localItems';
+	import { localItems } from '$lib/shared/editorEngine/state/localProject/localItems';
 
 	const floorPlane = new Plane(new Vector3(0, 1, 0), 0);
 

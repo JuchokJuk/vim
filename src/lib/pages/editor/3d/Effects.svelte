@@ -11,9 +11,7 @@
 		OutlineEffect,
 		BlendFunction,
 		Effect,
-
 		KernelSize
-
 	} from 'postprocessing';
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
@@ -61,34 +59,35 @@
 
 		const effects: Effect[] = [outlineEffect];
 
-		if ($antiAliasing && enablePostprocessing) {
-			const smaaEffect = new SMAAEffect({
-				preset: SMAAPreset.LOW
-			});
+		if (enablePostprocessing) {
+			if ($antiAliasing) {
+				const smaaEffect = new SMAAEffect({
+					preset: SMAAPreset.LOW
+				});
 
-			effects.push(smaaEffect);
+				effects.push(smaaEffect);
+			}
+
+			if ($bloom) {
+				const bloomEffect = new BloomEffect({
+					luminanceThreshold: 0.99,
+					luminanceSmoothing: 0.025,
+					mipmapBlur: true,
+					intensity: 4,
+					radius: 1,
+					levels: 4
+				});
+
+				effects.push(bloomEffect);
+			}
+
+			if ($noise) {
+				const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.MULTIPLY });
+				noiseEffect.blendMode.opacity.value = 0.0625;
+
+				effects.push(noiseEffect);
+			}
 		}
-
-		if ($bloom && enablePostprocessing) {
-			const bloomEffect = new BloomEffect({
-				luminanceThreshold: 0.99,
-				luminanceSmoothing: 0.025,
-				mipmapBlur: true,
-				intensity: 4,
-				radius: 1,
-				levels: 4
-			});
-
-			effects.push(bloomEffect);
-		}
-
-		if ($noise && enablePostprocessing) {
-			const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.MULTIPLY });
-			noiseEffect.blendMode.opacity.value = 0.0625;
-
-			effects.push(noiseEffect);
-		}
-
 		composer.addPass(new EffectPass($camera, ...effects));
 
 		if ($ambientOcclusion && enablePostprocessing) {

@@ -1,15 +1,15 @@
-import type { FurnitureType } from '../../SDK/API/queries/furniture';
+import type { FurnitureType } from '../../editorEngine/API/queries/furniture';
 
 export const models: Record<FurnitureType, string> = {
-	CHAIR: '/models/lib/11-transformed.glb',
-	TV_STAND: '/models/lib/29-transformed.glb',
-	CLOSET: '/models/lib/17-transformed.glb',
-	STAND: '/models/lib/30-transformed.glb',
-	COUCH: '/models/lib/9-transformed.glb',
-	ARMCHAIR: '/models/lib/10-transformed.glb',
-	BED: '/models/lib/26-transformed.glb',
-	TABLE: '/models/lib/34-transformed.glb',
-	SHELF: '/models/lib/33-transformed.glb',
-	COFFEE_TABLE: '/models/lib/12-transformed.glb',
-	TV: '/models/lib/27-transformed.glb'
+	COUCH: '/models/static/couch.glb',
+	ARMCHAIR: '/models/static/armchair.glb',
+	CHAIR: '/models/static/chair.glb',
+	COFFEE_TABLE: '/models/static/cofeeTable.glb',
+	CLOSET: '/models/static/closet.glb',
+	BED: '/models/static/bed.glb',
+	TV: '/models/static/tv.glb',
+	TV_STAND: '/models/static/tvStand.glb',
+	STAND: '/models/static/stand.glb',
+	SHELF: '/models/static/shelf.glb',
+	TABLE: '/models/static/table.glb',
 };
