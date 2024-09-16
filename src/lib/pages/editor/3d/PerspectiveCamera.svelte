@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
+	import { localRooms } from '$lib/shared/editorEngine/state/localProject/localRooms';
 	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
 	import { floor, walls } from '$lib/shared/store/dollhouse';
 	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import { T, useThrelte } from '@threlte/core';
-	import { OrbitControls } from '@threlte/extras';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import type CameraControlsType from 'camera-controls';
 	import {
 		Object3D,
 		PerspectiveCamera,
@@ -16,6 +17,8 @@
 	} from 'three';
 
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
+	import { getInitialCameraPosition } from './getInitialCameraPosition';
+	import CameraControls from '$lib/shared/3d/CameraControls.svelte';
 
 	const { invalidate } = useThrelte();
 	// todo: fix on-demand with damping https://github.com/mrdoob/three.js/issues/23090
@@ -80,14 +83,27 @@
 		}
 	}
 
-	function onChange() {
+	function onWake() {
 		$frequentRerender = true;
 	}
 
-	async function onEnd() {
+	async function onSleep() {
 		$frequentRerender = false;
-		invalidate();
+		// invalidate();
 	}
+
+	let cameraControls: CameraControlsType;
+	onMount(() => {
+		const intialPosition = getInitialCameraPosition($localRooms.vertices);
+		cameraControls.setLookAt(
+			intialPosition.x + 8,
+			8,
+			-intialPosition.z + 8,
+			intialPosition.x,
+			0,
+			-intialPosition.z
+		);
+	});
 
 	onDestroy(() => {
 		if (lastWall) {
@@ -98,28 +114,17 @@
 	});
 </script>
 
-<!-- bind:ref={camera} -->
-<T.PerspectiveCamera
-	bind:ref={camera}
-	position.x={-8}
-	position.y={8}
-	position.z={0}
-	fov={60}
-	near={0.01}
-	far={SCENE_SIZE * 2}
-	makeDefault
->
-	<!-- enableDamping={!$touchScreen} -->
-	<OrbitControls
+<T.PerspectiveCamera bind:ref={camera} fov={60} near={0.01} far={SCENE_SIZE * 2} makeDefault>
+	<CameraControls
+		bind:ref={cameraControls}
 		enabled={$cameraEnabled}
 		zoomToCursor
 		minPolarAngle={0}
-		minDistance={1}
-		maxDistance={SCENE_SIZE * 0.25}
 		maxPolarAngle={85 * DEG2RAD}
-		on:change={onChange}
-		on:end={onEnd}
-		on:change={castRay}
+		minDistance={2.5}
+		infinityDolly
+		on:wake={onWake}
+		on:update={castRay}
+		on:sleep={onSleep}
 	/>
-	<!-- on:change={castRay} -->
 </T.PerspectiveCamera>

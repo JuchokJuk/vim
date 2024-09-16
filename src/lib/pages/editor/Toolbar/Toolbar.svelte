@@ -43,6 +43,7 @@
 
 <svelte:window on:keydown={(e) => e.key === 'Escape' && close()} />
 
+<!-- todo: fix scroll -->
 <div
 	class="toolbar-container bottom-xl px-2xl"
 	class:opened

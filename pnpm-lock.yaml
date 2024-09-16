@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      camera-controls:
+        specifier: ^2.9.0
+        version: 2.9.0(three@0.167.1)
     devDependencies:
       '@dimforge/rapier3d-compat':
         specifier: ^0.14.0
@@ -590,6 +594,11 @@ packages:
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
+
+  camera-controls@2.9.0:
+    resolution: {integrity: sha512-TpCujnP0vqPppTXXJRYpvIy0xq9Tro6jQf2iYUxlDpPCNxkvE/XGaTuwIxnhINOkVP/ob2CRYXtY3iVYXeMEzA==}
+    peerDependencies:
+      three: '>=0.126.1'
 
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -1862,6 +1871,10 @@ snapshots:
   buffer-crc32@1.0.0: {}
 
   callsites@3.1.0: {}
+
+  camera-controls@2.9.0(three@0.167.1):
+    dependencies:
+      three: 0.167.1
 
   chalk@4.1.2:
     dependencies:

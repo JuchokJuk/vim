@@ -69,11 +69,9 @@ export type Hole = {
 	name: string;
 	misc: Record<string, unknown>;
 	properties: {
-		altitude:
-			| {
-					length: number;
-			  }
-			| undefined;
+		altitude?: {
+			length: number;
+		};
 		width: {
 			length: number;
 		};
@@ -83,6 +81,7 @@ export type Hole = {
 		thickness: {
 			length: number;
 		};
+		flip_orizzontal?: boolean;
 	};
 	visible: boolean;
 	offset: number;

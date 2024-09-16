@@ -28,7 +28,7 @@
 	<title>{data.project.name} – VIM</title>
 </svelte:head>
 
-<div class="absolute top-0 left-0 w-full h-full">
+<div class="absolute overflow-hidden top-0 left-0 w-full h-full">
 	<Editor />
 </div>
 

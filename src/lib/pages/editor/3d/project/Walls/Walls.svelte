@@ -31,6 +31,7 @@
 		const entities: {
 			model: any;
 			size: { x: number; y: number; z: number };
+			flip: boolean;
 			position: { x: number; y: number; z: number };
 			rotation: { x: number; y: number; z: number };
 		}[] = [];
@@ -82,7 +83,7 @@
 
 				cut.position.x = wallStartX + x;
 				cut.position.y = wallStartY + y;
-				cut.position.z = (hole.properties.height.length) / 2 + offsetY;
+				cut.position.z = hole.properties.height.length / 2 + offsetY;
 
 				cut.rotation.x = Math.PI * -0.5;
 				cut.rotation.z = Math.PI * -0.5;
@@ -97,6 +98,7 @@
 						y: hole.properties.height.length,
 						z: line.properties.thickness.length
 					},
+					flip: Boolean(hole.properties.flip_orizzontal),
 					position: { x: wallStartX + x, y: wallStartY + y, z: offsetY },
 					rotation: { x: cut.rotation.x, y: cut.rotation.y, z: cut.rotation.z }
 				});
@@ -150,7 +152,7 @@
 					position={[entity.position.x, entity.position.y, entity.position.z]}
 					rotation={[entity.rotation.x, entity.rotation.y, entity.rotation.z - Math.PI * 0.5]}
 				>
-					<svelte:component this={entity.model} size={entity.size} />
+					<svelte:component this={entity.model} size={entity.size} flip={entity.flip} />
 				</T.Group>
 			{/each}
 		{/if}

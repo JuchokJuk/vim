@@ -1,18 +1,9 @@
 <script lang="ts">
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
-	import { floor, walls } from '$lib/shared/store/dollhouse';
 	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
 	import { T, useThrelte } from '@threlte/core';
 	import { OrbitControls } from '@threlte/extras';
-	import {
-		Object3D,
-		PerspectiveCamera,
-		Raycaster,
-		Vector2,
-		type Intersection,
-		type Object3DEventMap
-	} from 'three';
 
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 
