@@ -34,7 +34,7 @@
 
 	const parent = useParent();
 
-	const { renderer, invalidate } = useThrelte();
+	const { renderer, invalidate, renderStage } = useThrelte();
 
 	export let ref = new CameraControls(
 		$parent as PerspectiveCamera | OrthographicCamera,
@@ -43,9 +43,12 @@
 
 	useTask(
 		(delta) => {
-			if (ref.update(delta)) {
-				invalidate();
-			}
+			// todo: idk why RAF is needed https://github.com/yomotsu/camera-controls/issues/508
+			requestAnimationFrame(() => {
+				if (ref.update(delta)) {
+					invalidate();
+				}
+			});
 		},
 		{ autoStart: true, autoInvalidate: false }
 	);

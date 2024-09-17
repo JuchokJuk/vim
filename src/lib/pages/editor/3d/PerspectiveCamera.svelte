@@ -4,7 +4,7 @@
 	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
 	import { floor, walls } from '$lib/shared/store/dollhouse';
 	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
-	import { T, useThrelte } from '@threlte/core';
+	import { T } from '@threlte/core';
 	import { onDestroy, onMount } from 'svelte';
 	import type CameraControlsType from 'camera-controls';
 	import {
@@ -20,7 +20,6 @@
 	import { getInitialCameraPosition } from './getInitialCameraPosition';
 	import CameraControls from '$lib/shared/3d/CameraControls.svelte';
 
-	const { invalidate } = useThrelte();
 	// todo: fix on-demand with damping https://github.com/mrdoob/three.js/issues/23090
 
 	let camera: PerspectiveCamera;
@@ -93,6 +92,7 @@
 	}
 
 	let cameraControls: CameraControlsType;
+
 	onMount(() => {
 		const intialPosition = getInitialCameraPosition($localRooms.vertices);
 		cameraControls.setLookAt(
@@ -103,6 +103,7 @@
 			0,
 			-intialPosition.z
 		);
+		cameraControls.zoomTo(1, true);
 	});
 
 	onDestroy(() => {
@@ -114,11 +115,18 @@
 	});
 </script>
 
-<T.PerspectiveCamera bind:ref={camera} fov={60} near={0.01} far={SCENE_SIZE * 2} makeDefault>
+<T.PerspectiveCamera
+	bind:ref={camera}
+	zoom={0.5}
+	fov={60}
+	near={0.01}
+	far={SCENE_SIZE * 2}
+	makeDefault
+>
 	<CameraControls
 		bind:ref={cameraControls}
 		enabled={$cameraEnabled}
-		zoomToCursor
+		dollyToCursor
 		minPolarAngle={0}
 		maxPolarAngle={85 * DEG2RAD}
 		minDistance={2.5}
