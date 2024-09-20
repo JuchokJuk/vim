@@ -3,7 +3,7 @@
 	import { clamp, smoothstep } from 'three/src/math/MathUtils.js';
 	import Object from './Object.svelte';
 	import { scale } from 'svelte/transition';
-	import { objects } from '../assets/objects';
+	import { itemsCatalog } from '$lib/shared/editorEngine/state/server/itemsCatalog';
 
 	export let itemSize: number;
 
@@ -12,7 +12,7 @@
 	function scroll(event: WheelEvent) {
 		$scrollProgress = clamp(
 			$scrollProgress - event.deltaY,
-			-(objects.length * itemSize - objectsContainer.getBoundingClientRect().width),
+			-($itemsCatalog.data.length * itemSize - objectsContainer.getBoundingClientRect().width),
 			0
 		);
 	}
@@ -62,7 +62,7 @@
 >
 	<div class="objects-wrapper" on:wheel|passive={scroll}>
 		<div class="objects" style="transform: translateX({$scrollProgress}px);">
-			{#each objects as object, index (object)}
+			{#each $itemsCatalog.data as funritureItem, index (funritureItem)}
 				<div
 					in:scale|global={{
 						duration: 200,
@@ -73,7 +73,7 @@
 					}}
 				>
 					<Object
-						src={object}
+						object={funritureItem}
 						scale={getScale(index, $scrollProgress, $pointerX, $hover)}
 						{itemSize}
 					/>

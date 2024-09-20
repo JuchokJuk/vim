@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Object from './Object.svelte';
 	import { scale, fade } from 'svelte/transition';
+	import { itemsCatalog } from '$lib/shared/editorEngine/state/server/itemsCatalog';
 
 	export let close: () => void;
-
-	import { itemsCatalog } from '$lib/shared/editorEngine/state/server/itemsCatalog';
 </script>
 
 <div class="objects p-2xl gap-xl">
