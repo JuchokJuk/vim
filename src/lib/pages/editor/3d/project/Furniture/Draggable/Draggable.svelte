@@ -7,9 +7,11 @@
 	import { theme } from '$lib/shared/store/UI/theme';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 	import { updateItem } from '$lib/shared/editorEngine/actions/updateItem';
+	import type { LocalItem } from '$lib/shared/editorEngine/state/local/project/localItems';
 
-	export let itemId: string;
+	export let item: LocalItem;
 
+	// todo: remove duplicated state?
 	export let position: [number, number, number];
 	export let floorPlane: Plane;
 
@@ -123,7 +125,7 @@
 		dragging = false;
 		draggingRotationHandle = false;
 
-		updateItem({ id: itemId, position, rotation });
+		updateItem(item);
 
 		$frequentRerender = false;
 	}

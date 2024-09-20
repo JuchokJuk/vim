@@ -1,6 +1,7 @@
 import { DEG2RAD } from 'three/src/math/MathUtils.js';
 import type { Catalog, FurnitureType } from '../../queries/furniture';
 import { models } from '$lib/shared/constants/mocks/models';
+import { uuid } from '$lib/shared/utils/uuid';
 
 /*
 LOCAL ITEM:
@@ -44,16 +45,13 @@ rotation: number;
 */
 
 export function catalogItemToLocalItem(catalogItem: Catalog) {
-	console.log(catalogItem);
-
-	const item = structuredClone(catalogItem);
-
 	return {
-		id: item.id,
+		id: uuid(),
+		catalog: catalogItem,
 		position: [0, 0, 0] as [number, number, number],
 		rotation: -90 * DEG2RAD,
 		dragging: false,
-		name: item.name,
-		url: models[item.type_sub.main_type as FurnitureType]
+		name: catalogItem.name,
+		url: models[catalogItem.type_sub.main_type as FurnitureType]
 	};
 }

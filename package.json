@@ -28,6 +28,7 @@
 		"ky": "^1.7.2",
 		"lucide-svelte": "^0.424.0",
 		"n8ao": "1.8.3",
+		"nanoid": "^5.0.7",
 		"postprocessing": "^6.36.1",
 		"prettier": "^3.3.3",
 		"prettier-plugin-svelte": "^3.2.6",

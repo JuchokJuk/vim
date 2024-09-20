@@ -1,16 +1,21 @@
-import type { Catalog } from '../API/queries/furniture';
-import { localItems } from '../state/local/project/localItems';
+import { uuid } from '$lib/shared/utils/uuid';
+import { localToServerItem } from '../API/transform/partial/localToServerItem';
+import { localItems, type LocalItem } from '../state/local/project/localItems';
 import { serverLayout } from '../state/server/serverProject';
 
-export function addItem(newItem: Catalog /* server item */) {
+export function addItem(newItem: LocalItem) {
+	const newItemId = uuid();
+
+	console.log({ newItem });
+
 	serverLayout.update((layout) => {
-		layout.data.items[newItem.id] = newItem;
+		layout.data.items[newItemId] = localToServerItem(newItem);
 
 		return layout;
 	});
 
 	localItems.update((items) => {
-		items[newItem.id] = newItem;
+		items[newItemId] = newItem;
 		return items;
 	});
 }

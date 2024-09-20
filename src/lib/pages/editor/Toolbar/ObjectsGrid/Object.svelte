@@ -14,7 +14,7 @@
 	}
 
 	function setActveFurnitureItem() {
-		$activeFurnitureItem = (object);
+		$activeFurnitureItem = object;
 		close();
 	}
 </script>

@@ -54,4 +54,9 @@
 			position={[0.5, Math.min(1.0, size.y / 2), 0]}
 		/>
 	</T.Group>
+<!-- {:catch}
+	<T.Mesh>
+		<T.BoxGeometry args={[1, 1, 1]} />
+		<T.MeshStandardMaterial color="red" />
+	</T.Mesh> -->
 {/await}

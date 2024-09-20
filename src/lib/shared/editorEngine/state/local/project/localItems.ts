@@ -1,7 +1,9 @@
+import type { Catalog } from '$lib/shared/editorEngine/API/queries/furniture';
 import { writable } from 'svelte/store';
 
 export interface LocalItem {
 	id: string;
+	catalog: Catalog;
 	position: [number, number, number];
 	rotation: number;
 	dragging: boolean;

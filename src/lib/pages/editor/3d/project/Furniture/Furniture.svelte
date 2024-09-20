@@ -44,7 +44,7 @@
 	{#each Object.keys($localItems) as itemId (itemId)}
 		<Draggable
 			{floorPlane}
-			{itemId}
+			item={$localItems[itemId]}
 			bind:position={$localItems[itemId].position}
 			bind:rotation={$localItems[itemId].rotation}
 			bind:dragging={$localItems[itemId].dragging}

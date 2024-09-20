@@ -96,7 +96,7 @@ export type Area = {
 	misc: Record<string, unknown>;
 	properties: Record<string, unknown>;
 	visible: boolean;
-	vertices: ['WH6EbvseGPN', 'lPIW0ix0zIv', 'ol2RcCEACnq', 'TOf5vpwi9Qv'];
+	vertices: string[];
 	holes: [];
 };
 

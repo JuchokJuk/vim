@@ -9,7 +9,7 @@ export function getInitialCameraPosition(roomVertices: Record<string, Vertex>) {
 		position.z += vertex.y;
 	}
 
-	const verticesCount = Object.keys(roomVertices).length;
+	const verticesCount = Object.keys(roomVertices).length || 1;
 
 	position.x /= verticesCount;
 	position.z /= verticesCount;
