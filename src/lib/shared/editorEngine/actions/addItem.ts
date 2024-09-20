@@ -6,8 +6,6 @@ import { serverLayout } from '../state/server/serverProject';
 export function addItem(newItem: LocalItem) {
 	const newItemId = uuid();
 
-	console.log({ newItem });
-
 	serverLayout.update((layout) => {
 		layout.data.items[newItemId] = localToServerItem(newItem);
 

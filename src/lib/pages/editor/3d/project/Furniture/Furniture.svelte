@@ -11,8 +11,11 @@
 	import { onMount } from 'svelte';
 	import { addItem } from '$lib/shared/editorEngine/actions/addItem';
 	import { catalogItemToLocalItem } from '$lib/shared/editorEngine/API/transform/partial/catalogItemToLocalItem';
+	import { Raycaster } from 'three/src/core/Raycaster.js';
+	import { Vector2 } from 'three/src/math/Vector2.js';
+	import { useCursor } from '@threlte/extras';
 
-	const { renderer } = useThrelte();
+	const { renderer, camera } = useThrelte();
 
 	const floorPlane = new Plane(new Vector3(0, 1, 0), 0);
 
@@ -23,11 +26,27 @@
 		$selectedObjects = $selectedObjects;
 	}
 
-	function addNewItem() {
+	const pointer = new Vector2();
+	const raycaster = new Raycaster();
+	const planeIntersectPoint = new Vector3();
+
+	function addNewItem(event: PointerEvent) {
 		if (!$activeFurnitureItem) return;
 
-		console.log('add item', $activeFurnitureItem);
-		addItem(catalogItemToLocalItem($activeFurnitureItem));
+		pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+		pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+		raycaster.setFromCamera(pointer, $camera);
+
+		raycaster.ray.intersectPlane(floorPlane, planeIntersectPoint);
+
+		const item = catalogItemToLocalItem($activeFurnitureItem);
+
+		item.position[0] = planeIntersectPoint.x;
+		item.position[2] = planeIntersectPoint.z;
+
+		addItem(item);
+
 		$activeFurnitureItem = undefined;
 	}
 
@@ -38,6 +57,14 @@
 			renderer.domElement.removeEventListener('pointerdown', addNewItem);
 		};
 	});
+
+	const { onPointerEnter, onPointerLeave } = useCursor('copy', 'auto');
+
+	$: if ($activeFurnitureItem) {
+		onPointerEnter();
+	} else {
+		onPointerLeave();
+	}
 </script>
 
 <T.Group on:pointermissed={unselect}>
