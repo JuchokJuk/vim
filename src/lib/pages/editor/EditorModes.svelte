@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ToggleGroup from '$lib/shared/UI/ToggleGroup.svelte';
-	import { canvas } from '$lib/shared/store/canvas';
-	import { editorMode } from '$lib/shared/store/editorMode';
+	import { canvas } from '$lib/shared/store/3d/canvas';
+	import { editorMode } from '$lib/shared/store/3d/editorMode';
 
 	import { Box, Grid3X3, PersonStanding } from 'lucide-svelte';
 
@@ -69,7 +69,7 @@
 			transform 0.2s,
 			box-shadow 0.2s;
 
-		@include hover {
+		@include mouse-hover {
 			transform: scale(1.02);
 			@include elevated;
 		}

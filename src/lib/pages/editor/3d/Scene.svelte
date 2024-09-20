@@ -5,16 +5,17 @@
 	import Effects from './Effects.svelte';
 	import { interactivity } from '@threlte/extras';
 	import Player from './Player.svelte';
-	import { canvas } from '$lib/shared/store/canvas';
-	import { editorMode } from '$lib/shared/store/editorMode';
+	import { canvas } from '$lib/shared/store/3d/canvas';
+	import { editorMode } from '$lib/shared/store/3d/editorMode';
 	import { useRapier } from '@threlte/rapier';
-	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
+	import { shadows, softShadows } from '$lib/shared/store/3d/performanceSettings/shadows';
 	import {
 		ambientOcclusion,
 		antiAliasing,
 		bloom,
-		noise,
-	} from '$lib/shared/store/performanceSettings/postProcessing';
+		depthOfField,
+		noise
+	} from '$lib/shared/store/3d/performanceSettings/postProcessing';
 	import Sky from './Sky/Sky.svelte';
 	import Project from './project/Project.svelte';
 	import Grid from './Grid/Grid.svelte';
@@ -55,6 +56,7 @@
 	bloom.subscribe(invalidate);
 	ambientOcclusion.subscribe(invalidate);
 	antiAliasing.subscribe(invalidate);
+	depthOfField.subscribe(invalidate);
 
 	const { pause, resume } = useRapier();
 

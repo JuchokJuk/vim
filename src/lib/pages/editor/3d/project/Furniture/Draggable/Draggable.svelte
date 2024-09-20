@@ -2,8 +2,8 @@
 	import { T, useThrelte } from '@threlte/core';
 	import { Vector3, Plane, Raycaster, Vector2, Group, Color, MeshBasicMaterial } from 'three';
 	import type { Event } from './Event';
-	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
-	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
+	import { frequentRerender } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
+	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
 	import { theme } from '$lib/shared/store/UI/theme';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 	import { updateItem } from '$lib/shared/editorEngine/actions/updateItem';

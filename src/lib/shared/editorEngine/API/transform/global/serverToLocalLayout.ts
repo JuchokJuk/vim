@@ -1,6 +1,6 @@
 import { DEG2RAD } from 'three/src/math/MathUtils.js';
 import type { Layout } from '../../queries/projects/layouts';
-import type { LocalItems } from '$lib/shared/editorEngine/state/localProject/localItems';
+import type { LocalItems } from '$lib/shared/editorEngine/state/local/project/localItems';
 import { models } from '$lib/shared/constants/mocks/models';
 import type { FurnitureType } from '../../queries/furniture';
 

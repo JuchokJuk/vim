@@ -2,11 +2,13 @@
 	import Object from './Object.svelte';
 	import { scale, fade } from 'svelte/transition';
 
-	import { objects } from '../assets/objects';
+	export let close: () => void;
+
+	import { itemsCatalog } from '$lib/shared/editorEngine/state/server/itemsCatalog';
 </script>
 
 <div class="objects p-2xl gap-xl">
-	{#each objects as object, index (object)}
+	{#each $itemsCatalog.data as funritureItem, index (funritureItem)}
 		<div
 			in:scale|global={{
 				duration: 200,
@@ -16,7 +18,7 @@
 				duration: 200
 			}}
 		>
-			<Object src={object} />
+			<Object object={funritureItem} {close} />
 		</div>
 	{/each}
 </div>

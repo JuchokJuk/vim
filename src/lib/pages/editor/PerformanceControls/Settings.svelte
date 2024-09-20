@@ -1,22 +1,23 @@
 <script lang="ts">
-	import { resolution, options } from '$lib/shared/store/performanceSettings/resolution';
+	import { resolution, options } from '$lib/shared/store/3d/performanceSettings/resolution';
 	import {
 		ambientOcclusion,
 		antiAliasing,
 		bloom,
+		// depthOfField,
 		noise,
 		postProcessing
-	} from '$lib/shared/store/performanceSettings/postProcessing';
+	} from '$lib/shared/store/3d/performanceSettings/postProcessing';
 	import Switch from '$lib/shared/UI/Switch.svelte';
 	import ToggleGroup from '$lib/shared/UI/ToggleGroup.svelte';
 	import { X } from 'lucide-svelte';
-	import { shadows, softShadows } from '$lib/shared/store/performanceSettings/shadows';
+	import { shadows, softShadows } from '$lib/shared/store/3d/performanceSettings/shadows';
 	import {
 		degradePostProcessing,
 		degradeQualityOnFrequentRerender,
 		degradeResolution
-	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
-	import { realisticMirrors } from '$lib/shared/store/performanceSettings/realisticMirrors';
+	} from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
+	// import { realisticReflections } from '$lib/shared/store/3d/performanceSettings/realisticReflections';
 
 	export let close: () => void;
 </script>
@@ -69,6 +70,10 @@
 						<p class="paragraph-md">Сглаживание</p>
 						<Switch bind:value={$antiAliasing} />
 					</div>
+					<!-- <div class="flex justify-between items-center gap-3xl">
+						<p class="paragraph-md">Размытие</p>
+						<Switch bind:value={$depthOfField} />
+					</div> -->
 					<div class="flex justify-between items-center gap-3xl">
 						<p class="paragraph-md">Шум</p>
 						<Switch bind:value={$noise} />
@@ -107,12 +112,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="section p-3xl">
+		<!-- <div class="section p-3xl">
 			<div class="flex justify-between items-center gap-3xl">
-				<p class="paragraph-md">Реалистичные зеркала</p>
-				<Switch bind:value={$realisticMirrors} />
+				<p class="paragraph-md">Реалистичные отражения</p>
+				<Switch bind:value={$realisticReflections} />
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 

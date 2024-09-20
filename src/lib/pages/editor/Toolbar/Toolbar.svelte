@@ -43,7 +43,6 @@
 
 <svelte:window on:keydown={(e) => e.key === 'Escape' && close()} />
 
-<!-- todo: fix scroll -->
 <div
 	class="toolbar-container bottom-xl px-2xl"
 	class:opened
@@ -78,7 +77,7 @@
 			</div>
 		</div>
 		{#if opened}
-			<ObjectsGrid />
+			<ObjectsGrid {close}/>
 		{/if}
 	</div>
 </div>
@@ -94,7 +93,7 @@
 
 		&:not(.opened) {
 			.toolbar {
-				@include hover {
+				@include mouse-hover {
 					@include elevated;
 					transform: scale(1.02);
 				}

@@ -10,6 +10,8 @@
 
 {#await gltf then gltf}
 	<T.Mesh
+		castShadow
+		receiveShadow
 		name="window001"
 		geometry={gltf.nodes.window001.geometry}
 		material={gltf.materials.ramy}

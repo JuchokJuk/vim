@@ -2,11 +2,17 @@
 	import Draggable from './Draggable/Draggable.svelte';
 	import Info from './Info.svelte';
 	import { Plane, Vector3 } from 'three';
-	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
+	import { cameraEnabled } from '$lib/shared/store/3d/cameraEnabled';
 	import ObjectComponent from './Object.svelte';
-	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
-	import { T } from '@threlte/core';
-	import { localItems } from '$lib/shared/editorEngine/state/localProject/localItems';
+	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
+	import { T, useThrelte } from '@threlte/core';
+	import { localItems } from '$lib/shared/editorEngine/state/local/project/localItems';
+	import { activeFurnitureItem } from '$lib/shared/store/3d/activeFurnitureItem';
+	import { onMount } from 'svelte';
+	import { addItem } from '$lib/shared/editorEngine/actions/addItem';
+	import { catalogItemToLocalItem } from '$lib/shared/editorEngine/API/transform/partial/catalogItemToLocalItem';
+
+	const { renderer } = useThrelte();
 
 	const floorPlane = new Plane(new Vector3(0, 1, 0), 0);
 
@@ -16,6 +22,22 @@
 		$selectedObjects.clear();
 		$selectedObjects = $selectedObjects;
 	}
+
+	function addNewItem() {
+		if (!$activeFurnitureItem) return;
+
+		console.log('add item', $activeFurnitureItem);
+		addItem(catalogItemToLocalItem($activeFurnitureItem));
+		$activeFurnitureItem = undefined;
+	}
+
+	onMount(() => {
+		renderer.domElement.addEventListener('pointerdown', addNewItem);
+
+		return () => {
+			renderer.domElement.removeEventListener('pointerdown', addNewItem);
+		};
+	});
 </script>
 
 <T.Group on:pointermissed={unselect}>

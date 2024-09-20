@@ -5,23 +5,30 @@
 	import SkyControls from '$lib/pages/editor/SkyControls.svelte';
 	import PerformanceControls from '$lib/pages/editor/PerformanceControls/PerformanceControls.svelte';
 	import PlayerUI from '$lib/pages/editor/PlayerUI/PlayerUI.svelte';
-	import { editorMode } from '$lib/shared/store/editorMode';
+	import { editorMode } from '$lib/shared/store/3d/editorMode.js';
 	import DelayedMount from '$lib/shared/UI/DelayedMount.svelte';
-	// import { furniture } from '$lib/shared/store/project/furniture.js';
-	import { serverLayout } from '$lib/shared/editorEngine/state/serverProject.js';
-	import { localItems } from '$lib/shared/editorEngine/state/localProject/localItems.js';
+	import { itemsCatalog } from '$lib/shared/editorEngine/state/server/itemsCatalog.js';
+	import { serverLayout } from '$lib/shared/editorEngine/state/server/serverProject.js';
+	import { localItems } from '$lib/shared/editorEngine/state/local/project/localItems.js';
 	import { serverToLocalLayout } from '$lib/shared/editorEngine/API/transform/global/serverToLocalLayout.js';
-	import { localRooms } from '$lib/shared/editorEngine/state/localProject/localRooms.js';
+	import { onMount } from 'svelte';
+	import { localRooms } from '$lib/shared/editorEngine/state/local/project/localRooms.js';
 
 	export let data;
 
 	$serverLayout = data.layout;
-	// $furniture = data.furniture;
+	$itemsCatalog = data.furniture;
 
 	const { rooms, items } = serverToLocalLayout(data.layout);
-	
+
 	$localRooms = rooms;
 	$localItems = items;
+
+	console.log($serverLayout);
+
+	onMount(() => {
+		parent.postMessage('ready', '*');
+	});
 </script>
 
 <svelte:head>

@@ -1,15 +1,15 @@
 <script lang="ts">
 	import CameraControls from '$lib/shared/3d/CameraControls.svelte';
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
-	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
-	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	import { cameraEnabled } from '$lib/shared/store/3d/cameraEnabled';
+	import { frequentRerender } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
 	import { T, useThrelte } from '@threlte/core';
 	import { onMount } from 'svelte';
 	import type CameraControlsType from 'camera-controls';
 
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { getInitialCameraPosition } from './getInitialCameraPosition';
-	import { localRooms } from '$lib/shared/editorEngine/state/localProject/localRooms';
+	import { localRooms } from '$lib/shared/editorEngine/state/local/project/localRooms';
 
 	const { invalidate } = useThrelte();
 

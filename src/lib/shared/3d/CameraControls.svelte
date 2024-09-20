@@ -34,7 +34,7 @@
 
 	const parent = useParent();
 
-	const { renderer, invalidate, renderStage } = useThrelte();
+	const { renderer, invalidate } = useThrelte();
 
 	export let ref = new CameraControls(
 		$parent as PerspectiveCamera | OrthographicCamera,

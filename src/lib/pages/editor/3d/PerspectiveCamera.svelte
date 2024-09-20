@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
-	import { localRooms } from '$lib/shared/editorEngine/state/localProject/localRooms';
-	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
-	import { floor, walls } from '$lib/shared/store/dollhouse';
-	import { frequentRerender } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	import { localRooms } from '$lib/shared/editorEngine/state/local/project/localRooms';
+	import { cameraEnabled } from '$lib/shared/store/3d/cameraEnabled';
+	import { floor, walls } from '$lib/shared/store/3d/dollhouse';
+	import { frequentRerender } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
 	import { T } from '@threlte/core';
 	import { onDestroy, onMount } from 'svelte';
 	import type CameraControlsType from 'camera-controls';
@@ -12,6 +12,8 @@
 		PerspectiveCamera,
 		Raycaster,
 		Vector2,
+		Vector3,
+		Box3,
 		type Intersection,
 		type Object3DEventMap
 	} from 'three';
@@ -19,8 +21,6 @@
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { getInitialCameraPosition } from './getInitialCameraPosition';
 	import CameraControls from '$lib/shared/3d/CameraControls.svelte';
-
-	// todo: fix on-demand with damping https://github.com/mrdoob/three.js/issues/23090
 
 	let camera: PerspectiveCamera;
 	const raycaseter = new Raycaster();
@@ -104,6 +104,9 @@
 			-intialPosition.z
 		);
 		cameraControls.zoomTo(1, true);
+		cameraControls.setBoundary(
+			new Box3(new Vector3(-Infinity, 0, -Infinity), new Vector3(Infinity, Infinity, Infinity))
+		);
 	});
 
 	onDestroy(() => {

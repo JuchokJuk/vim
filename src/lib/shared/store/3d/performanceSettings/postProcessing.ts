@@ -7,6 +7,7 @@ export const ambientOcclusion = persisted('ambientOcclusion', true, { syncTabs: 
 export const antiAliasing = persisted('antiAliasing', true, { syncTabs: false });
 export const bloom = persisted('bloom', true, { syncTabs: false });
 export const noise = persisted('noise', true, { syncTabs: false });
+export const depthOfField = persisted('depthOfField', false, { syncTabs: false });
 
 export const postProcessingEnabled = writable(get(postProcessing));
 

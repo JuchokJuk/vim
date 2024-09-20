@@ -1,4 +1,4 @@
-import type { LocalRooms } from '$lib/shared/editorEngine/state/localProject/localRooms';
+import type { LocalRooms } from '$lib/shared/editorEngine/state/local/project/localRooms';
 
 export function calculatePolygon(areaId: string, localRooms: LocalRooms) {
 	const area = localRooms.areas[areaId];

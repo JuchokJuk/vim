@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
 	import { useTexture } from '@threlte/extras';
-	import { MeshStandardMaterial, RepeatWrapping, Texture } from 'three';
+	import { MeshStandardMaterial, RepeatWrapping, Texture, ShapeGeometry } from 'three';
 	import { calculatePolygon } from './calculatePolygon';
 	import { createShape } from '$lib/shared/utils/shape/createShape';
-	import { floor } from '$lib/shared/store/dollhouse';
+	import { floor } from '$lib/shared/store/3d/dollhouse';
 	import {
 		localRooms,
 		type LocalRooms
-	} from '$lib/shared/editorEngine/state/localProject/localRooms';
+	} from '$lib/shared/editorEngine/state/local/project/localRooms';
 
 	function transform(texture: Texture) {
 		texture.wrapS = RepeatWrapping;

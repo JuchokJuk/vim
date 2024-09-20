@@ -2,9 +2,9 @@
 	import { Canvas } from '@threlte/core';
 	import { World } from '@threlte/rapier';
 
-	import { shadows } from '$lib/shared/store/performanceSettings/shadows';
-	import { resolution } from '$lib/shared/store/performanceSettings/resolution';
-	import { resolutionDegradation } from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	import { shadows } from '$lib/shared/store/3d/performanceSettings/shadows';
+	import { resolution } from '$lib/shared/store/3d/performanceSettings/resolution';
+	import { resolutionDegradation } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
 
 	import Scene from './Scene.svelte';
 

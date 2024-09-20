@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { playerController } from '$lib/shared/store/playerController';
+	import { playerController } from '$lib/shared/store/3d/playerController';
 	import { onMount } from 'svelte';
 	import SecondOrderDynamics from '$lib/shared/utils/SecondOrderDynamics';
 

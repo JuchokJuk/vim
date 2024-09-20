@@ -1,7 +1,7 @@
 import { DEG2RAD } from 'three/src/math/MathUtils.js';
 
 export function localToServerItem(localItem: {
-	id: string;
+	id: number;
 	position: [number, number, number];
 	rotation: number;
 }) {

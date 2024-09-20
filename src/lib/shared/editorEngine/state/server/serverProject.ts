@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { updateLayout, type Layout } from '../API/queries/projects/layouts';
+import { updateLayout, type Layout } from '../../API/queries/projects/layouts';
 
 export const serverLayout = writable<Layout>();
 

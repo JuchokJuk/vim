@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { playerController } from '$lib/shared/store/playerController';
+	import { playerController } from '$lib/shared/store/3d/playerController';
 	import triangle from './triangle.svg?raw';
 
 	let currentTouchId: number;

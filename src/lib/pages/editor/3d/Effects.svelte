@@ -11,7 +11,7 @@
 		OutlineEffect,
 		BlendFunction,
 		Effect,
-		KernelSize
+		KernelSize,
 	} from 'postprocessing';
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
@@ -22,12 +22,12 @@
 		bloom,
 		noise,
 		postProcessing
-	} from '$lib/shared/store/performanceSettings/postProcessing';
-	import { selectedObjects } from '$lib/shared/store/project/selectedObjects';
+	} from '$lib/shared/store/3d/performanceSettings/postProcessing';
+	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
 	import {
 		degradePostProcessing,
 		postProcessingDegraded
-	} from '$lib/shared/store/performanceSettings/degradeQualityOnRerender';
+	} from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
 	import { Color } from 'three';
 	import { theme } from '$lib/shared/store/UI/theme';
@@ -88,6 +88,7 @@
 				effects.push(noiseEffect);
 			}
 		}
+
 		composer.addPass(new EffectPass($camera, ...effects));
 
 		if ($ambientOcclusion && enablePostprocessing) {
@@ -103,6 +104,30 @@
 			// n8aoPostPass.configuration.gammaCorrection = true;
 			composer.addPass(n8aoPostPass);
 		}
+
+		// if (enablePostprocessing) {
+		// 	const effects: Effect[] = [];
+
+		// 	if ($depthOfField) {
+		// 		const depthOfFieldEffect = new DepthOfFieldEffect($camera, {
+		// 			focusDistance: 0.0,
+		// 			focusRange: 0.01,
+		// 			bokehScale: 6,
+		// 			resolutionScale: 0.5
+		// 		});
+
+		// 		effects.push(depthOfFieldEffect);
+		// 	}
+
+		// 	if ($noise) {
+		// 		const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.MULTIPLY });
+		// 		noiseEffect.blendMode.opacity.value = 0.0625;
+
+		// 		effects.push(noiseEffect);
+		// 	}
+
+		// 	composer.addPass(new EffectPass($camera, ...effects));
+		// }
 	}
 
 	$: composer.setSize($size.width, $size.height);

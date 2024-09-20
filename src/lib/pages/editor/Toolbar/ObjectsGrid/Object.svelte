@@ -1,13 +1,32 @@
 <script lang="ts">
-	export let src: string;
+	import type { Catalog } from '$lib/shared/editorEngine/API/queries/furniture';
+	import { activeFurnitureItem } from '$lib/shared/store/3d/activeFurnitureItem';
+
+	export let object: Catalog;
+	export let close: () => void;
+
+	function createImageSrc(src: string | undefined) {
+		if (!src) return '';
+		if (src.startsWith('/')) {
+			return `http://demo.platformvim.org${src}`;
+		}
+		return src;
+	}
+
+	function setActveFurnitureItem() {
+		$activeFurnitureItem = (object);
+		close();
+	}
 </script>
 
-<div class="object flex flex-col items-center gap-md">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="object flex flex-col items-center gap-md" on:click={setActveFurnitureItem}>
 	<div class="image flex items-center justify-center rounded-md">
-		<img {src} alt={src} />
+		<img src={createImageSrc(object.default_image_src)} alt={object.name} />
 	</div>
 
-	<p class="paragraph-md elipsis-1">{src}</p>
+	<p class="paragraph-md elipsis-1">{object.name}</p>
 </div>
 
 <style lang="scss">

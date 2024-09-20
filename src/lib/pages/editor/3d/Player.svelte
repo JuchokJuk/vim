@@ -5,7 +5,7 @@
 	import { RigidBody, Collider } from '@threlte/rapier';
 	import SecondOrderDynamics from '$lib/shared/utils/SecondOrderDynamics';
 
-	import { playerController } from '$lib/shared/store/playerController';
+	import { playerController } from '$lib/shared/store/3d/playerController';
 	import { onDestroy } from 'svelte';
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 

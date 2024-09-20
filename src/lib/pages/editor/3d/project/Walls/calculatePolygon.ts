@@ -1,5 +1,7 @@
+// todo: rewrite
+
 import type { Line } from '$lib/shared/editorEngine/API/queries/projects/layouts';
-import type { LocalRooms } from '$lib/shared/editorEngine/state/localProject/localRooms';
+import type { LocalRooms } from '$lib/shared/editorEngine/state/local/project/localRooms';
 import { getNormalVector } from '$lib/shared/utils/math/getNormalVector';
 import { lineIntersect } from '$lib/shared/utils/math/lineIntersect';
 
@@ -143,8 +145,6 @@ function addRectangularWallEnding(
 		if (direction === 'CCW') polygon.push(wallBottomPoint);
 	}
 }
-
-// todo: починить конекшены, попробовать свапнуть концы, провалидировать данные с бекенда
 
 export function calculatePolygon(lineId: string, localRooms: LocalRooms) {
 	const line = localRooms.lines[lineId];

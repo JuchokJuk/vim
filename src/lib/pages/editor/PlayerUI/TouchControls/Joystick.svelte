@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { playerController } from '$lib/shared/store/playerController';
+	import { playerController } from '$lib/shared/store/3d/playerController';
 	import SecondOrderDynamics from '$lib/shared/utils/SecondOrderDynamics';
-	import { joystick } from '$lib/shared/store/joystick';
+	import { joystick } from '$lib/shared/store/3d/joystick';
 
 	const speedBoostAnimation = new SecondOrderDynamics(32, 1, 0);
 

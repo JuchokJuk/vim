@@ -4,8 +4,10 @@
 	export let itemSize: number;
 </script>
 
-<div class="object" style="--item-size: {itemSize}px;">
-	<img class="h-full w-full" {src} alt={src} style="transform: scale({scale});" />
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="object rounded-md" style="--item-size: {itemSize}px;" on:click>
+	<img draggable="false" class="h-full w-full" {src} alt={src} style="transform: scale({scale});" />
 </div>
 
 <style lang="scss">

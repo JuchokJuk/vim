@@ -8,6 +8,7 @@
 :root {
 	font-family: 'Inter', sans-serif;
 	font-feature-settings: 'tnum';
+	touch-action: none;
 }
 
 @supports (font-variation-settings: normal) {

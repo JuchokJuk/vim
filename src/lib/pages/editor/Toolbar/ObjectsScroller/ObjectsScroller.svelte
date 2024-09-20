@@ -100,7 +100,7 @@
 			align-items: center;
 
 			width: 100%;
-			height: calc(var(--item-size) + 32px);
+			height: calc(var(--item-size) + 24px);
 			overflow: hidden;
 
 			.objects {

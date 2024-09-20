@@ -3,11 +3,11 @@
 	import KeyboardControls from './KeyboardControls.svelte';
 	import TouchControls from './TouchControls/TouchControls.svelte';
 
-	import { joystick } from '$lib/shared/store/joystick';
-	import { playerController } from '$lib/shared/store/playerController';
+	import { joystick } from '$lib/shared/store/3d/joystick';
 	import { scale } from 'svelte/transition';
 	import { clamp } from 'three/src/math/MathUtils.js';
-	import { cameraEnabled } from '$lib/shared/store/cameraEnabled';
+	import { cameraEnabled } from '$lib/shared/store/3d/cameraEnabled';
+	import { playerController } from '$lib/shared/store/3d/playerController';
 
 	function onPointerMove(event: PointerEvent) {
 		if(!$cameraEnabled && $touchScreen) return;

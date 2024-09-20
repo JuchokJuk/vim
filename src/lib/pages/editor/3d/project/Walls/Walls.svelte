@@ -6,7 +6,7 @@
 	import { AutoColliders } from '@threlte/rapier';
 	import { mergeVertices } from '$lib/shared/utils/shape/mergeVertices';
 	import { useTexture } from '@threlte/extras';
-	import { walls as wallsStore } from '$lib/shared/store/dollhouse';
+	import { walls as wallsStore } from '$lib/shared/store/3d/dollhouse';
 	import Door from './Objects/Door.svelte';
 	import Window from './Objects/Window.svelte';
 	import { extrudeShape } from '$lib/shared/utils/shape/extrudeShape';
@@ -16,7 +16,7 @@
 	import {
 		localRooms,
 		type LocalRooms
-	} from '$lib/shared/editorEngine/state/localProject/localRooms';
+	} from '$lib/shared/editorEngine/state/local/project/localRooms';
 
 	function createWall(lineId: string, localRooms: LocalRooms) {
 		const line = localRooms.lines[lineId];

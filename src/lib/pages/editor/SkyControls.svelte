@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SunMedium, House } from 'lucide-svelte';
-	import { sky } from '$lib/shared/store/sky';
+	import { sky } from '$lib/shared/store/3d/sky';
 	import { RAD2DEG } from 'three/src/math/MathUtils.js';
 	import { scale } from 'svelte/transition';
 

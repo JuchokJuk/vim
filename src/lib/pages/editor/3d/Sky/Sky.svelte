@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { T, useThrelte } from '@threlte/core';
-	import { sky } from '$lib/shared/store/sky';
+	import { sky } from '$lib/shared/store/3d/sky';
 	import { spring } from '$lib/shared/utils/spring';
 	import { SCENE_SIZE } from '$lib/shared/constants/sceneSize';
 
-	import { softShadows } from '$lib/shared/store/performanceSettings/shadows';
+	import { softShadows } from '$lib/shared/store/3d/performanceSettings/shadows';
 	import { HalfFloatType, EquirectangularReflectionMapping, SRGBColorSpace, Color } from 'three';
 	import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 	import skyEnvironment from './sky.hdr?url';

@@ -3,12 +3,12 @@ import {
 	localToServerItemPosition,
 	localToServerItemRotation
 } from '../API/transform/partial/localToServerItem';
-import { serverLayout } from '../state/serverProject';
+import { serverLayout } from '../state/server/serverProject';
 
 // local updates handled by bindings
 
 export function updateItem(newItem: {
-	id: string;
+	id: number;
 	position: [number, number, number];
 	rotation: number;
 }) {
