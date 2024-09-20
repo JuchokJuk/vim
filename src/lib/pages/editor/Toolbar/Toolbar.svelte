@@ -77,7 +77,7 @@
 			</div>
 		</div>
 		{#if opened}
-			<ObjectsGrid {close}/>
+			<ObjectsGrid {close} />
 		{/if}
 	</div>
 </div>

@@ -30,6 +30,7 @@ export type Catalog = {
 	length: number;
 	height: number;
 	default_image_src: string;
+	collage_image_src: string;
 	id: number;
 	type_sub: {
 		default_image_src: string;

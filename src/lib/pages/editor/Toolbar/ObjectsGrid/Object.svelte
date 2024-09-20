@@ -22,8 +22,8 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="object flex flex-col items-center gap-md" on:click={setActveFurnitureItem}>
-	<div class="image flex items-center justify-center rounded-md">
-		<img src={createImageSrc(object.default_image_src)} alt={object.name} />
+	<div class="image flex items-center justify-center rounded-md overflow-hidden">
+		<img src={createImageSrc(object.collage_image_src)} alt={object.name} />
 	</div>
 
 	<p class="paragraph-md elipsis-1">{object.name}</p>
@@ -50,10 +50,8 @@
 			background: var(--surface-2);
 
 			img {
-				width: 50%;
+				width: 75%;
 				display: block;
-
-				filter: contrast(1.05) saturate(1.1) brightness(1.4);
 
 				transition: transform 0.2s;
 			}
