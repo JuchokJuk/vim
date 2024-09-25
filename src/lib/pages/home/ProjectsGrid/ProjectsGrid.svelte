@@ -4,6 +4,7 @@
 	import { scale, fade } from 'svelte/transition';
 
 	export let projects: ProjectType[];
+	export let user_id_hardcode: number;
 </script>
 
 <div class="projects py-2xl gap-x-xl gap-y-2xl">
@@ -17,7 +18,7 @@
 				duration: 200
 			}}
 		>
-			<Project href="/{project.id}" title={project.name} />
+			<Project href="/{project.id}?user_id_hardcode={user_id_hardcode}" title={project.name} />
 		</div>
 	{/each}
 </div>

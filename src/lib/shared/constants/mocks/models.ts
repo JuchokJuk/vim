@@ -11,5 +11,5 @@ export const models: Record<FurnitureType, string> = {
 	TV_STAND: '/models/static/tvStand.glb',
 	STAND: '/models/static/stand.glb',
 	SHELF: '/models/static/shelf.glb',
-	TABLE: '/models/static/table.glb',
+	TABLE: '/models/static/table.glb'
 };

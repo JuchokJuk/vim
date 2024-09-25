@@ -10,7 +10,7 @@
 	import { playerController } from '$lib/shared/store/3d/playerController';
 
 	function onPointerMove(event: PointerEvent) {
-		if(!$cameraEnabled && $touchScreen) return;
+		if (!$cameraEnabled && $touchScreen) return;
 		if (event.target === $joystick) return;
 
 		const xh = event.movementX * 0.003;

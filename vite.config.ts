@@ -17,6 +17,6 @@ export default defineConfig({
 					@import "$lib/shared/styles/mixins/card.scss";
 				`
 			}
-		},
+		}
 	}
 });

@@ -15,8 +15,14 @@
 	import '$lib/shared/styles/themes.scss';
 	import '$lib/shared/styles/fonts.scss';
 	import { fade } from 'svelte/transition';
+	import { user } from '$lib/shared/editorEngine/state/server/user.js';
 
 	export let data;
+
+	$: user.update((user) => {
+		user.id = data.user_id_hardcode;
+		return user;
+	});
 </script>
 
 <svelte:head>

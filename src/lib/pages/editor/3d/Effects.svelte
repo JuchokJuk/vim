@@ -11,7 +11,7 @@
 		OutlineEffect,
 		BlendFunction,
 		Effect,
-		KernelSize,
+		KernelSize
 	} from 'postprocessing';
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';

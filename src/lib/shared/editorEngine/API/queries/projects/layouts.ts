@@ -1,4 +1,4 @@
-import { API, user_id_hardcode } from '../API';
+import { API } from '../API';
 import type { Catalog } from '../furniture';
 
 export type Texture = 'bricks' | 'none';
@@ -122,25 +122,53 @@ export type Item = {
 };
 
 // create
-export async function addLayout({ projectId, layout }: { projectId: number; layout: unknown }) {
+export async function addLayout({
+	projectId,
+	layout,
+	user_id_hardcode
+}: {
+	projectId: number;
+	layout: unknown;
+	user_id_hardcode: number;
+}) {
 	return await API.post('layouts', {
 		searchParams: { user_id_hardcode, project_id: projectId },
 		json: layout
 	}).json();
 }
 // read
-export async function getLayouts({ projectId }: { projectId: number }): Promise<Layout[]> {
+export async function getLayouts({
+	projectId,
+	user_id_hardcode
+}: {
+	projectId: number;
+	user_id_hardcode: number;
+}): Promise<Layout[]> {
 	return await API.get('layouts', {
 		searchParams: { user_id_hardcode, project_id: projectId }
 	}).json();
 }
-export async function getLayout({ layoutId }: { layoutId: number }): Promise<Layout> {
+export async function getLayout({
+	layoutId,
+	user_id_hardcode
+}: {
+	layoutId: number;
+	user_id_hardcode: number;
+}): Promise<Layout> {
 	return await API.get(`layouts/${layoutId}`, {
 		searchParams: { user_id_hardcode }
 	}).json();
 }
 // update
-export async function updateLayout({ layoutId, layout }: { layoutId: number; layout: unknown }) {
+export async function updateLayout({
+	layoutId,
+	layout,
+	user_id_hardcode
+}: {
+	layoutId: number;
+	layout: unknown;
+	user_id_hardcode: number;
+}) {
 	return await API.patch(`layouts/${layoutId}`, {
 		searchParams: { user_id_hardcode },
 		json: layout

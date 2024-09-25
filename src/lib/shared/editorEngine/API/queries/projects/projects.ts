@@ -1,4 +1,4 @@
-import { API, user_id_hardcode } from '../API';
+import { API } from '../API';
 
 export type Project = {
 	name: string;
@@ -10,25 +10,43 @@ export type Project = {
 // PROJECTS
 
 // create
-export async function createProject({ project }: { project: unknown }) {
+export async function createProject({
+	project,
+	user_id_hardcode
+}: {
+	project: unknown;
+	user_id_hardcode: number;
+}) {
 	return await API.post('projects', { searchParams: { user_id_hardcode }, json: project }).json();
 }
 
 // read
-export async function getProjects(): Promise<Project[]> {
+export async function getProjects({
+	user_id_hardcode
+}: {
+	user_id_hardcode: number;
+}): Promise<Project[]> {
 	return await API.get('projects', { searchParams: { user_id_hardcode } }).json();
 }
-export async function getProject({ projectId }: { projectId: number }): Promise<Project> {
+export async function getProject({
+	projectId,
+	user_id_hardcode
+}: {
+	projectId: number;
+	user_id_hardcode: number;
+}): Promise<Project> {
 	return await API.get(`projects/${projectId}`, { searchParams: { user_id_hardcode } }).json();
 }
 
 // update
 export async function updateProject({
 	projectId,
-	project
+	project,
+	user_id_hardcode
 }: {
 	projectId: number;
 	project: unknown;
+	user_id_hardcode: number;
 }) {
 	return await API.put(`projects/${projectId}`, {
 		searchParams: { user_id_hardcode },
