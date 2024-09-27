@@ -1,37 +1,37 @@
 :export {
 	light: {
 		shadow-0: map.get($light, shadow-0);
-		shadow-1: map.get($light, shadow-1);
-		surface-0: map.get($light, surface-0);
-		surface-1: map.get($light, surface-1);
-		surface-2: map.get($light, surface-2);
-		surface-3: map.get($light, surface-3);
-		light-0: map.get($light, light-0);
-		light-1: map.get($light, light-1);
-		text-0: map.get($light, text-0);
-		text-1: map.get($light, text-1);
-		outline-0: map.get($light, outline-0);
-		primary-0: map.get($light, primary-0);
-		primary-1: map.get($light, primary-1);
+        shadow-1: map.get($light, shadow-1);
+        surface-0: map.get($light, surface-0);
+        surface-1: map.get($light, surface-1);
+        surface-2: map.get($light, surface-2);
+        surface-3: map.get($light, surface-3);
+        light-0: map.get($light, light-0);
+        light-1: map.get($light, light-1);
+        text-0: map.get($light, text-0);
+        text-1: map.get($light, text-1);
+        outline-0: map.get($light, outline-0);
+        primary-0: map.get($light, primary-0);
+        primary-1: map.get($light, primary-1);
 	}
-	dark: {
-		shadow-0: map.get($dark, shadow-0);
-		shadow-1: map.get($dark, shadow-1);
-		surface-0: map.get($dark, surface-0);
-		surface-1: map.get($dark, surface-1);
-		surface-2: map.get($dark, surface-2);
-		surface-3: map.get($dark, surface-3);
-		light-0: map.get($dark, light-0);
-		light-1: map.get($dark, light-1);
-		text-0: map.get($dark, text-0);
-		text-1: map.get($dark, text-1);
-		text-2: map.get($dark, text-2);
-		outline-0: map.get($dark, outline-0);
-		primary-0: map.get($dark, primary-0);
-		primary-1: map.get($light, primary-1);
-	}
-	const: {
-		white-const: map.get($const, white-const);
-		light-const: map.get($const, light-const);
-	}
+    dark: {
+        shadow-0: map.get($dark, shadow-0);
+        shadow-1: map.get($dark, shadow-1);
+        surface-0: map.get($dark, surface-0);
+        surface-1: map.get($dark, surface-1);
+        surface-2: map.get($dark, surface-2);
+        surface-3: map.get($dark, surface-3);
+        light-0: map.get($dark, light-0);
+        light-1: map.get($dark, light-1);
+        text-0: map.get($dark, text-0);
+        text-1: map.get($dark, text-1);
+        text-2: map.get($dark, text-2);
+        outline-0: map.get($dark, outline-0);
+        primary-0: map.get($dark, primary-0);
+        primary-1: map.get($light, primary-1);
+    }
+    const: {
+        white-const: map.get($const, white-const);
+        light-const: map.get($const, light-const);
+    }
 }

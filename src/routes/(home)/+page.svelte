@@ -4,14 +4,13 @@
 		getProjects,
 		type Project
 	} from '$lib/shared/editorEngine/API/queries/projects/projects';
+	import { userId } from '$lib/shared/store/user';
 	import { onMount } from 'svelte';
 
 	let projects: Promise<Project[]> | [] = [];
 
-	export let data;
-
 	onMount(async () => {
-		projects = getProjects({ user_id_hardcode: data.user_id_hardcode });
+		projects = getProjects({ user_id_hardcode: $userId });
 	});
 </script>
 
@@ -22,7 +21,7 @@
 {#await projects}
 	<p class="paragraph-xl">Загрузка проектов...</p>
 {:then projects}
-	<ProjectsGrid {projects} user_id_hardcode={data.user_id_hardcode} />
+	<ProjectsGrid {projects} />
 {:catch error}
 	<p class="paragraph-xl">Ошибка загрузки проектов: <code>{error.message}</code></p>
 {/await}

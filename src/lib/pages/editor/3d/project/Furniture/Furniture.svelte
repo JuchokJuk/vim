@@ -4,16 +4,18 @@
 	import { Plane, Vector3 } from 'three';
 	import { cameraEnabled } from '$lib/shared/store/3d/cameraEnabled';
 	import ObjectComponent from './Object.svelte';
-	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
+	import { selection } from '$lib/shared/store/3d/selectedObjects';
 	import { T, useThrelte } from '@threlte/core';
 	import { localItems } from '$lib/shared/editorEngine/state/local/project/localItems';
 	import { activeFurnitureItem } from '$lib/shared/store/3d/activeFurnitureItem';
 	import { onMount } from 'svelte';
-	import { addItem } from '$lib/shared/editorEngine/actions/addItem';
+	import { addItem } from '$lib/shared/editorEngine/actions/historical/addItem';
 	import { catalogItemToLocalItem } from '$lib/shared/editorEngine/API/transform/partial/catalogItemToLocalItem';
 	import { Raycaster } from 'three/src/core/Raycaster.js';
 	import { Vector2 } from 'three/src/math/Vector2.js';
 	import { useCursor } from '@threlte/extras';
+	import { removeItems } from '$lib/shared/editorEngine/actions/historical/removeItems';
+	import { shortcut } from '$lib/shared/utils/shortcut';
 
 	const { renderer, camera } = useThrelte();
 
@@ -22,8 +24,7 @@
 	$: $cameraEnabled = Object.values($localItems).reduce((a, b) => a && !b.dragging, true);
 
 	function unselect() {
-		$selectedObjects.clear();
-		$selectedObjects = $selectedObjects;
+		$selection = { items: {} };
 	}
 
 	const pointer = new Vector2();
@@ -50,6 +51,10 @@
 		$activeFurnitureItem = undefined;
 	}
 
+	function deleteItem() {
+		removeItems(Object.keys($selection.items));
+	}
+
 	onMount(() => {
 		renderer.domElement.addEventListener('pointerdown', addNewItem);
 
@@ -66,6 +71,8 @@
 		onPointerLeave();
 	}
 </script>
+
+<svelte:window use:shortcut={[{ keys: ['Delete'], callback: deleteItem }]} />
 
 <T.Group on:pointermissed={unselect}>
 	{#each Object.keys($localItems) as itemId (itemId)}

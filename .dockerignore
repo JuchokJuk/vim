@@ -1,0 +1,14 @@
+.dockerignore
+.git
+.gitignore
+.gitattributes
+README.md
+.prettierrc
+.eslintrc.cjs
+.graphqlrc
+.editorconfig
+.svelte-kit
+.vscode
+node_modules
+build
+package

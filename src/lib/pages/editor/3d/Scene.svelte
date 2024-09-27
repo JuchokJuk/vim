@@ -19,6 +19,8 @@
 	import Sky from './Sky/Sky.svelte';
 	import Project from './project/Project.svelte';
 	import Grid from './Grid/Grid.svelte';
+	import { localRooms } from '$lib/shared/editorEngine/state/local/project/localRooms';
+	import { getInitialCameraPosition } from './getInitialCameraPosition';
 
 	const { invalidate, scene, renderer, camera, dpr } = useThrelte();
 
@@ -65,6 +67,8 @@
 	} else {
 		pause();
 	}
+
+	$: intialPosition = getInitialCameraPosition($localRooms.vertices);
 </script>
 
 {#if $editorMode === 'thirdPerson'}
@@ -72,7 +76,7 @@
 {/if}
 
 {#if $editorMode === 'firstPerson'}
-	<Player position={[-4, 4, -4]} />
+	<Player position={[intialPosition.x, intialPosition.y, -intialPosition.z]} />
 {/if}
 
 {#if $editorMode === '2d'}

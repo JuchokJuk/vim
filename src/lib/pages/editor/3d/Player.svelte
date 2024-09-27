@@ -96,6 +96,8 @@
 	});
 
 	onDestroy(stop);
+
+	$: console.log(position);
 </script>
 
 <T.Group {position}>

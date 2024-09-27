@@ -11,7 +11,7 @@
 		OutlineEffect,
 		BlendFunction,
 		Effect,
-		KernelSize
+		KernelSize,
 	} from 'postprocessing';
 	// @ts-ignore
 	import { N8AOPostPass } from 'n8ao';
@@ -23,7 +23,7 @@
 		noise,
 		postProcessing
 	} from '$lib/shared/store/3d/performanceSettings/postProcessing';
-	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
+	import { highlightedObjects } from '$lib/shared/store/3d/selectedObjects';
 	import {
 		degradePostProcessing,
 		postProcessingDegraded
@@ -51,7 +51,7 @@
 		kernelSize: KernelSize.SMALL
 	});
 
-	$: outlineEffect.selection.set($selectedObjects);
+	$: outlineEffect.selection.set($highlightedObjects);
 
 	$: {
 		composer.removeAllPasses();

@@ -3,11 +3,13 @@
 	import { Vector3, Plane, Raycaster, Vector2, Group, Color, MeshBasicMaterial } from 'three';
 	import type { Event } from './Event';
 	import { frequentRerender } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
-	import { selectedObjects } from '$lib/shared/store/3d/selectedObjects';
+	import { selection } from '$lib/shared/store/3d/selectedObjects';
 	import { theme } from '$lib/shared/store/UI/theme';
 	import colors from '$lib/shared/styles/variables/colors/colors.module.scss';
-	import { updateItem } from '$lib/shared/editorEngine/actions/updateItem';
+	import { updateItem } from '$lib/shared/editorEngine/actions/raw/updateItem';
 	import type { LocalItem } from '$lib/shared/editorEngine/state/local/project/localItems';
+	import { shortcut } from '$lib/shared/utils/shortcut';
+	import HTML from '$lib/shared/3d/HTML/HTML.svelte';
 
 	export let item: LocalItem;
 
@@ -34,16 +36,26 @@
 
 	async function select(event: Event) {
 		event.stopPropagation();
-		$selectedObjects.clear();
 
-		group.traverse((node) => {
-			// @ts-expect-error poor typings
-			if (node.isMesh) {
-				$selectedObjects.add(node);
-			}
-		});
+		if (event.nativeEvent.shiftKey) {
+			selection.update((selection) => {
+				selection.items[item.id] = {
+					object3d: group,
+					item
+				};
 
-		$selectedObjects = $selectedObjects;
+				return selection;
+			});
+		} else {
+			$selection = {
+				items: {
+					[item.id]: {
+						object3d: group,
+						item
+					}
+				}
+			};
+		}
 
 		selected = true;
 	}

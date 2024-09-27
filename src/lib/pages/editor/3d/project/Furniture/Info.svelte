@@ -19,17 +19,17 @@
 
 <slot {open} />
 
-<HTML center>
-	{#if visible}
+{#if visible}
+	<HTML center>
 		<div
 			class="info card p-xl rounded-lg"
-			transition:fly={{ duration: 200, y: 16 }}
+			transition:fly|global={{ duration: 200, y: 16 }}
 			use:outside={{ event: 'pointerdown', cb: close }}
 		>
 			<p class="paragraph-md">{content}</p>
 		</div>
-	{/if}
-</HTML>
+	</HTML>
+{/if}
 
 <style lang="scss">
 	.info {

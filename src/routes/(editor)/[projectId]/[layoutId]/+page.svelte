@@ -24,8 +24,6 @@
 	$localRooms = rooms;
 	$localItems = items;
 
-	console.log($serverLayout);
-
 	onMount(() => {
 		parent.postMessage('ready', '*');
 	});

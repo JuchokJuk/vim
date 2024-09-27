@@ -37,6 +37,7 @@
 		color: var(--white-const);
 		box-shadow: 0px 1px 0px 0px var(--light-const) inset;
 
+
 		:global(.icon) {
 			width: 20px;
 			height: 20px;

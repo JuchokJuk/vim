@@ -3,7 +3,6 @@ import { DEG2RAD } from 'three/src/math/MathUtils.js';
 import type { Item } from '../../queries/projects/layouts';
 
 export function localToServerItem(localItem: LocalItem): Item {
-	console.log({ localItem });
 	return {
 		catalog: localItem.catalog,
 		id: localItem.id,

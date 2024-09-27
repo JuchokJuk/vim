@@ -3,6 +3,7 @@
 		getLayouts,
 		type Layout
 	} from '$lib/shared/editorEngine/API/queries/projects/layouts.js';
+	import { userId } from '$lib/shared/store/user.js';
 
 	import { onMount } from 'svelte';
 
@@ -12,10 +13,7 @@
 
 	onMount(() => {
 		// USE ONLY FOR METADATA, NEEDS TRANSFORM TO LOCAL DATA STRUCTURE
-		layouts = getLayouts({
-			projectId: Number(data.projectId),
-			user_id_hardcode: data.user_id_hardcode
-		});
+		layouts = getLayouts({ projectId: data.projectId, user_id_hardcode: $userId });
 	});
 </script>
 
@@ -27,7 +25,7 @@
 	<p class="paragraph-xl">Загрузка вариантов...</p>
 {:then layouts}
 	{#each layouts as layout}
-		<a class="block" href="/{data.projectId}/{layout.id}?user_id_hardcode={data.user_id_hardcode}">{layout.name}</a>
+		<a class="block" href="/{data.projectId}/{layout.id}/?user_id_hardcode={$userId}">{layout.name}</a>
 	{/each}
 {:catch error}
 	<p class="paragraph-xl">Ошибка загрузки вариантов: <code>{error.message}</code></p>

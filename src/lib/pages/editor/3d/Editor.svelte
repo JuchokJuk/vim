@@ -7,13 +7,22 @@
 	import { resolutionDegradation } from '$lib/shared/store/3d/performanceSettings/degradeQualityOnRerender';
 
 	import Scene from './Scene.svelte';
+	import { shortcut } from '$lib/shared/utils/shortcut';
+
+	import { history } from '$lib/shared/editorEngine/actions/History';
 
 	let devicePixelRatio = 1;
 
 	$: dpr = devicePixelRatio * $resolutionDegradation * $resolution;
 </script>
 
-<svelte:window bind:devicePixelRatio />
+<svelte:window
+	bind:devicePixelRatio
+	use:shortcut={[
+		{ keys: ['Control', 'KeyZ'], callback: history.undo.bind(history) },
+		{ keys: ['Control', 'KeyY'], callback: history.redo.bind(history) }
+	]}
+/>
 
 <Canvas
 	rendererParameters={{

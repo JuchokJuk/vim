@@ -15,19 +15,19 @@
 	import '$lib/shared/styles/themes.scss';
 	import '$lib/shared/styles/fonts.scss';
 	import { fade } from 'svelte/transition';
-	import { user } from '$lib/shared/editorEngine/state/server/user.js';
+	import DisableZoom from '$lib/shared/UI/DisableZoom.svelte';
+	import { userId } from '$lib/shared/store/user.js';
 
 	export let data;
 
-	$: user.update((user) => {
-		user.id = data.user_id_hardcode;
-		return user;
-	});
+	$: $userId = data.useId;
 </script>
 
 <svelte:head>
 	<title>VIM</title>
 </svelte:head>
+
+<DisableZoom />
 
 <div class="container grid">
 	{#key data.url}
